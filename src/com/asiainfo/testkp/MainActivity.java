@@ -22,7 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
-	//Õâ¸ö³£Á¿ÊÇÖ¸¶¨ÄãÒ»¹²ÓĞ¶àÉÙ¸ö¿¨Æ¬£¬ÎÒÕâÀïÊÇ10£¬¾ÍÊÇÓĞ10ÕÅ¿¨Æ¬£¨Ò³Ãæ£©
+
 	static final int NUM_ITEMS = 10;
 	MyAdapter mAdapter;
 	ViewPager mPager;
@@ -34,7 +34,7 @@ public class MainActivity extends FragmentActivity {
 		mAdapter = new MyAdapter(getSupportFragmentManager());
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
-		//·µ»ØÒ³Ê×ºÍÒ³Î²£¬Ò²¾ÍÊÇµÚÒ»ÕÅ¿¨Æ¬ºÍµÚÊ®ÕÅ¿¨Æ¬
+	
 		Button button = (Button) findViewById(R.id.goto_first);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -89,7 +89,6 @@ public class MainActivity extends FragmentActivity {
 			mNum = getArguments() != null ? getArguments().getInt("num") : 1;
 		}
 
-		//ÕâÀïÊÇ³õÊ¼»¯Ò³ÃæÄÚÈİµÄº¯Êı£¬ÎÒÃÇµÄ¼àÌı¾ÍÊÇÔÚÕâ¶ù
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
@@ -101,7 +100,7 @@ public class MainActivity extends FragmentActivity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					System.out.println("µã»÷³É¹¦£¡");
+					System.out.println("ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½");
 				}
 			});
 			return v;
