@@ -23,6 +23,7 @@ public class SampleTabsDefault extends FragmentActivity {
 
         TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
         indicator.setViewPager(pager);
+
     }
 
     class GoogleMusicAdapter extends FragmentPagerAdapter {
