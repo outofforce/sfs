@@ -1,8 +1,8 @@
-package com.asiainfo.testkp;
+package com.asiainfo.testapp;
 
 
 
-import com.example.testkp.R;
+import com.asiainfo.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
