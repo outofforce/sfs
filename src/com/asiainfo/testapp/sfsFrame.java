@@ -43,7 +43,7 @@ public class sfsFrame extends FragmentActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
         items = getResources().getStringArray(R.array.left_array);
         leftList = (ListView) findViewById(R.id.left_drawer);
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.listitem, items);
         leftList.setAdapter(arrayAdapter);
         leftList.setOnItemClickListener(itemListener);
         initFragments();
