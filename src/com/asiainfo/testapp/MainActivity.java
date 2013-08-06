@@ -36,18 +36,18 @@ public class MainActivity extends FragmentActivity {
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
 	
-		Button button = (Button) findViewById(R.id.goto_first);
-		button.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mPager.setCurrentItem(0);
-			}
-		});
-		button = (Button) findViewById(R.id.goto_last);
-		button.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mPager.setCurrentItem(NUM_ITEMS - 1);
-			}
-		});
+//		Button button = (Button) findViewById(R.id.goto_first);
+//		button.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				mPager.setCurrentItem(0);
+//			}
+//		});
+//		button = (Button) findViewById(R.id.goto_last);
+//		button.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				mPager.setCurrentItem(NUM_ITEMS - 1);
+//			}
+//		});
 	}
 
 	public static class MyAdapter extends FragmentPagerAdapter {

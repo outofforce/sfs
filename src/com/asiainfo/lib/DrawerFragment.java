@@ -5,6 +5,9 @@ package com.asiainfo.lib;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +15,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import com.asiainfo.R;
+import com.asiainfo.testapp.ArrayListFragment;
 
 /**
  * @author BillKalin
  * 
  */
 public class DrawerFragment extends Fragment implements OnClickListener {
-
+    private static final String[] CONTENT = new String[] { "公告栏", "同学们", "我的简历"};
 	public DrawerLayout layout;
 	public View view;
 
@@ -32,6 +36,10 @@ public class DrawerFragment extends Fragment implements OnClickListener {
 		this.view = view;
 	}
 
+    public void onClick(View v) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -42,27 +50,37 @@ public class DrawerFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		View rootView = inflater.inflate(R.layout.fragment_layout, container,
-				false);
-		Button openBtn = (Button) rootView.findViewById(R.id.open);
-		openBtn.setOnClickListener(this);
+        View rootView = inflater.inflate(R.layout.fragment_layout, container,
+                false);
+        FragmentPagerAdapter adapter = new GoogleMusicAdapter(super.getFragmentManager());
+
+        ViewPager pager = (ViewPager)rootView.findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+
+        TabPageIndicator indicator = (TabPageIndicator)rootView.findViewById(R.id.indicator);
+        indicator.setViewPager(pager);
 		return rootView;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.view.View.OnClickListener#onClick(android.view.View)
-	 */
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		if (v.getId() == R.id.open) {
-			//�򿪲����
-			if (!layout.isDrawerOpen(view)) {
-				layout.openDrawer(view);
-			}
-		}
-	}
+
+    class GoogleMusicAdapter extends FragmentPagerAdapter {
+        public GoogleMusicAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return ArrayListFragment.newInstance(position % CONTENT.length);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return CONTENT[position % CONTENT.length].toUpperCase();
+        }
+
+        @Override
+        public int getCount() {
+            return CONTENT.length;
+        }
+    }
 }

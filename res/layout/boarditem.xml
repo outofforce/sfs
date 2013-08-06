@@ -1,22 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:background="@android:drawable/gallery_thumb"
-    android:orientation="vertical" >
+    android:orientation="vertical" android:gravity="center">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:padding="5dip">
 
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:gravity="center_vertical" android:paddingLeft="5dip">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pubHead" android:src="@drawable/ic_launcher"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="user_name"
+                    android:id="@+id/pubName"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:paddingLeft="5dip">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="contentTXT"
+                    android:id="@+id/pubContent" android:paddingLeft="5dip"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:gravity="center">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pubImg" android:src="@drawable/ic_launcher" android:padding="10dip"/>
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
+        </LinearLayout>
+    </LinearLayout>
 
-        <ListView
-            android:id="@+id/pubboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="false" />
-
-    </FrameLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="right"
+            android:background="@android:color/white" android:padding="0dip">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="yestoday-time"
+                android:id="@+id/pubTime"/>
+    </LinearLayout>
 
 </LinearLayout>
