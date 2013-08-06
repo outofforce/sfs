@@ -1,4 +1,4 @@
-package com.asiainfo;
+package com.asiainfo.lib;
 
 public interface IconPagerAdapter {
     /**

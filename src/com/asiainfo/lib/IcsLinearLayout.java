@@ -1,4 +1,4 @@
-package com.asiainfo;
+package com.asiainfo.lib;
 
 import android.content.Context;
 import android.content.res.TypedArray;

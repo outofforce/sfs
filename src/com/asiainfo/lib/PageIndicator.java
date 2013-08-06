@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.asiainfo;
+package com.asiainfo.lib;
 
 import android.support.v4.view.ViewPager;
 

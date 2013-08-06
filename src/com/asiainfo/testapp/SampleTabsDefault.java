@@ -1,5 +1,5 @@
 package com.asiainfo.testapp;
-import com.asiainfo.TabPageIndicator;
+import com.asiainfo.lib.TabPageIndicator;
 import com.asiainfo.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
