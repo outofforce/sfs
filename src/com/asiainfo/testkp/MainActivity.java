@@ -100,7 +100,7 @@ public class MainActivity extends FragmentActivity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					System.out.println("����ɹ���");
+					System.out.println("click here!");
 				}
 			});
 			return v;
