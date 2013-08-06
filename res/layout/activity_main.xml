@@ -24,7 +24,8 @@
             android:layout_height="fill_parent"
             android:layout_gravity="start"
             android:divider="@null"
-            android:paddingTop="10dip"
+            android:paddingTop="20dip"
+            android:paddingBottom="20dip"
             android:dividerHeight="5dip"
             android:stackFromBottom="true"
             />
