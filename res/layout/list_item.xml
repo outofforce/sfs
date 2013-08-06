@@ -9,5 +9,4 @@
     android:textColor="#fff"
     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
     >
-
 </TextView>
