@@ -54,7 +54,7 @@ public class testapp extends Activity {
 			// TODO: http request.
 			//
 			String result = "";
-			String urlStr = "http://192.168.1.107:8080/welcome/test.do";
+			String urlStr = "http://192.168.1.107:8080/test.do";
 			System.out.println(urlStr);
 
 			HttpGet get=new HttpGet(urlStr);
