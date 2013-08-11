@@ -73,7 +73,9 @@ public class sfsFrame extends FragmentActivity {
             // 关闭侧边栏
             drawerLayout.closeDrawer(leftList);
             Log.i("onItemSelected",
-                    "open?:" + drawerLayout.isDrawerOpen(leftList));
+                    "open?:" + drawerLayout.isDrawerOpen(leftList) + ' '+ position);
+
+
         }
 
     };

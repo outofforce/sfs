@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:gravity="top" android:paddingTop="20dip">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:paddingLeft="20dip">
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="email   "
+                android:id="@+id/textView"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                />
+        </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="center|bottom" android:paddingLeft="30dip"
+            android:paddingRight="30dip">
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ed_email" android:layout_gravity="center" android:inputType="none|textEmailAddress"
+                android:selectAllOnFocus="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dip">
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="password"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                android:id="@+id/textView1"/>
+        </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="center|bottom" android:paddingRight="30dip"
+            android:paddingLeft="30dip">
+
+
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ed_passwd" android:inputType="textPassword"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="right" android:paddingRight="30dip"
+            android:paddingTop="10dip">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="New Account ?"
+                android:id="@+id/tv_SelectLoginReg" android:paddingRight="20dip" android:gravity="center"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="login"
+                android:id="@+id/bt_LoginOrReg" android:layout_gravity="center"
+                android:paddingLeft="20dip" android:paddingRight="20dip"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                />
+    </LinearLayout>
+</LinearLayout>
