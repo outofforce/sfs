@@ -81,7 +81,7 @@ public class ActiveActivity extends Activity {
                         // 跳转到主界面
                         Intent mainIntent = new Intent();
                         mainIntent.setClass(getApplicationContext(),sfsFrame.class);
-                        //mainIntent.putExtra("User", user);
+                        mainIntent.putExtra("User", user);
                         startActivity(mainIntent);
                         finish();
                     } else {
