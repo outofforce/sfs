@@ -25,6 +25,7 @@ public class SfsErrorCode {
 
     public static final int E_QUERY = 11000;
     public static final int E_DEV_NO_USER = 11001;
+    public static final int E_USER_INACITVE = 11001;
 
 
 

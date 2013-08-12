@@ -1,6 +1,7 @@
 package com.asiainfo.proto;
 
 
+import android.util.Log;
 import com.asiainfo.model.SfsErrorCode;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -42,16 +43,21 @@ public class SfsHttpGet {
     }
 
     public HttpResult handle() {
+        Log.e("MYDEBUG", "ok here!");
         HttpResult result = new HttpResult();
+
         try {
             HttpGet httpMethod = new HttpGet(urlPre+urlSufix);
+            Log.e("MYDEBUG","sending : "+urlPre+urlSufix);
             HttpResponse response=client.execute(httpMethod);
             //response.getStatusLine().getStatusCode() =
             result.result = EntityUtils.toString(response.getEntity());
-
+            Log.e("MYDEBUG","recieve : "+result.result);
+            PraseResult(result);
         } catch (MalformedURLException e) {
             result.err_msg =  e.getMessage();
             result.err_code = SfsErrorCode.E_Url;
+
             e.printStackTrace();
 
         } catch (IOException e) {
@@ -61,7 +67,7 @@ public class SfsHttpGet {
         }
 
 
-        PraseResult(result);
+
 
         return result;
     }

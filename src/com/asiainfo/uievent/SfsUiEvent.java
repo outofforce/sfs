@@ -86,11 +86,9 @@ public class SfsUiEvent {
 
             Log.e("MYDEBUG",action);
             Class cls = Class.forName("com.asiainfo.uievent."+action);
-            Log.e("MYDEBUG","out...1");
             Method m = cls.getDeclaredMethod("doUiEvent", new Class[]{Intent.class, Context.class, SfsResult.class});
-            Log.e("MYDEBUG","out...2");
             t = (Intent) m.invoke(cls.newInstance(),intent,cx,ret);
-            Log.e("MYDEBUG","out...3");
+            Log.e("MYDEBUG","out...");
             if (t != null) {
                  t.setAction(action+"_RES");
                  t.putExtra("UI_RESULT",ret);

@@ -26,11 +26,12 @@ import com.asiainfo.model.User;
 public class ActiveActivity extends Activity {
     public final static String TAG="ActiveActivity";
     Button Bt_Active;
+    EditText Ed_Email;
     DataReceiver dataReceiver;
     User user;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.active);
 
         dataReceiver = new DataReceiver();
         IntentFilter filter = new IntentFilter();
@@ -41,6 +42,9 @@ public class ActiveActivity extends Activity {
         Bt_Active.setOnClickListener(cl_active);
         Intent intent = getIntent();
         user = intent.getParcelableExtra("User");
+        Ed_Email = (EditText) findViewById(R.id.ed_email);
+        Ed_Email.setText(user.user_name);
+
 
 
     }

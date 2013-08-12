@@ -8,6 +8,6 @@
     <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/imageView" android:layout_gravity="center" android:src="@drawable/cover"
-            android:scaleType="fitXY"/>
+            android:id="@+id/imageView" android:layout_gravity="center" android:src="@drawable/asiainfo"
+            android:scaleType="centerInside"/>
 </LinearLayout>

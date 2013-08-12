@@ -12,6 +12,9 @@ import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,10 +36,20 @@ public class Cover extends Activity {
         filter.addAction("QueryStartInfo_RES");
         registerReceiver(dataReceiver, filter);
 
-        Intent intent = new Intent();
-        intent.setClass(Cover.this, com.asiainfo.testapp.sfsService.class);
-        intent.setAction("QueryStartInfo");
-        startService(intent);
+
+
+        Timer timer=new Timer();
+        timer.schedule(new TimerTask(){
+
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.setClass(Cover.this, com.asiainfo.testapp.sfsService.class);
+                intent.setAction("QueryStartInfo");
+                startService(intent);
+            }
+
+        }, 1000);
     }
 
     private class DataReceiver extends BroadcastReceiver{

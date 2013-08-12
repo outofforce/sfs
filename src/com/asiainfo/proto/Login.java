@@ -12,7 +12,7 @@ import com.asiainfo.model.User;
  */
 public class Login extends SfsHttpGet {
     public Login(User user) {
-        setUrlSufix("login?userName=" + user.user_name + "&passwd=" + user.passwd);
+        setUrlSufix("login.do?userName=" + user.user_name + "&passwd=" + user.passwd);
     }
 
     @Override
@@ -20,8 +20,11 @@ public class Login extends SfsHttpGet {
         super.PraseResult(result);
         if (result.result.equalsIgnoreCase("success"))   {
             result.err_code = SfsErrorCode.Success;
+        } else if (result.result.equalsIgnoreCase("inactive")) {
+            result.err_code = SfsErrorCode.E_USER_INACITVE;
         } else {
             result.err_code = SfsErrorCode.E_LOGIN;
+            result.err_msg = "登陆失败";
         }
     }
 }

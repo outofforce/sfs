@@ -12,7 +12,7 @@ import com.asiainfo.model.User;
  */
 public class Logout extends SfsHttpGet {
     public Logout(User user) {
-        setUrlSufix("logout?userName=" + user.user_name + "&passwd=" + user.passwd);
+        setUrlSufix("logout.do?userName=" + user.user_name + "&passwd=" + user.passwd);
     }
 
     @Override

@@ -1,6 +1,11 @@
 package com.asiainfo.testapp;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.widget.EditText;
 import com.asiainfo.R;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +20,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.asiainfo.lib.DrawerFragment;
+import com.asiainfo.model.SfsErrorCode;
+import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.User;
 
 
 /**
@@ -25,17 +33,28 @@ import com.asiainfo.lib.DrawerFragment;
  * To change this template use File | Settings | File Templates.
  */
 public class sfsFrame extends FragmentActivity {
-
+    public static final String TAG = "sfsFrame";
     public DrawerLayout drawerLayout;// 侧边栏布局
     public ListView leftList;// 侧边栏内的选项
     public ArrayAdapter<String> arrayAdapter;
     private String[] items;
+    public static final int M_EXIT=0;
+    public static final int M_SETUP=1;
+    public static final int M_TODO=2;
 
+    DataReceiver dataReceiver;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        dataReceiver = new DataReceiver();
+        user = getIntent().getParcelableExtra("User");
+        if (user == null) {
+            throw new NullPointerException("No User Data!");
+        }
+
     }
 
     // 初始化控件
@@ -43,7 +62,8 @@ public class sfsFrame extends FragmentActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
         items = getResources().getStringArray(R.array.left_array);
         leftList = (ListView) findViewById(R.id.left_drawer);
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.listitem, items);
+
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.listitem, new String[] {"退出","设置","TODO List"});
         leftList.setAdapter(arrayAdapter);
         leftList.setOnItemClickListener(itemListener);
         initFragments();
@@ -69,11 +89,19 @@ public class sfsFrame extends FragmentActivity {
                                 long arg3) {
             // TODO Auto-generated method stub
             // 设置Activity的标题，这里只是用来做一个测试，你可以在这里用来处理单击侧边栏的选项事件
-            setTitle(items[position]);
+            setTitle(items[position]+" "+position);
             // 关闭侧边栏
             drawerLayout.closeDrawer(leftList);
             Log.i("onItemSelected",
                     "open?:" + drawerLayout.isDrawerOpen(leftList) + ' '+ position);
+
+            if (position == M_EXIT) {
+                Intent intent = new Intent();
+                intent.setClass(sfsFrame.this, com.asiainfo.testapp.sfsService.class);
+                intent.setAction("UserLogout");
+                intent.putExtra("User",user);
+                startService(intent);
+            }
 
 
         }
@@ -99,6 +127,33 @@ public class sfsFrame extends FragmentActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("UserLogout_RES");
+        registerReceiver(dataReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(dataReceiver);
+        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    private class DataReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            Log.v(TAG, "===================" + action);
+            if (action.equals("UserLogout_RES")) {
+                stopService(new Intent(sfsFrame.this,
+                       com.asiainfo.testapp.sfsService.class));
+                finish();
+            }
+        }
     }
 
 }

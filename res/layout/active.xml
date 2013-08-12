@@ -4,7 +4,29 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:gravity="top" android:paddingTop="20dip">
-
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:paddingLeft="20dip">
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="UserName"
+                android:id="@+id/textView"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                />
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="center|bottom" android:paddingLeft="30dip"
+            android:paddingRight="30dip">
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ed_email" android:layout_gravity="center" android:inputType="none|textEmailAddress"
+                android:selectAllOnFocus="true" android:enabled="false" android:editable="false"/>
+    </LinearLayout>
 
     <LinearLayout
             android:orientation="horizontal"
@@ -39,12 +61,12 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="checke email"
-                android:id="@+id/textView2" android:paddingRight="20dip" android:gravity="center"/>
+                android:text="register ?"
+                android:id="@+id/tv_trunToLogin" android:paddingRight="20dip" android:gravity="center"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="login"
+                android:text="active"
                 android:id="@+id/bt_Active" android:layout_gravity="center"
                 android:paddingLeft="20dip" android:paddingRight="20dip"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"

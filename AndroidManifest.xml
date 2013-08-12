@@ -12,8 +12,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-
-
+        android:theme="@android:style/Theme.DeviceDefault.Light"
             >
         <activity
             android:name="com.asiainfo.testapp.MainActivity"
@@ -39,6 +38,7 @@
         <activity
                 android:name="com.asiainfo.testapp.sfsFrame"
                 android:label="SFS/Frame"
+                android:screenOrientation="portrait"
                 android:theme="@style/StyledIndicators">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,14 +51,16 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".testapp.LoginActivity">
+        <activity android:name=".testapp.LoginActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".testapp.ActiveActivity">
+        <activity android:name=".testapp.ActiveActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -73,7 +75,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".testapp.LoginActivity"/>
+        <activity android:name=".testapp.LoginActivity"
+                  android:screenOrientation="portrait" />
         <service android:name="com.asiainfo.testapp.sfsService" android:process=":remote" >
         </service>
     </application>

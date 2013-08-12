@@ -6,8 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string-array name="left_array">
         <item >设置</item>
-        <item >推荐应用</item>
-        <item >课程表</item>
         <item >Todo List</item>
         <item >退出</item>
     </string-array>

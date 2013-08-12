@@ -24,7 +24,15 @@ public class UserLogout implements ISfsUiEvent {
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
         if (user != null) {
-            Logout req = new Logout(user);
+            //Logout req = new Logout(user);
+
+            SharedPreferences mPerferences = PreferenceManager
+                    .getDefaultSharedPreferences(cx);
+            SharedPreferences.Editor mEditor = mPerferences.edit();
+            mEditor.putInt("Status", User.LOGOUT);
+            mEditor.commit();
+            result.err_code = SfsErrorCode.Success;
+            /*
             SfsHttpGet.HttpResult res =  req.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
@@ -36,7 +44,7 @@ public class UserLogout implements ISfsUiEvent {
                 SharedPreferences.Editor mEditor = mPerferences.edit();
                 mEditor.putInt("Status", User.LOGOUT);
                 mEditor.commit();
-            }
+            }   */
 
         } else {
             result.err_code = SfsErrorCode.E_UI_ARG;

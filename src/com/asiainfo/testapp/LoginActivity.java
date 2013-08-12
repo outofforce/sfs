@@ -44,6 +44,9 @@ public class LoginActivity extends Activity {
         Bt_loginOrReg.setOnClickListener(cl_loginOrReg);
         Tv_Select = (TextView)findViewById(R.id.tv_SelectLoginReg);
         Tv_Select.setOnClickListener(cl_type);
+        User user = getIntent().getParcelableExtra("User");
+        if (user != null)
+            ((EditText) findViewById(R.id.ed_email)).setText(user.user_name);
 
 
 
@@ -111,6 +114,11 @@ public class LoginActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             Log.v(TAG, "===================" + action);
+            User user = new User(
+                    ((EditText)findViewById(R.id.ed_email)).getText().toString(),
+                    ((EditText)findViewById(R.id.ed_passwd)).getText().toString(),
+                    User.NORMAL
+            );
             if (action.equals("UserLogin_RES")) {
                 SfsResult res =   intent.getParcelableExtra("UI_RESULT");
                 if (res != null) {
@@ -118,8 +126,17 @@ public class LoginActivity extends Activity {
                         // 跳转到主界面
                         Intent mainIntent = new Intent();
                         mainIntent.setClass(getApplicationContext(),sfsFrame.class);
+
+                        mainIntent.putExtra("User",user);
                         //mainIntent.putExtra("User", user);
                         startActivity(mainIntent);
+                        finish();
+                    } else if (res.err_code == SfsErrorCode.E_USER_INACITVE) {
+                        Intent activeIntent = new Intent();
+                        activeIntent.setClass(getApplicationContext(),ActiveActivity.class);
+                        user.status = User.NO_ACTIVE;
+                        activeIntent.putExtra("User",user);
+                        startActivity(activeIntent);
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(),res.err_msg+" "+res.err_code,Toast.LENGTH_LONG).show();
@@ -132,11 +149,7 @@ public class LoginActivity extends Activity {
                         // 跳转到主界面
                         Intent activeIntent = new Intent();
                         activeIntent.setClass(getApplicationContext(),ActiveActivity.class);
-                        User user = new User(
-                                ((EditText)findViewById(R.id.ed_email)).getText().toString(),
-                                ((EditText)findViewById(R.id.ed_passwd)).getText().toString(),
-                                User.NORMAL
-                        );
+                        user.status = User.NO_ACTIVE;
                         activeIntent.putExtra("User",user);
                         startActivity(activeIntent);
                         finish();

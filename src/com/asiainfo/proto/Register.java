@@ -12,7 +12,7 @@ import com.asiainfo.model.User;
  */
 public class Register extends SfsHttpGet {
     public Register(User user) {
-        setUrlSufix("register?userName=" + user.user_name + "&passwd=" + user.passwd);
+        setUrlSufix("register.do?userName=" + user.user_name + "&passwd=" + user.passwd);
     }
 
     @Override
@@ -22,6 +22,7 @@ public class Register extends SfsHttpGet {
             result.err_code = SfsErrorCode.Success;
         } else {
             result.err_code = SfsErrorCode.E_REGISTER;
+            result.err_msg = "注册失败";
         }
     }
 }

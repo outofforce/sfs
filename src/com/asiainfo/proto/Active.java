@@ -12,7 +12,7 @@ import com.asiainfo.model.User;
  */
 public class Active extends SfsHttpGet {
     public Active(User user, String code) {
-        setUrlSufix("activity?userName=" + user.user_name + "&code=" + code);
+        setUrlSufix("active.do?userName=" + user.user_name + "&value=" + code);
     }
 
     @Override
@@ -22,6 +22,7 @@ public class Active extends SfsHttpGet {
             result.err_code = SfsErrorCode.Success;
         } else {
             result.err_code = SfsErrorCode.E_ACTIVITY;
+            result.err_msg = "激活失败";
         }
     }
 }

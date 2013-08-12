@@ -32,12 +32,18 @@ public class UserLogin implements ISfsUiEvent {
             result.err_msg = res.err_msg;
             result.result = res.result;
             result.err_code = res.err_code;
-            if (res.err_code == SfsErrorCode.Success) {
+            if (res.err_code == SfsErrorCode.Success ||
+                    res.err_code == SfsErrorCode.E_USER_INACITVE
+                    ) {
                 // 写入
                 SharedPreferences mPerferences = PreferenceManager
                         .getDefaultSharedPreferences(cx);
                 SharedPreferences.Editor mEditor = mPerferences.edit();
-                mEditor.putInt("Status", User.NORMAL);
+                if (res.err_code == SfsErrorCode.E_USER_INACITVE)
+                    mEditor.putInt("Status", User.NO_ACTIVE);
+                else
+                    mEditor.putInt("Status", User.NORMAL);
+
                 mEditor.putString("UserName", user.user_name);
                 mEditor.putString("Passwd", user.passwd);
 
