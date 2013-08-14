@@ -13,9 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import com.asiainfo.R;
-import com.asiainfo.testapp.ArrayListFragment;
+import com.asiainfo.testapp.PublishListFragment;
+import com.asiainfo.testapp.ResumeFragment;
 
 /**
  * @author BillKalin
@@ -70,7 +70,11 @@ public class DrawerFragment extends Fragment implements OnClickListener {
 
         @Override
         public Fragment getItem(int position) {
-            return ArrayListFragment.newInstance(position % CONTENT.length);
+            if (position % CONTENT.length == 0) {
+                return PublishListFragment.newInstance(position % CONTENT.length);
+            } else {
+                return ResumeFragment.newInstance(position % CONTENT.length);
+            }
         }
 
         @Override

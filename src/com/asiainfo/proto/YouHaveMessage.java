@@ -10,18 +10,20 @@ import com.asiainfo.model.User;
  * Time: 下午12:36
  * To change this template use File | Settings | File Templates.
  */
-public class Logout extends SfsServerGet {
-    public Logout(User user) {
-        setUrlSufix("logout.do?userName=" + user.user_name + "&passwd=" + user.passwd);
+public class YouHaveMessage extends SfsServerGet {
+    public YouHaveMessage(int max_pub_id) {
+        setUrlSufix("youHaveMessage.do?publishId=" + max_pub_id);
     }
 
     @Override
     public void PraseResult(ServerResult result) {
         super.PraseResult(result);
-        if (result.result.equalsIgnoreCase("success"))   {
+        if (result.result.substring(0,7).equalsIgnoreCase("success"))   {
+
             result.err_code = SfsErrorCode.Success;
+            result.result = result.result.substring(7);
         } else {
-            result.err_code = SfsErrorCode.E_LOGOUT;
+            result.err_code = SfsErrorCode.E_QUERY;
         }
     }
 }

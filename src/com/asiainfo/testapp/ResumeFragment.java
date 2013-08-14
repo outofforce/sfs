@@ -1,17 +1,19 @@
 package com.asiainfo.testapp;
-import android.support.v4.app.Fragment;
-import com.asiainfo.R;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import com.asiainfo.R;
 
-public  class ArrayListFragment extends Fragment {
+public  class ResumeFragment extends Fragment {
     int mNum;
 
-    public static ArrayListFragment newInstance(int num) {
-        ArrayListFragment f = new ArrayListFragment();
+    public static ResumeFragment newInstance(int num) {
+        ResumeFragment f = new ResumeFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
@@ -22,8 +24,8 @@ public  class ArrayListFragment extends Fragment {
     }
 
 
-    private ListView mpubItemListView;
-    private pubItemAdapter mpubItemAdpater;
+//    private ListView mpubItemListView;
+//    private pubItemAdapter mpubItemAdpater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,19 +37,9 @@ public  class ArrayListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.board_list, container, false);
+        Log.e("MYDEBUG", "CreateView " + mNum);
+        View v = inflater.inflate(R.layout.cover, container, false);
 
-        mpubItemListView = (ListView) v.findViewById(R.id.pubboard);
-
-        mpubItemAdpater = new pubItemAdapter(inflater);
-        for (int i=0;i<10;i++) {
-            pubItemAdapter.pubItem item = new pubItemAdapter.pubItem();
-
-            mpubItemAdpater.add(item);
-        }
-
-        //loadSessionInfo();
-        mpubItemListView.setAdapter(mpubItemAdpater);
 
 //        text.setOnClickListener(new OnClickListener() {
 //

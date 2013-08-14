@@ -8,7 +8,7 @@ import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
 import com.asiainfo.proto.Active;
-import com.asiainfo.proto.SfsHttpGet;
+import com.asiainfo.proto.SfsServerGet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,7 +34,7 @@ public class UserActive implements ISfsUiEvent {
 
         if (user != null) {
             Active req = new Active(user,code);
-            SfsHttpGet.HttpResult res =  req.handle();
+            SfsServerGet.ServerResult res =  req.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
             result.err_code = res.err_code;

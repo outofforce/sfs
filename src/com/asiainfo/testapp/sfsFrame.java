@@ -1,10 +1,13 @@
 package com.asiainfo.testapp;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.SystemClock;
 import android.widget.EditText;
 import com.asiainfo.R;
 import android.os.Bundle;
@@ -43,6 +46,8 @@ public class sfsFrame extends FragmentActivity {
     public static final int M_TODO=2;
 
     DataReceiver dataReceiver;
+
+    private PendingIntent mAlarmSender;
     User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,20 +59,43 @@ public class sfsFrame extends FragmentActivity {
         if (user == null) {
             throw new NullPointerException("No User Data!");
         }
+        Intent  alarmIntent = new Intent();
+        long firstTime = SystemClock.elapsedRealtime();
+        alarmIntent.setClass(sfsFrame.this, sfsService.class);
+        alarmIntent.setAction("CheckNewMessage");
+        mAlarmSender = PendingIntent.getService(sfsFrame.this,
+                0, alarmIntent, 0);
+
+
+
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                firstTime, 30*1000, mAlarmSender);
+        //intent.setClass(sfsFrame.this, com.asiainfo.sfsService.class);
 
     }
 
+    public User getUser() {
+        return user;
+    }
     // 初始化控件
     private void initViews() {
         drawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
         items = getResources().getStringArray(R.array.left_array);
         leftList = (ListView) findViewById(R.id.left_drawer);
 
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.listitem, new String[] {"退出","设置","TODO List"});
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.listitem, new String[] {" 退 出 "," 设 置 "," Todo "});
         leftList.setAdapter(arrayAdapter);
         leftList.setOnItemClickListener(itemListener);
         initFragments();
 
+    }
+    onSfsDataReceiver mSfsDataReciver;
+    public void registerSfsDataReciever (onSfsDataReceiver receiver) {
+        mSfsDataReciver = receiver;
+    }
+    public void  unregisterSfsDataReciever (onSfsDataReceiver receiver)  {
+        mSfsDataReciver = null;
     }
 
     // 添加碎片
@@ -75,7 +103,6 @@ public class sfsFrame extends FragmentActivity {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         DrawerFragment fragment = new DrawerFragment();
-        // 设置在fragment中按钮来控制侧边栏的打开
         fragment.setDrawerLayout(drawerLayout, leftList);
         transaction.add(R.id.main_content, fragment);
         transaction.commit();
@@ -134,11 +161,12 @@ public class sfsFrame extends FragmentActivity {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
         IntentFilter filter = new IntentFilter();
         filter.addAction("UserLogout_RES");
+        filter.addAction("QueryPublishData_RES");
         registerReceiver(dataReceiver, filter);
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         unregisterReceiver(dataReceiver);
         super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
     }
@@ -146,13 +174,18 @@ public class sfsFrame extends FragmentActivity {
     private class DataReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             String action = intent.getAction();
-            Log.v(TAG, "===================" + action);
+            //Log.e("MYDEBUG", "2===================" + action);
             if (action.equals("UserLogout_RES")) {
                 stopService(new Intent(sfsFrame.this,
                        com.asiainfo.testapp.sfsService.class));
                 finish();
+            } else if (action.equals("QueryPublishData_RES"))  {
+                if (mSfsDataReciver != null)
+                    mSfsDataReciver.onDataCome(intent);
             }
+
         }
     }
 

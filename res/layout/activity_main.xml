@@ -20,7 +20,7 @@
     <ListView
             android:id="@+id/left_drawer"
             android:layout_width="150dip"
-            android:background="@android:color/background_dark"
+            android:background="#180E0E"
             android:layout_height="fill_parent"
             android:layout_gravity="start"
             android:divider="@null"

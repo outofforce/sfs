@@ -84,11 +84,11 @@ public class SfsUiEvent {
         try {
             ret = new SfsResult("","",SfsErrorCode.Success);
 
-            Log.e("MYDEBUG",action);
+            Log.e("MYDEBUG","in.. "+action);
             Class cls = Class.forName("com.asiainfo.uievent."+action);
             Method m = cls.getDeclaredMethod("doUiEvent", new Class[]{Intent.class, Context.class, SfsResult.class});
             t = (Intent) m.invoke(cls.newInstance(),intent,cx,ret);
-            Log.e("MYDEBUG","out...");
+
             if (t != null) {
                  t.setAction(action+"_RES");
                  t.putExtra("UI_RESULT",ret);
@@ -112,7 +112,7 @@ public class SfsUiEvent {
             t.putExtra("UI_RESULT",ret);
             e.printStackTrace();
         }
-
+        Log.e("MYDEBUG","out.. "+action+" \n ret.error_code="+ ret.err_code+ "\n ret.error_msg="+ ret.err_msg);
         return t;
 
     }

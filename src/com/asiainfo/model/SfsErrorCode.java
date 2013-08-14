@@ -26,6 +26,8 @@ public class SfsErrorCode {
     public static final int E_QUERY = 11000;
     public static final int E_DEV_NO_USER = 11001;
     public static final int E_USER_INACITVE = 11001;
+    public static final int E_GET_PUBLIST = 11002;
+    public static final int E_JSON_ERROR = 11003;
 
 
 

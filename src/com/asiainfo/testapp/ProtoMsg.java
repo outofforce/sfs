@@ -16,7 +16,7 @@ public class ProtoMsg  {
     private int status; // 0 ,正常  4 作废
     public static final int DEL = 4;
     public static final int NORMAL = 0;
-    public enum DIRECT {UI_IN,NET_IN,OUT_TO_NET,OUT_TO_UI,UI_EVENT}
+    public enum DIRECT {UI_IN,NET_IN,OUT_TO_NET,OUT_TO_UI,UI_EVENT,UI_NOTIFY}
     private DIRECT direct;
     public ProtoMsg(String serial,Intent intent,DIRECT d) {
         this.serial = serial;

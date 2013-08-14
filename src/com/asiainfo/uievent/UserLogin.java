@@ -9,7 +9,7 @@ import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
 import com.asiainfo.proto.Login;
-import com.asiainfo.proto.SfsHttpGet;
+import com.asiainfo.proto.SfsServerGet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +28,7 @@ public class UserLogin implements ISfsUiEvent {
         if ( user != null) {
             Log.e("MYDEBUG",user.user_name+ " login....");
             Login req = new Login(user);
-            SfsHttpGet.HttpResult res =  req.handle();
+            SfsServerGet.ServerResult res =  req.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
             result.err_code = res.err_code;

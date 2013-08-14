@@ -10,13 +10,13 @@ import com.asiainfo.model.User;
  * Time: 下午12:36
  * To change this template use File | Settings | File Templates.
  */
-public class Register extends SfsHttpGet {
+public class Register extends SfsServerGet {
     public Register(User user) {
         setUrlSufix("register.do?userName=" + user.user_name + "&passwd=" + user.passwd);
     }
 
     @Override
-    public void PraseResult(HttpResult result) {
+    public void PraseResult(ServerResult result) {
         super.PraseResult(result);
         if (result.result.equalsIgnoreCase("success"))   {
             result.err_code = SfsErrorCode.Success;

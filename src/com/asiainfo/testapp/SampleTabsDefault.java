@@ -33,7 +33,7 @@ public class SampleTabsDefault extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ArrayListFragment.newInstance(position % CONTENT.length);
+            return PublishListFragment.newInstance(position % CONTENT.length);
         }
 
         @Override

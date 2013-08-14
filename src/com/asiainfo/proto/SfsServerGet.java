@@ -1,50 +1,48 @@
 package com.asiainfo.proto;
 
 
+import android.util.Base64;
 import android.util.Log;
 import com.asiainfo.model.SfsErrorCode;
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
-import com.asiainfo.model.SfsErrorCode;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 
 
 
-public class SfsHttpGet {
+public class SfsServerGet {
     private String urlPre ;
     private String urlSufix;
     private HttpClient client;
 
-    public SfsHttpGet()  {
-        urlPre = "http://192.168.1.107:8080/";
+    public SfsServerGet()  {
+        urlPre = "http://192.168.1.104:8080/";
         client=new DefaultHttpClient();
-        client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
+        client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000);
     }
 
     protected void setUrlSufix(String urlSufix) {
         this.urlSufix = urlSufix;
     }
 
-    public class HttpResult {
+    public class ServerResult {
         public int err_code = SfsErrorCode.Success;
         public String err_msg;
         public String result;
     }
 
-    public void PraseResult(HttpResult result) {
+    public void PraseResult(ServerResult result) {
         result.err_code=SfsErrorCode.Success;
     }
 
-    public HttpResult handle() {
-        Log.e("MYDEBUG", "ok here!");
-        HttpResult result = new HttpResult();
+    public ServerResult handle() {
+        ServerResult result = new ServerResult();
 
         try {
             HttpGet httpMethod = new HttpGet(urlPre+urlSufix);
@@ -53,7 +51,14 @@ public class SfsHttpGet {
             //response.getStatusLine().getStatusCode() =
             result.result = EntityUtils.toString(response.getEntity());
             Log.e("MYDEBUG","recieve : "+result.result);
+
+            byte[] bytss = Base64.decode(result.result, Base64.NO_PADDING);
+            result.result = new String(bytss,0,bytss.length,"UTF-8");
+
+            //Log.e("MYDEBUG","recieve : "+result.result);
+
             PraseResult(result);
+
         } catch (MalformedURLException e) {
             result.err_msg =  e.getMessage();
             result.err_code = SfsErrorCode.E_Url;

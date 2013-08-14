@@ -1,6 +1,8 @@
 package com.asiainfo.testapp;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import com.asiainfo.R;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -24,11 +26,11 @@ import java.util.Date;
 public class pubItemAdapter extends BaseAdapter {
     
         public static class pubItem {
-            private String pubTime;
-            private String pubImg;
-            private String pubContext;
-            private String pubName;
-            private String pubHead;
+            public String pubTime;
+            public String pubImg;
+            public String pubContext;
+            public String pubName;
+            public String pubHead;
 
         }
     
@@ -90,8 +92,37 @@ public class pubItemAdapter extends BaseAdapter {
             } else {
                 holder = (SViewHolder) convertView.getTag();
             }
-            return convertView;
 
+            pubItem t = mPubItems.get(position);
+            if (t.pubName.length() == 0) {
+            if (position%2==1)
+                holder.pubName.setText("  IBM中国有限公司");
+            else
+                holder.pubName.setText("  微软中国有限公司");
+
+            }
+            if (position%2==1)
+                holder.pubHead.setImageResource(R.drawable.google);
+            else
+                holder.pubHead.setImageResource(R.drawable.ibm);
+
+            holder.pubContent.setText(t.pubContext);
+
+
+//            if (t.pubImg !=null) {
+//                final BitmapFactory.Options options = new BitmapFactory.Options();
+//
+//                //options.inJustDecodeBounds = true;
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                options.inPurgeable = true;
+//                options.inInputShareable = true;
+//
+//                Bitmap bitmapImage = BitmapFactory.decodeFile("/sdcard/sfs/download/9f8ba414e316ac7afa7eef25b94a033d.png",options);
+//                holder.pubImg.setImageBitmap(bitmapImage);
+//
+//            }
+
+            return convertView;
 
 //            pubItem t = mPubItems.get(position);
 //            holder.name.setText(t.getName());

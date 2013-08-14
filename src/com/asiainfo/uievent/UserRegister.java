@@ -8,7 +8,7 @@ import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
 import com.asiainfo.proto.Register;
-import com.asiainfo.proto.SfsHttpGet;
+import com.asiainfo.proto.SfsServerGet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,7 +26,7 @@ public class UserRegister implements ISfsUiEvent {
         User user = intent.getParcelableExtra("User");
         if ( user != null) {
             Register reg = new Register(user);
-            SfsHttpGet.HttpResult res =  reg.handle();
+            SfsServerGet.ServerResult res =  reg.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
             result.err_code = res.err_code;
