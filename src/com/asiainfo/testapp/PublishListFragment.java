@@ -34,8 +34,9 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
     }
 
 
-    private ListView mpubItemListView;
+    private SfsListView mpubItemListView;
     private pubItemAdapter mpubItemAdpater;
+    private boolean mIsLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,10 +54,15 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
                              Bundle savedInstanceState) {
         Log.e("MYDEBUG", "CreateView " + mNum);
         View v = inflater.inflate(R.layout.board_list, container, false);
-        mpubItemListView = (ListView) v.findViewById(R.id.pubboard);
+        mpubItemListView = (SfsListView) v.findViewById(R.id.pubboard);
         mpubItemAdpater = new pubItemAdapter(inflater);
         ((sfsFrame)getActivity()).registerSfsDataReciever(this);
-
+        mpubItemListView.setAdapter(mpubItemAdpater);
+        mpubItemListView.setonRefreshListener(new SfsListView.OnRefreshListener() {
+            public void onRefresh() {
+                loadHistory();
+            }
+        });
 
 
 
@@ -84,6 +90,7 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
 //        });
         return v;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -114,12 +121,27 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
 
                     mpubItemAdpater.add(item);
                 }
-                mpubItemListView.setAdapter(mpubItemAdpater);
+                mpubItemListView.requestFocusFromTouch();
+                mpubItemListView.setSelection(0);
+                mIsLoading = false;
+                Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mpubItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
+                //mpubItemListView.setAdapter(mpubItemAdpater);
             }
         } else {
             Toast.makeText(getActivity(),res.err_msg+" code= "+res.err_code,Toast.LENGTH_LONG).show();
         }
 
+
+    }
+
+    private void loadHistory(){
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), com.asiainfo.testapp.sfsService.class);
+        intent.setAction("QueryPublishData");
+
+        intent.putExtra("User", ((sfsFrame) getActivity()).getUser());
+        getActivity().startService(intent);
+        mIsLoading = true;
 
     }
 

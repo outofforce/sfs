@@ -55,6 +55,7 @@ public class DrawerFragment extends Fragment implements OnClickListener {
         FragmentPagerAdapter adapter = new GoogleMusicAdapter(super.getFragmentManager());
 
         ViewPager pager = (ViewPager)rootView.findViewById(R.id.pager);
+        pager.setOffscreenPageLimit(3);
         pager.setAdapter(adapter);
 
         TabPageIndicator indicator = (TabPageIndicator)rootView.findViewById(R.id.indicator);

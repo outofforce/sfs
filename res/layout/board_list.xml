@@ -10,7 +10,7 @@
         android:layout_height="0dip"
         android:layout_weight="1" >
 
-        <ListView
+        <com.asiainfo.testapp.SfsListView
             android:id="@+id/pubboard"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

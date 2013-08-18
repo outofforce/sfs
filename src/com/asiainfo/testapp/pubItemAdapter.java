@@ -94,13 +94,15 @@ public class pubItemAdapter extends BaseAdapter {
             }
 
             pubItem t = mPubItems.get(position);
-            if (t.pubName.length() == 0) {
-            if (position%2==1)
-                holder.pubName.setText("  IBM中国有限公司");
-            else
-                holder.pubName.setText("  微软中国有限公司");
+//            if (t.pubName.length() == 0) {
+//            if (position%2==1)
+//                holder.pubName.setText("  IBM中国有限公司");
+//            else
+//                holder.pubName.setText("  微软中国有限公司");
+//
+//            }
 
-            }
+            holder.pubName.setText(""+position);
             if (position%2==1)
                 holder.pubHead.setImageResource(R.drawable.google);
             else

@@ -49,7 +49,7 @@ public class SfsTableHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
-
+ /*
     public Cursor select(SQLiteDatabase db,String tableName)
     {
         return db.query(tableName, null, null, null, null, null, "_ID DESC");
@@ -71,5 +71,6 @@ public class SfsTableHelper extends SQLiteOpenHelper
     public Cursor query(SQLiteDatabase db,String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit) {
         return db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
     }
+    */
 
 }
