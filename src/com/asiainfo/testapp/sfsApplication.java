@@ -20,7 +20,9 @@ public class sfsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
 //        helper  = new SfsTableHelper(this);
+//        db = helper.getWritableDatabase() ;
 //        db = helper.getWritableDatabase() ;
 
     }
