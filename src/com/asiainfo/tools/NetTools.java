@@ -68,10 +68,10 @@ public class NetTools {
 
     }
 
-    static public String upload(String addr,String file) {
+    static public String upload(String addr_faile,String file) {
         try
         {
-            URL url =new URL(addr);
+            URL url=new URL("http://192.168.1.104/postfile");
             HttpURLConnection con=(HttpURLConnection)url.openConnection();
             FileInputStream fStream = new FileInputStream(file);
             Integer lon=fStream.available();

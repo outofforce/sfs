@@ -8,6 +8,20 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:paddingLeft="20dip" android:gravity="center">
+
+        <ImageView
+                android:layout_width="100dip"
+                android:layout_height="100dip"
+                android:id="@+id/iv_headview" android:layout_gravity="center"
+                android:src="@android:drawable/ic_dialog_dialer" android:minHeight="100dip" android:minWidth="100dip"
+                android:background="@android:drawable/toast_frame" android:maxHeight="100dip"
+                android:maxWidth="100dip" android:padding="10dip"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:paddingLeft="20dip">
         <TextView
                 android:layout_width="fill_parent"
@@ -54,6 +68,34 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/ed_passwd" android:inputType="textPassword"/>
     </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dip">
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="nike name"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                android:id="@+id/tv_nikename"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:gravity="center|bottom" android:paddingRight="30dip"
+            android:paddingLeft="30dip">
+
+
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ed_nikename" />
+    </LinearLayout>
+
+
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"

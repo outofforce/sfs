@@ -21,9 +21,14 @@ public class QueryStartInfo implements ISfsUiEvent {
         String  userName = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getString("UserName", "");
         String  passwd = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getString("Passwd", "");
         int  status = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getInt("Status",-1);
+        String  nikeName = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getString("NikeName", "");
+        Boolean headImgIsLoad = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getBoolean("IsHeadImgLoad", false);
+        String  headImg ="";
+        if (headImgIsLoad)
+          headImg = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getString("LoaclUserHeadImgPath", "");
         Intent t = new Intent();
         if (!userName.equals("")) {
-            User user = new User(userName,passwd,status);
+            User user = new User(userName,passwd,status,nikeName,headImg);
             t.putExtra("User",user);
             result.err_code = SfsErrorCode.Success;
         } else {

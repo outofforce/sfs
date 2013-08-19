@@ -22,7 +22,7 @@ import com.asiainfo.testapp.ResumeFragment;
  * 
  */
 public class DrawerFragment extends Fragment implements OnClickListener {
-    private static final String[] CONTENT = new String[] { "公告栏", "同学们", "我的简历"};
+    private static final String[] CONTENT = new String[] { "发布", "碎片", "关注"};
 	public DrawerLayout layout;
 	public View view;
 
@@ -71,7 +71,7 @@ public class DrawerFragment extends Fragment implements OnClickListener {
 
         @Override
         public Fragment getItem(int position) {
-            if (position % CONTENT.length == 0) {
+            if (position % CONTENT.length == 1) {
                 return PublishListFragment.newInstance(position % CONTENT.length);
             } else {
                 return ResumeFragment.newInstance(position % CONTENT.length);

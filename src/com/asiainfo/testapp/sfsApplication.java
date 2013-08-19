@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
+import android.widget.Toast;
 
 
 /**
@@ -41,6 +43,20 @@ public class sfsApplication extends Application {
     }
 
 
+    public Boolean checkSdCard() {
+        if (! Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            Toast.makeText(getApplicationContext(), "sd卡拔出, 图片语音的功能无效",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 
+    public String getLongTimeDir() {
+        return  "/sdcard/sfs/long_time/" ;
+    }
 
+    public String getTempTimeDir() {
+        return  "/sdcard/sfs/download/" ;
+    }
 }

@@ -3,6 +3,7 @@ package com.asiainfo.uievent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.asiainfo.model.PublishData;
@@ -42,6 +43,9 @@ public class QueryPublishData implements ISfsUiEvent {
 
 
             if (result.err_code == SfsErrorCode.Success) {
+                SfsTableHelper helper  = new SfsTableHelper(cx);
+                SQLiteDatabase db = helper.getWritableDatabase();
+                TPublishData tp = new TPublishData(db);
                 try {
 
 
@@ -73,6 +77,9 @@ public class QueryPublishData implements ISfsUiEvent {
                         d.status = s.getInt("status");
                         d.context_img_loaded = PublishData.INIT;
                         list.add(d);
+                        tp.newPublicData(d);
+
+
                     }
                     t.putParcelableArrayListExtra("PublicDatas",list);
                     int  last_max_id = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getInt("PublshMaxId",0);
@@ -89,6 +96,8 @@ public class QueryPublishData implements ISfsUiEvent {
                     result.err_msg = "协议解析错误 "+e.getMessage();
                     e.printStackTrace();
                 }
+                if (db.isOpen())
+                    db.close();
 
             }
         } else {

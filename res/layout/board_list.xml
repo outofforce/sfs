@@ -7,14 +7,14 @@
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
+        android:layout_height="fill_parent"
         android:layout_weight="1" >
 
         <com.asiainfo.testapp.SfsListView
             android:id="@+id/pubboard"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="false"
+            android:layout_height="fill_parent"
+            android:stackFromBottom="true"
             android:dividerHeight="10dip"
             android:divider="@null"
             android:clickable="true"

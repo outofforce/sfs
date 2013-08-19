@@ -24,6 +24,9 @@ public class UserRegister implements ISfsUiEvent {
 
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
+        String  headImg = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getString("UserHeadImg", "NULL");
+        user.head_img = (headImg == "NULL")?"":headImg;
+
         if ( user != null) {
             Register reg = new Register(user);
             SfsServerGet.ServerResult res =  reg.handle();
@@ -37,6 +40,7 @@ public class UserRegister implements ISfsUiEvent {
                 SharedPreferences.Editor mEditor = mPerferences.edit();
                 mEditor.putString("UserName", user.user_name);
                 mEditor.putString("Passwd", user.passwd);
+                mEditor.putString("NikeName", user.nike_name);
                 mEditor.putInt("Status", User.NO_ACTIVE);
                 mEditor.commit();
             }

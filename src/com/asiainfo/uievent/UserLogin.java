@@ -24,7 +24,8 @@ public class UserLogin implements ISfsUiEvent {
     public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
-        Log.e("MYDEBUG"," login....");
+        Boolean chg_user = intent.getBooleanExtra("IsLoginChgUser",false);
+
         if ( user != null) {
             Log.e("MYDEBUG",user.user_name+ " login....");
             Login req = new Login(user);
@@ -44,9 +45,10 @@ public class UserLogin implements ISfsUiEvent {
                 else
                     mEditor.putInt("Status", User.NORMAL);
 
-                mEditor.putString("UserName", user.user_name);
-                mEditor.putString("Passwd", user.passwd);
-
+                if (chg_user) {
+                    mEditor.putString("UserName", user.user_name);
+                    mEditor.putString("Passwd", user.passwd);
+                }
                 mEditor.commit();
             }
 

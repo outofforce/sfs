@@ -70,7 +70,7 @@ public class sfsFrame extends FragmentActivity {
 
         AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                firstTime, 30*1000, mAlarmSender);
+                firstTime, 60*1000, mAlarmSender);
         //intent.setClass(sfsFrame.this, com.asiainfo.sfsService.class);
 
     }
