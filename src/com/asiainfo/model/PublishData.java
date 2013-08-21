@@ -4,17 +4,18 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PublishData implements Parcelable { //声明实现接口Parcelable
-    public int id;
-    public int user_id;
-    public String nick_name;
-    public String pub_context;
-    public String gis_info;
-    public String context_img;
+    public int id=0;
+    public int user_id=0;
+    public String nick_name="";
+    public String pub_context="";
+    public String gis_info="";
+    public String context_img="";
     public Long create_time;
     public Long chg_time;
-    public int status;
+    public int status=0;
     public int context_img_loaded = 0;
     public long local_id=0;
+    public String thumb_img = "";
 
 
     public static final int INIT = 0;
@@ -36,7 +37,8 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
              Long _chg_time,
              int _status,
              int _context_img_loaded,
-             long _local_id
+             long _local_id,
+             String _thumb_img
     ) {
         id = _id;
         user_id =_user_id;
@@ -49,6 +51,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         status =_status;
         context_img_loaded = _context_img_loaded;
         local_id = _local_id;
+        thumb_img = _thumb_img;
     }
 
     public PublishData(Parcel s) {
@@ -63,6 +66,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         status = s.readInt();
         context_img_loaded = s.readInt();
         local_id = s.readLong();
+        thumb_img = s.readString();
     }
 
     @Override
@@ -83,6 +87,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         dest.writeInt(status);
         dest.writeInt(context_img_loaded);
         dest.writeLong(local_id);
+        dest.writeString(thumb_img);
     }
 
     public static final Creator<PublishData> CREATOR = new Creator<PublishData>() {

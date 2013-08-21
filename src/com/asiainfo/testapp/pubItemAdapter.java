@@ -1,8 +1,11 @@
 package com.asiainfo.testapp;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import com.asiainfo.R;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.asiainfo.model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,21 +30,24 @@ import java.util.Date;
 public class pubItemAdapter extends BaseAdapter {
     
         public static class pubItem {
-            public String pubTime;
-            public String pubImg;
-            public String pubContext;
-            public String pubName;
-            public String pubHead;
+            public String pubTime = "";
+            public String pubImg = "";
+            public String pubContext = "";
+            public String pubName = "";
+            public String pubHead = "";
+            public Boolean pubImgLoad = false;
+            public Bitmap drawable;
 
         }
     
         private ArrayList<pubItem> mPubItems = new ArrayList<pubItem>();
 
         private LayoutInflater mInflater;
-        private Context cx;
+        private Context mCx;
 
-        public pubItemAdapter(LayoutInflater inflater) {
+        public pubItemAdapter(LayoutInflater inflater,Context cx) {
             mInflater = inflater;
+            mCx = cx;
 
         }
 
@@ -101,6 +108,9 @@ public class pubItemAdapter extends BaseAdapter {
 //                holder.pubName.setText("  微软中国有限公司");
 //
 //            }
+            holder.clear();
+
+
 
             holder.pubName.setText(""+position);
             if (position%2==1)
@@ -110,19 +120,32 @@ public class pubItemAdapter extends BaseAdapter {
 
             holder.pubContent.setText(t.pubContext);
 
+            if (!t.pubImg.equals("") && t.pubImgLoad==false) {
+                Intent intent = new Intent();
+                intent.setClass(mCx, com.asiainfo.testapp.sfsService.class);
+                intent.putExtra("AttachmentType","image");
+                intent.putExtra("AttachmentPath",t.pubImg);
+                intent.putExtra("ListPos",position);
+                intent.setAction("GetThumbPic");
+                mCx.startService(intent);
 
-//            if (t.pubImg !=null) {
-//                final BitmapFactory.Options options = new BitmapFactory.Options();
-//
-//                //options.inJustDecodeBounds = true;
-//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//                options.inPurgeable = true;
-//                options.inInputShareable = true;
-//
-//                Bitmap bitmapImage = BitmapFactory.decodeFile("/sdcard/sfs/download/9f8ba414e316ac7afa7eef25b94a033d.png",options);
-//                holder.pubImg.setImageBitmap(bitmapImage);
-//
-//            }
+            } else if (t.pubImgLoad == true ) {
+                Log.e("MYDEBUG", "ImgPath=" + t.pubImg) ;
+
+                    if (t.drawable == null) {
+                    final BitmapFactory.Options options = new BitmapFactory.Options();
+                    //options.inJustDecodeBounds = true;
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                    options.inPurgeable = true;
+                    options.inInputShareable = true;
+                    Bitmap bitmapImage = BitmapFactory.decodeFile(t.pubImg,options);
+                    t.drawable = bitmapImage ;
+                    holder.pubImg.setImageBitmap(bitmapImage);
+                } else {
+                    holder.pubImg.setImageBitmap(t.drawable);
+                }
+
+            }
 
             return convertView;
 
@@ -171,6 +194,13 @@ public class pubItemAdapter extends BaseAdapter {
             public TextView pubContent;
             public TextView pubName;
             public ImageView pubHead;
+            public void clear() {
+                pubTime.setText(null);
+                pubImg.setImageBitmap(null);
+                pubContent.setText(null);
+                pubName.setText(null);
+                pubHead.setImageBitmap(null);
+            }
         }
 
 

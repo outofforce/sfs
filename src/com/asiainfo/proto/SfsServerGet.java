@@ -22,7 +22,7 @@ public class SfsServerGet {
     private HttpClient client;
 
     public SfsServerGet()  {
-        urlPre = "http://192.168.1.104:8080/";
+        urlPre = "http://192.168.1.107:8080/";
         client=new DefaultHttpClient();
         client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000);
     }
@@ -50,11 +50,11 @@ public class SfsServerGet {
             HttpResponse response=client.execute(httpMethod);
             //response.getStatusLine().getStatusCode() =
             result.result = EntityUtils.toString(response.getEntity());
-            Log.e("MYDEBUG","recieve : "+result.result);
+
 
             byte[] bytss = Base64.decode(result.result, Base64.NO_PADDING);
             result.result = new String(bytss,0,bytss.length,"UTF-8");
-
+            Log.e("MYDEBUG","recieve : "+result.result);
             //Log.e("MYDEBUG","recieve : "+result.result);
 
             PraseResult(result);

@@ -14,17 +14,20 @@ public class Login extends SfsServerGet {
     public Login(User user) {
         setUrlSufix("login.do?userName=" + user.user_name + "&passwd=" + user.passwd);
     }
-
+    public Login(User user,int flag) {
+        setUrlSufix("login.do?userName=" + user.user_name + "&passwd=" + user.passwd+"&flag="+flag);
+    }
     @Override
     public void PraseResult(ServerResult result) {
         super.PraseResult(result);
-        if (result.result.equalsIgnoreCase("success"))   {
+        if (result.result.length()>=7 && result.result.substring(0,7).equalsIgnoreCase("success"))   {
             result.err_code = SfsErrorCode.Success;
-        } else if (result.result.equalsIgnoreCase("inactive")) {
+            result.result = result.result.substring(7);
+        } else if (result.result.length()>=8 && result.result.equalsIgnoreCase("inactive")) {
             result.err_code = SfsErrorCode.E_USER_INACITVE;
         } else {
             result.err_code = SfsErrorCode.E_LOGIN;
-            result.err_msg = "登陆失败";
+            result.err_msg = result.result;
         }
     }
 }

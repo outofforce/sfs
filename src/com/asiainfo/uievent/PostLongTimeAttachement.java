@@ -19,6 +19,8 @@ import com.asiainfo.tools.NetTools;
  * Time: 下午3:32
  * To change this template use File | Settings | File Templates.
  */
+
+
 public class PostLongTimeAttachement implements ISfsUiEvent {
 
     @Override
@@ -47,6 +49,7 @@ public class PostLongTimeAttachement implements ISfsUiEvent {
                      mEditor.putString("LoaclUserHeadImgPath",download_path) ;
                      mEditor.commit();
                      result.err_code = SfsErrorCode.Success;
+
                      return t;
                  }
              }

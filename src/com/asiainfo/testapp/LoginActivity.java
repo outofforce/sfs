@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
         if (user != null) {
             ((EditText) findViewById(R.id.ed_email)).setText(user.user_name);
             ((EditText) findViewById(R.id.ed_passwd)).setText(user.passwd);
-            Ed_nikeName.setText(user.nike_name);
+            Ed_nikeName.setText(user.nick_name);
             if (user.head_img != null) {
 
 
@@ -124,7 +124,7 @@ public class LoginActivity extends Activity {
                 // 用户换了ID 登录，或者注册新ID
                 user.user_name =  ((EditText)findViewById(R.id.ed_email)).getText().toString();
                 user.passwd = ((EditText)findViewById(R.id.ed_passwd)).getText().toString();
-                user.nike_name = ""; // 去服务器上获取
+                user.nick_name = ""; // 去服务器上获取
                 Log.e("MYDEBUG","-------------");
                 chg_user = true;
             } else {
@@ -173,7 +173,7 @@ public class LoginActivity extends Activity {
                 user.status = User.NO_ACTIVE;
                 intent.putExtra("User",user);
                 startService(intent);
-                if (user.nike_name.length() > 0) {
+                if (user.nick_name.length() > 0) {
                     Toast.makeText(getApplicationContext(),"Please input a nike_name ! ",Toast.LENGTH_LONG).show();
                 }
             }
@@ -196,7 +196,7 @@ public class LoginActivity extends Activity {
             User user = new User(
                     ((EditText)findViewById(R.id.ed_email)).getText().toString(),
                     ((EditText)findViewById(R.id.ed_passwd)).getText().toString(),
-                    User.NORMAL,"",""
+                    User.NORMAL,"","",0
             );
             if (action.equals("UserLogin_RES")) {
                 SfsResult res =   intent.getParcelableExtra("UI_RESULT");

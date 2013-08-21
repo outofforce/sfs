@@ -55,8 +55,8 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
         Log.e("MYDEBUG", "CreateView " + mNum);
         View v = inflater.inflate(R.layout.board_list, container, false);
         mpubItemListView = (SfsListView) v.findViewById(R.id.pubboard);
-        mpubItemAdpater = new pubItemAdapter(inflater);
-        ((sfsFrame)getActivity()).registerSfsDataReciever(this);
+        mpubItemAdpater = new pubItemAdapter(inflater,getActivity());
+        ((sfsFrame)getActivity()).registerSfsDataReciever(PublishListFragment.class.getName(),this);
         mpubItemListView.setAdapter(mpubItemAdpater);
         mpubItemListView.setonRefreshListener(new SfsListView.OnRefreshListener() {
             public void onRefresh() {
@@ -94,7 +94,7 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
 
     @Override
     public void onDestroyView() {
-        ((sfsFrame)getActivity()).unregisterSfsDataReciever(this);
+        ((sfsFrame)getActivity()).unregisterSfsDataReciever(PublishListFragment.class.getName());
         super.onDestroyView();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
@@ -110,25 +110,34 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
     public void onDataCome(Intent intent) {
         SfsResult res = intent.getParcelableExtra("UI_RESULT");
         if (res.err_code == SfsErrorCode.Success) {
-            ArrayList<PublishData> pblist  = intent.getParcelableArrayListExtra("PublicDatas");
-            if (pblist != null) {
-                for (int i=0;i<pblist.size();i++) {
-                    PublishData d =  pblist.get(i);
-                    pubItemAdapter.pubItem item = new pubItemAdapter.pubItem();
-                    item.pubName = d.nick_name;
-                    item.pubContext = d.pub_context;
-                    item.pubImg = d.context_img;
-
-                    mpubItemAdpater.add(item);
+            if (intent.getAction().equals("GetThumbPic_RES")) {
+                int pos = intent.getIntExtra("ListPos",-1);
+                String path = intent.getStringExtra("AttachmentPath");
+                if (path != null) {
+                    ((pubItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImgLoad = true ;
+                    ((pubItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImg = path ;
+                    mpubItemAdpater.notifyDataSetChanged();
                 }
-                mpubItemListView.requestFocusFromTouch();
-                mpubItemListView.setSelection(0);
-                mIsLoading = false;
-                Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mpubItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
-                //mpubItemListView.setAdapter(mpubItemAdpater);
+            }  else if (intent.getAction().equals("QueryPublishData_RES")
+                    || intent.getAction().equals("GetLocalPublishData_RES")
+                     ) {
+                ArrayList<PublishData> pblist  = intent.getParcelableArrayListExtra("PublicDatas");
+                if (pblist != null) {
+                    for (int i=0;i<pblist.size();i++) {
+                        PublishData d =  pblist.get(i);
+                        pubItemAdapter.pubItem item = new pubItemAdapter.pubItem();
+                        item.pubName = d.nick_name;
+                        item.pubContext = d.pub_context;
+                        item.pubImg = d.context_img;
+
+                        mpubItemAdpater.add(item);
+                    }
+                    mpubItemListView.requestFocusFromTouch();
+                    mpubItemListView.setSelection(0);
+                    mIsLoading = false;
+                    Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mpubItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
+                }
             }
-        } else {
-            Toast.makeText(getActivity(),res.err_msg+" code= "+res.err_code,Toast.LENGTH_LONG).show();
         }
 
 
@@ -137,7 +146,7 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
     private void loadHistory(){
         Intent intent = new Intent();
         intent.setClass(getActivity(), com.asiainfo.testapp.sfsService.class);
-        intent.setAction("QueryPublishData");
+        intent.setAction("GetLocalPublishData");
 
         intent.putExtra("User", ((sfsFrame) getActivity()).getUser());
         getActivity().startService(intent);

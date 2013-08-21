@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.SystemClock;
-import android.widget.EditText;
+import android.widget.*;
 import com.asiainfo.R;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -18,14 +18,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import com.asiainfo.lib.DrawerFragment;
 import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 /**
@@ -90,12 +91,15 @@ public class sfsFrame extends FragmentActivity {
         initFragments();
 
     }
-    onSfsDataReceiver mSfsDataReciver;
-    public void registerSfsDataReciever (onSfsDataReceiver receiver) {
-        mSfsDataReciver = receiver;
+    HashMap<String,onSfsDataReceiver> mRecieverMap = new HashMap<String,onSfsDataReceiver>();
+    //onSfsDataReceiver mSfsDataReciver;
+    public void registerSfsDataReciever (String key,onSfsDataReceiver receiver) {
+        mRecieverMap.put(key,receiver);
+        //mSfsDataReciver = receiver;
     }
-    public void  unregisterSfsDataReciever (onSfsDataReceiver receiver)  {
-        mSfsDataReciver = null;
+    public void  unregisterSfsDataReciever (String key)  {
+        mRecieverMap.remove(key);
+       // mSfsDataReciver = null;
     }
 
     // 添加碎片
@@ -162,6 +166,9 @@ public class sfsFrame extends FragmentActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction("UserLogout_RES");
         filter.addAction("QueryPublishData_RES");
+        filter.addAction("GetLocalPublishData_RES");
+        filter.addAction("GetThumbPic_RES");
+        filter.addAction("PostPublish_RES");
         registerReceiver(dataReceiver, filter);
     }
 
@@ -176,14 +183,26 @@ public class sfsFrame extends FragmentActivity {
         public void onReceive(Context context, Intent intent) {
 
             String action = intent.getAction();
-            //Log.e("MYDEBUG", "2===================" + action);
-            if (action.equals("UserLogout_RES")) {
-                stopService(new Intent(sfsFrame.this,
-                       com.asiainfo.testapp.sfsService.class));
-                finish();
-            } else if (action.equals("QueryPublishData_RES"))  {
-                if (mSfsDataReciver != null)
-                    mSfsDataReciver.onDataCome(intent);
+            SfsResult res = intent.getParcelableExtra("UI_RESULT");
+            if (res.err_code == SfsErrorCode.Success) {
+                if (action.equals("UserLogout_RES")) {
+                    stopService(new Intent(sfsFrame.this,
+                           com.asiainfo.testapp.sfsService.class));
+                    finish();
+                } else if (action.equals("QueryPublishData_RES")
+                        || action.equals("GetLocalPublishData_RES")
+                        || action.equals("GetThumbPic_RES")
+                        || action.equals("PostPublish_RES"))  {
+
+                    Iterator it = mRecieverMap.entrySet().iterator();
+                    while(it.hasNext()) {
+                        Map.Entry entry = (Map.Entry) it.next();
+                        onSfsDataReceiver tReceiver = (onSfsDataReceiver)entry.getValue();
+                        tReceiver.onDataCome(intent);
+                    }
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), res.err_msg + " code= " + res.err_code, Toast.LENGTH_LONG).show();
             }
 
         }

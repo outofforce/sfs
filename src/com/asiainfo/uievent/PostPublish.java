@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Time: 下午3:32
  * To change this template use File | Settings | File Templates.
  */
-public class QueryPublishData implements ISfsUiEvent {
+public class PostPublish implements ISfsUiEvent {
 
     @Override
     public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {

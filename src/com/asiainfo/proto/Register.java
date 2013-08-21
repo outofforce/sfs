@@ -12,11 +12,11 @@ import com.asiainfo.model.User;
  */
 public class Register extends SfsServerGet {
     public Register(User user) {
-        setUrlSufix("register.do?userName=" + user.user_name + "&passwd=" + user.passwd);
+        setUrlSufix("register.do?userName=" + user.user_name +
+                "&passwd=" + user.passwd+"&nickName="+user.nick_name+
+                "&headImg="+user.head_img);
     }
-    public Register(User user,Boolean flag) {
-        setUrlSufix("register.do?userName=" + user.user_name + "&passwd=" + user.passwd);
-    }
+
     @Override
     public void PraseResult(ServerResult result) {
         super.PraseResult(result);

@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import com.asiainfo.model.PublishData;
 import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
 import com.asiainfo.proto.Login;
 import com.asiainfo.proto.SfsServerGet;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,10 +29,11 @@ public class UserLogin implements ISfsUiEvent {
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
         Boolean chg_user = intent.getBooleanExtra("IsLoginChgUser",false);
-
+        int flag = chg_user?1:0;
         if ( user != null) {
+            if (chg_user)
             Log.e("MYDEBUG",user.user_name+ " login....");
-            Login req = new Login(user);
+            Login req = new Login(user,flag);
             SfsServerGet.ServerResult res =  req.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
@@ -46,8 +51,27 @@ public class UserLogin implements ISfsUiEvent {
                     mEditor.putInt("Status", User.NORMAL);
 
                 if (chg_user) {
+
                     mEditor.putString("UserName", user.user_name);
                     mEditor.putString("Passwd", user.passwd);
+
+                    JSONObject s = null;
+                    try {
+                        s = new JSONObject(res.result);
+                        mEditor.putString("NickName", s.getString("nick_name"));
+                        mEditor.putString("UserHeadImg",s.getString("head_img"));
+                        mEditor.putInt("RemoteID",s.getInt("user_id"));
+                        if (!s.getString("head_img").equals("")) {
+                            Intent dlintent = new Intent();
+                            dlintent.setClass(cx, com.asiainfo.testapp.sfsService.class);
+                            dlintent.setAction("GetHeadPic");
+                            dlintent.putExtra("HEADPIC_PATH",s.getString("head_img")) ;
+                            cx.startService(dlintent);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+
                 }
                 mEditor.commit();
             }
