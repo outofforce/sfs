@@ -14,14 +14,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-public class SfsTableHelper extends SQLiteOpenHelper
+public class MtlTableHelper extends SQLiteOpenHelper
 {
 
     private final static String DATABASE_NAME = "ServiceForStudent";
     private final static int DATABASE_VERSION = 2;
 
 
-    public SfsTableHelper(Context context)
+    public MtlTableHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

@@ -16,29 +16,21 @@ import android.widget.Toast;
  * To change this template use File | Settings | File Templates.
  */
 public class MtlApplication extends Application {
-    //private SfsTableHelper helper  = new SfsTableHelper(this);
-    //private SQLiteDatabase db ;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-//        helper  = new SfsTableHelper(this);
-//        db = helper.getWritableDatabase() ;
-//        db = helper.getWritableDatabase() ;
+
 
     }
 
-//    public SQLiteDatabase getDb() {
-//        return db;
-//    }
+
 
     @Override
     public void onTerminate() {
-//        if (db.isOpen()) {
-//            db.close();
-//        }
-//        helper.close();
+
         super.onTerminate();    //To change body of overridden methods use File | Settings | File Templates.
     }
 

@@ -12,7 +12,7 @@ import com.asiainfo.model.PublishData;
 import com.asiainfo.model.User;
 import com.asiainfo.proto.MtlServerGet;
 import com.asiainfo.proto.ProtoGetPubData;
-import com.asiainfo.tab.SfsTableHelper;
+import com.asiainfo.tab.MtlTableHelper;
 import com.asiainfo.tab.TPublishData;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +43,7 @@ public class QueryPublishData implements ISfsUiEvent {
 
 
             if (result.err_code == MtlErrorCode.Success) {
-                SfsTableHelper helper  = new SfsTableHelper(cx);
+                MtlTableHelper helper  = new MtlTableHelper(cx);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 TPublishData tp = new TPublishData(db);
                 try {

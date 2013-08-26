@@ -7,7 +7,7 @@ import com.asiainfo.model.MtlErrorCode;
 import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.PublishData;
 import com.asiainfo.model.User;
-import com.asiainfo.tab.SfsTableHelper;
+import com.asiainfo.tab.MtlTableHelper;
 import com.asiainfo.tab.TPublishData;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class GetLocalPublishData implements ISfsUiEvent {
         User user = intent.getParcelableExtra("User");
         ArrayList<PublishData> list ;
         if ( user != null) {
-            SfsTableHelper helper  = new SfsTableHelper(cx);
+            MtlTableHelper helper  = new MtlTableHelper(cx);
             SQLiteDatabase db = helper.getReadableDatabase();
             TPublishData tpd = new TPublishData(db);
             list = tpd.getLastPublishData(0,20);
