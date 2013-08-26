@@ -43,7 +43,7 @@ public class CoverActivity extends Activity {
             @Override
             public void run() {
                 Intent intent = new Intent();
-                intent.setClass(CoverActivity.this, sfsService.class);
+                intent.setClass(CoverActivity.this, MtlService.class);
                 intent.setAction("QueryStartInfo");
                 startService(intent);
             }
@@ -86,7 +86,7 @@ public class CoverActivity extends Activity {
                         } else if (user.status == User.NORMAL) {
                             // 跳转到主界面
                             Intent mainIntent = new Intent();
-                            mainIntent.setClass(getApplicationContext(),sfsFrame.class);
+                            mainIntent.setClass(getApplicationContext(),MtlFragmentActivity.class);
                             mainIntent.putExtra("User",user);
                             startActivity(mainIntent);
                             finish();

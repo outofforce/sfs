@@ -15,7 +15,7 @@ import com.asiainfo.model.SfsResult;
 
 import java.util.ArrayList;
 
-public  class PublishListFragment extends Fragment implements onSfsDataReceiver {
+public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver {
     int mNum;
     public static final String TAG="PublishListFragment";
     public static PublishListFragment newInstance(int num) {
@@ -30,8 +30,8 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
     }
 
 
-    private SfsListView mpubItemListView;
-    private pubItemAdapter mpubItemAdpater;
+    private MtlListView mpubItemListView;
+    private PublishItemAdapter mpubItemAdpater;
     private boolean mIsLoading = false;
 
     @Override
@@ -50,15 +50,15 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
                              Bundle savedInstanceState) {
         Log.e("MYDEBUG", "CreateView " + mNum);
         View v = inflater.inflate(R.layout.board_list, container, false);
-        mpubItemListView = (SfsListView) v.findViewById(R.id.pubboard);
-        mpubItemAdpater = new pubItemAdapter(inflater,getActivity());
+        mpubItemListView = (MtlListView) v.findViewById(R.id.pubboard);
+        mpubItemAdpater = new PublishItemAdapter(inflater,getActivity());
         IntentFilter filter = new IntentFilter();
         filter.addAction("QueryPublishData_RES");
         filter.addAction("GetLocalPublishData_RES");
         filter.addAction("GetThumbPic_RES");
-        ((sfsFrame)getActivity()).registerSfsDataReciever(PublishListFragment.class.getName(), this, filter);
+        ((MtlFragmentActivity)getActivity()).registerSfsDataReciever(PublishListFragment.class.getName(), this, filter);
         mpubItemListView.setAdapter(mpubItemAdpater);
-        mpubItemListView.setonRefreshListener(new SfsListView.OnRefreshListener() {
+        mpubItemListView.setonRefreshListener(new MtlListView.OnRefreshListener() {
             public void onRefresh() {
                 loadHistory();
             }
@@ -67,17 +67,17 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
 
 
         Intent intent = new Intent();
-        intent.setClass(getActivity(), sfsService.class);
+        intent.setClass(getActivity(), MtlService.class);
         intent.setAction("QueryPublishData");
 
-        intent.putExtra("User", ((sfsFrame) getActivity()).getUser());
+        intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);
 
 //        Intent intent = new Intent();
-//        intent.setClass(getActivity(), com.asiainfo.app.sfsService.class);
+//        intent.setClass(getActivity(), com.asiainfo.app.MtlService.class);
 //        intent.setAction("ClearNotify");
 
-        //intent.putExtra("User", ((sfsFrame) getActivity()).getUser());
+        //intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
 //        getActivity().startService(intent);
 
 //        text.setOnClickListener(new OnClickListener() {
@@ -94,7 +94,7 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
 
     @Override
     public void onDestroyView() {
-        ((sfsFrame)getActivity()).unregisterSfsDataReciever(PublishListFragment.class.getName());
+        ((MtlFragmentActivity)getActivity()).unregisterSfsDataReciever(PublishListFragment.class.getName());
         super.onDestroyView();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
@@ -114,8 +114,8 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
                 int pos = intent.getIntExtra("ListPos",-1);
                 String path = intent.getStringExtra("AttachmentPath");
                 if (path != null) {
-                    ((pubItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImgLoad = true ;
-                    ((pubItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImg = path ;
+                    ((PublishItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImgLoad = true ;
+                    ((PublishItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImg = path ;
                     mpubItemAdpater.notifyDataSetChanged();
                 }
             }  else if (intent.getAction().equals("QueryPublishData_RES")
@@ -125,7 +125,7 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
                 if (pblist != null) {
                     for (int i=0;i<pblist.size();i++) {
                         PublishData d =  pblist.get(i);
-                        pubItemAdapter.pubItem item = new pubItemAdapter.pubItem();
+                        PublishItemAdapter.pubItem item = new PublishItemAdapter.pubItem();
                         item.pubName = d.nick_name;
                         item.pubContext = d.pub_context;
                         item.pubImg = d.context_img;
@@ -146,10 +146,10 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
 
     private void loadHistory(){
         Intent intent = new Intent();
-        intent.setClass(getActivity(), sfsService.class);
+        intent.setClass(getActivity(), MtlService.class);
         intent.setAction("GetLocalPublishData");
 
-        intent.putExtra("User", ((sfsFrame) getActivity()).getUser());
+        intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);
         mIsLoading = true;
 

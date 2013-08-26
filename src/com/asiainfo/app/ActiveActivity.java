@@ -54,7 +54,7 @@ public class ActiveActivity extends Activity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent();
-            intent.setClass(ActiveActivity.this, sfsService.class);
+            intent.setClass(ActiveActivity.this, MtlService.class);
             intent.setAction("UserActive");
             intent.putExtra("ActiveCode", ((EditText) findViewById(R.id.ed_ActiveCode)).getText().toString());
             intent.putExtra("User",user);
@@ -80,7 +80,7 @@ public class ActiveActivity extends Activity {
                     if (res.err_code == SfsErrorCode.Success) {
                         // 跳转到主界面
                         Intent mainIntent = new Intent();
-                        mainIntent.setClass(getApplicationContext(),sfsFrame.class);
+                        mainIntent.setClass(getApplicationContext(),MtlFragmentActivity.class);
                         mainIntent.putExtra("User", user);
                         startActivity(mainIntent);
                         finish();

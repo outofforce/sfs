@@ -10,15 +10,16 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import com.asiainfo.model.ProtoMsg;
 import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.uievent.SfsUiEvent;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class sfsService extends Service {
+public class MtlService extends Service {
     private NotificationManager mNM;
-    static final String TAG = "sfsService";
+    static final String TAG = "MtlService";
 
     public Notification notification;
 
@@ -82,8 +83,8 @@ public class sfsService extends Service {
 
 
     public class LocalBinder extends Binder {
-        sfsService getService() {
-            return sfsService.this;
+        MtlService getService() {
+            return MtlService.this;
         }
     }
 

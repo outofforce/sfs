@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.asiainfo.app.sfsService;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 
-public class pubItemAdapter extends BaseAdapter {
+public class PublishItemAdapter extends BaseAdapter {
     
         public static class pubItem {
             public String pubTime = "";
@@ -43,7 +42,7 @@ public class pubItemAdapter extends BaseAdapter {
         private LayoutInflater mInflater;
         private Context mCx;
 
-        public pubItemAdapter(LayoutInflater inflater,Context cx) {
+        public PublishItemAdapter(LayoutInflater inflater, Context cx) {
             mInflater = inflater;
             mCx = cx;
 
@@ -108,7 +107,7 @@ public class pubItemAdapter extends BaseAdapter {
 
             if (!t.pubImg.equals("") && t.pubImgLoad==false) {
                 Intent intent = new Intent();
-                intent.setClass(mCx, sfsService.class);
+                intent.setClass(mCx, MtlService.class);
                 intent.putExtra("AttachmentType","image");
                 intent.putExtra("AttachmentPath",t.pubImg);
                 intent.putExtra("ListPos",position);

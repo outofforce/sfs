@@ -140,14 +140,14 @@ public class LoginActivity extends Activity {
             if (!IsLogin || chg_user) {
                 // 如果是注册需要把头像清除
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, sfsService.class);
+                intent.setClass(LoginActivity.this, MtlService.class);
                 intent.setAction("ClearUserData");
                 startService(intent);
             }
 
             if (boolean_ChgHeadImg) {
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, sfsService.class);
+                intent.setClass(LoginActivity.this, MtlService.class);
                 intent.setAction("PostLongTimeAttachement");
                 intent.putExtra("AttachmentType","jpeg");
                 intent.putExtra("AttachmentPath",user.head_img);
@@ -159,7 +159,7 @@ public class LoginActivity extends Activity {
 
             if (IsLogin) {
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, sfsService.class);
+                intent.setClass(LoginActivity.this, MtlService.class);
                 intent.setAction("UserLogin");
                 user.status = User.NORMAL;
                 intent.putExtra("User",user);
@@ -168,7 +168,7 @@ public class LoginActivity extends Activity {
             } else {
                 user.nick_name = ((EditText)findViewById(R.id.ed_nikename)).getText().toString();
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, sfsService.class);
+                intent.setClass(LoginActivity.this, MtlService.class);
                 intent.setAction("UserRegister");
                 user.status = User.NO_ACTIVE;
                 intent.putExtra("User",user);
@@ -201,7 +201,7 @@ public class LoginActivity extends Activity {
                     if (res.err_code == SfsErrorCode.Success) {
                         // 跳转到主界面
                         Intent mainIntent = new Intent();
-                        mainIntent.setClass(getApplicationContext(),sfsFrame.class);
+                        mainIntent.setClass(getApplicationContext(),MtlFragmentActivity.class);
                         User user = intent.getParcelableExtra("User");
                         mainIntent.putExtra("User",user);
                         startActivity(mainIntent);
@@ -263,8 +263,8 @@ public class LoginActivity extends Activity {
             Bitmap bmp=data.getParcelableExtra("data");
             Iv_headImg.setImageBitmap(bmp);
             try {
-                if (((sfsApplication)getApplication()).checkSdCard() == true) {
-                    File longDir = new File(((sfsApplication) getApplication()).getLongTimeDir());
+                if (((MtlApplication)getApplication()).checkSdCard() == true) {
+                    File longDir = new File(((MtlApplication) getApplication()).getLongTimeDir());
                     if (!longDir.exists()) {
                         longDir.mkdirs();
                     }

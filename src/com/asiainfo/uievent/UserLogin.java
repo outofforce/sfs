@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import com.asiainfo.app.sfsService;
+import com.asiainfo.app.MtlService;
 import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
@@ -69,7 +69,7 @@ public class UserLogin implements ISfsUiEvent {
                         if (!s.getString("head_img").equals("")) {
 
                             Intent dlintent = new Intent();
-                            dlintent.setClass(cx, sfsService.class);
+                            dlintent.setClass(cx, MtlService.class);
                             dlintent.setAction("GetHeadPic");
                             dlintent.putExtra("HEADPIC_PATH",s.getString("head_img")) ;
                             cx.startService(dlintent);

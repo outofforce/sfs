@@ -10,7 +10,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1" >
 
-        <com.asiainfo.app.SfsListView
+        <com.asiainfo.app.MtlListView
             android:id="@+id/pubboard"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

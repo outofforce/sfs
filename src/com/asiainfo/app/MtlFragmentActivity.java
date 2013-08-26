@@ -34,8 +34,8 @@ import java.util.Map;
  * Time: 下午10:04
  * To change this template use File | Settings | File Templates.
  */
-public class sfsFrame extends FragmentActivity {
-    public static final String TAG = "sfsFrame";
+public class MtlFragmentActivity extends FragmentActivity {
+    public static final String TAG = "MtlFragmentActivity";
     public DrawerLayout drawerLayout;// 侧边栏布局
     public ListView leftList;// 侧边栏内的选项
     public ArrayAdapter<String> arrayAdapter;
@@ -61,9 +61,9 @@ public class sfsFrame extends FragmentActivity {
         }
         //Intent  alarmIntent = new Intent();
         //long firstTime = SystemClock.elapsedRealtime();
-        //alarmIntent.setClass(sfsFrame.this, sfsService.class);
+        //alarmIntent.setClass(MtlFragmentActivity.this, MtlService.class);
         //alarmIntent.setAction("CheckNewMessage");
-        // mAlarmSender = PendingIntent.getService(sfsFrame.this,
+        // mAlarmSender = PendingIntent.getService(MtlFragmentActivity.this,
         //        0, alarmIntent, 0);
 
 
@@ -92,17 +92,17 @@ public class sfsFrame extends FragmentActivity {
     }
 
     public class sfsReceiver {
-        public onSfsDataReceiver mOnSfsDataRecieiver;
+        public IOnSfsDataReceiver mOnSfsDataRecieiver;
         public IntentFilter mIntentFilter;
-        public  sfsReceiver(onSfsDataReceiver r,IntentFilter f) {
+        public  sfsReceiver(IOnSfsDataReceiver r,IntentFilter f) {
             mOnSfsDataRecieiver = r;
             mIntentFilter = f;
         }
     }
 
     HashMap<String,sfsReceiver> mRecieverMap = new HashMap<String,sfsReceiver>();
-    //onSfsDataReceiver mSfsDataReciver;
-    public void registerSfsDataReciever (String key,onSfsDataReceiver receiver,IntentFilter filter) {
+
+    public void registerSfsDataReciever (String key,IOnSfsDataReceiver receiver,IntentFilter filter) {
         mRecieverMap.put(key,new sfsReceiver(receiver,filter));
     }
     public void  unregisterSfsDataReciever (String key)  {
@@ -135,7 +135,7 @@ public class sfsFrame extends FragmentActivity {
 
             if (position == M_EXIT) {
                 Intent intent = new Intent();
-                intent.setClass(sfsFrame.this, sfsService.class);
+                intent.setClass(MtlFragmentActivity.this, MtlService.class);
                 intent.setAction("UserLogout");
                 intent.putExtra("User",user);
                 startService(intent);
@@ -198,8 +198,8 @@ public class sfsFrame extends FragmentActivity {
             SfsResult res = intent.getParcelableExtra("UI_RESULT");
             if (res.err_code == SfsErrorCode.Success) {
                 if (action.equals("UserLogout_RES")) {
-                    stopService(new Intent(sfsFrame.this,
-                           sfsService.class));
+                    stopService(new Intent(MtlFragmentActivity.this,
+                           MtlService.class));
                     finish();
                 } else   {
                     Iterator it = mRecieverMap.entrySet().iterator();

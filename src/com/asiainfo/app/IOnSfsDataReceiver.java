@@ -9,6 +9,6 @@ import android.content.Intent;
  * Time: 下午7:29
  * To change this template use File | Settings | File Templates.
  */
-public interface onSfsDataReceiver {
+public interface IOnSfsDataReceiver {
     public abstract void onDataCome(Intent intent);
 }

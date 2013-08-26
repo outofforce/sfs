@@ -15,7 +15,7 @@ import android.widget.Toast;
  * Time: 下午4:19
  * To change this template use File | Settings | File Templates.
  */
-public class sfsApplication extends Application {
+public class MtlApplication extends Application {
     //private SfsTableHelper helper  = new SfsTableHelper(this);
     //private SQLiteDatabase db ;
 

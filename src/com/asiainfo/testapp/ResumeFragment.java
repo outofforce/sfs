@@ -25,7 +25,6 @@ public  class ResumeFragment extends Fragment {
 
 
 //    private ListView mpubItemListView;
-//    private pubItemAdapter mpubItemAdpater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -22,7 +22,7 @@ import com.asiainfo.model.User;
 import com.asiainfo.tools.DisplayUtil;
 import com.asiainfo.tools.SfsFileOps;
 
-public  class PostFragment extends Fragment implements onSfsDataReceiver {
+public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
     int mNum;
 
     public static PostFragment newInstance(int num) {
@@ -43,10 +43,10 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver {
     String send_img_path ="";
     String view_img_path ="";
     boolean hasImg = false;
-    sfsFrame father;
+    MtlFragmentActivity father;
 
 //    private ListView mpubItemListView;
-//    private pubItemAdapter mpubItemAdpater;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver {
         Ed_postContext = (EditText)v.findViewById(R.id.ed_postContext);
         Iv_postImg = (ImageView)v.findViewById(R.id.iv_postImg);
 
-        father = (sfsFrame)getActivity();
+        father = (MtlFragmentActivity)getActivity();
         IntentFilter filter = new IntentFilter();
         filter.addAction("PostPublish_RES");
         father.registerSfsDataReciever(PostFragment.class.getName(),this,filter);
@@ -110,7 +110,7 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver {
             if (Ed_postContext.getText().length()>0) {
                 //Bt_send.setEnabled(false);
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), sfsService.class);
+                intent.setClass(getActivity(), MtlService.class);
                 intent.setAction("PostPublish");
                 User user = father.getUser();
                 intent.putExtra("User",user);
@@ -122,7 +122,7 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver {
                 p.pub_context =Ed_postContext.getText().toString();
                 intent.putExtra("PostPushishData",p);
                 intent.putExtra("HasImg",hasImg);
-                intent.setClass(father, sfsService.class);
+                intent.setClass(father, MtlService.class);
                 father.startService(intent);
 
 

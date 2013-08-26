@@ -1,4 +1,4 @@
-package com.asiainfo.app;
+package com.asiainfo.model;
 
 /**
  * Created with IntelliJ IDEA.

@@ -27,7 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.asiainfo.R;
 
-public class SfsListView extends ListView implements OnScrollListener {
+public class MtlListView extends ListView implements OnScrollListener {
     private final static int RELEASE_To_REFRESH = 0;
     private final static int PULL_To_REFRESH = 1;
     private final static int REFRESHING = 2;
@@ -56,12 +56,12 @@ public class SfsListView extends ListView implements OnScrollListener {
 
     int i=1;
 
-    public SfsListView(Context context) {
+    public MtlListView(Context context) {
         super(context);
         init(context);
     }
 
-    public SfsListView(Context context, AttributeSet attrs) {
+    public MtlListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
