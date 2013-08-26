@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
-import com.asiainfo.model.User;
-import com.asiainfo.tools.NetTools;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +17,7 @@ import com.asiainfo.tools.NetTools;
 public class ClearUserData implements ISfsUiEvent {
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
         SharedPreferences mPerferences = PreferenceManager.getDefaultSharedPreferences(cx);
@@ -33,7 +30,7 @@ public class ClearUserData implements ISfsUiEvent {
         mEditor.putString("NickName","") ;
         mEditor.putInt("Status",-1) ;
         mEditor.commit();
-        result.err_code = SfsErrorCode.Success;
+        result.err_code = MtlErrorCode.Success;
 
         return t ;
     }

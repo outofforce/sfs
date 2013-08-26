@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
 import com.asiainfo.proto.Active;
-import com.asiainfo.proto.SfsServerGet;
+import com.asiainfo.proto.MtlServerGet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,24 +21,24 @@ public class UserActive implements ISfsUiEvent {
 
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
         String code = intent.getStringExtra("ActiveCode");
 
         if (code == null) {
-            result.err_code = SfsErrorCode.E_UI_ARG;
+            result.err_code = MtlErrorCode.E_UI_ARG;
             result.err_msg = "arg ActiveCode is NULL";
             return t;
         }
 
         if (user != null) {
             Active req = new Active(user,code);
-            SfsServerGet.ServerResult res =  req.handle();
+            MtlServerGet.ServerResult res =  req.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
             result.err_code = res.err_code;
-            if (res.err_code == SfsErrorCode.Success) {
+            if (res.err_code == MtlErrorCode.Success) {
                 SharedPreferences mPerferences = PreferenceManager
                         .getDefaultSharedPreferences(cx);
                 SharedPreferences.Editor mEditor = mPerferences.edit();
@@ -47,7 +47,7 @@ public class UserActive implements ISfsUiEvent {
             }
 
         } else {
-            result.err_code = SfsErrorCode.E_UI_ARG;
+            result.err_code = MtlErrorCode.E_UI_ARG;
             result.err_msg = "arg User is NULL";
 
         }

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
 
 /**
@@ -17,7 +17,7 @@ import com.asiainfo.model.User;
  */
 public class QueryStartInfo implements ISfsUiEvent {
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
         String  userName = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getString("UserName", "");
         String  passwd = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getString("Passwd", "");
         int  status = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getInt("Status",-1);
@@ -33,9 +33,9 @@ public class QueryStartInfo implements ISfsUiEvent {
             Log.e("MYDEBUG",userName +"|"+passwd+"|"+status+"|"+nikeName+"|"+headImg+"|"+remote_id);
             User user = new User(userName,passwd,status,nikeName,headImg,remote_id);
             t.putExtra("User",user);
-            result.err_code = SfsErrorCode.Success;
+            result.err_code = MtlErrorCode.Success;
         } else {
-            result.err_code = SfsErrorCode.E_DEV_NO_USER;
+            result.err_code = MtlErrorCode.E_DEV_NO_USER;
         }
 
         return t;

@@ -3,8 +3,8 @@ package com.asiainfo.uievent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.tools.NetTools;
 
 /**
@@ -19,7 +19,7 @@ import com.asiainfo.tools.NetTools;
 public class UpThumbPic implements ISfsUiEvent {
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
         //User user = intent.getParcelableExtra("User");
@@ -33,7 +33,7 @@ public class UpThumbPic implements ISfsUiEvent {
               String upload_path= NetTools.upload("", path);
 
               if (upload_path != null) {
-                 result.err_code = SfsErrorCode.Success;
+                 result.err_code = MtlErrorCode.Success;
                //  t.putExtra("ListPos",pos);
                  t.putExtra("AttachmentPath",upload_path);
                  return t;

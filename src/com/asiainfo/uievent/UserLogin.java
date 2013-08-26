@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.asiainfo.app.MtlService;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
 import com.asiainfo.proto.Login;
-import com.asiainfo.proto.SfsServerGet;
+import com.asiainfo.proto.MtlServerGet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +24,7 @@ import org.json.JSONObject;
 public class UserLogin implements ISfsUiEvent {
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
         Boolean chg_user = intent.getBooleanExtra("IsLoginChgUser",false);
@@ -32,7 +32,7 @@ public class UserLogin implements ISfsUiEvent {
         if ( user != null) {
             Log.e("MYDEBUG",user.user_name+ " login....");
             Login req = new Login(user,flag);
-            SfsServerGet.ServerResult res =  req.handle();
+            MtlServerGet.ServerResult res =  req.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
             result.err_code = res.err_code;
@@ -45,14 +45,14 @@ public class UserLogin implements ISfsUiEvent {
                 mEditor.commit();
             }
 
-            if (res.err_code == SfsErrorCode.Success ||
-                    res.err_code == SfsErrorCode.E_USER_INACITVE
+            if (res.err_code == MtlErrorCode.Success ||
+                    res.err_code == MtlErrorCode.E_USER_INACITVE
                     ) {
                 // 写入
                 SharedPreferences mPerferences = PreferenceManager
                         .getDefaultSharedPreferences(cx);
                 SharedPreferences.Editor mEditor = mPerferences.edit();
-                if (res.err_code == SfsErrorCode.E_USER_INACITVE)
+                if (res.err_code == MtlErrorCode.E_USER_INACITVE)
                     mEditor.putInt("Status", User.NO_ACTIVE);
                 else
                     mEditor.putInt("Status", User.NORMAL);
@@ -75,7 +75,7 @@ public class UserLogin implements ISfsUiEvent {
                             cx.startService(dlintent);
                         }
                     } catch (JSONException e) {
-                        result.err_code = SfsErrorCode.E_JSON_ERROR;
+                        result.err_code = MtlErrorCode.E_JSON_ERROR;
                         result.err_msg = e.getMessage();
                         e.printStackTrace();
                     }
@@ -87,7 +87,7 @@ public class UserLogin implements ISfsUiEvent {
             }
 
         } else {
-            result.err_code = SfsErrorCode.E_UI_ARG;
+            result.err_code = MtlErrorCode.E_UI_ARG;
             result.err_msg = "arg User is NULL";
 
         }

@@ -10,9 +10,9 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.ProtoMsg;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
 import com.asiainfo.uievent.SfsUiEvent;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -46,8 +46,8 @@ public class MtlService extends Service {
             else {
                 SfsUiEvent eventhandle = new SfsUiEvent();
                 Intent t = eventhandle.processUiEvent(action,intent,getApplication());
-                SfsResult res = t.getParcelableExtra("UI_RESULT");
-                if ((res != null) && (res.err_code == SfsErrorCode.Success))  {
+                MtlResult res = t.getParcelableExtra("UI_RESULT");
+                if ((res != null) && (res.err_code == MtlErrorCode.Success))  {
                     if (t.getBooleanExtra("NeedNotify",false)) {
                         showNotification(res.result,"sfs");
                     }

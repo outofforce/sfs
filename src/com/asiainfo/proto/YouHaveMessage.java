@@ -1,7 +1,6 @@
 package com.asiainfo.proto;
 
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.User;
+import com.asiainfo.model.MtlErrorCode;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +9,7 @@ import com.asiainfo.model.User;
  * Time: 下午12:36
  * To change this template use File | Settings | File Templates.
  */
-public class YouHaveMessage extends SfsServerGet {
+public class YouHaveMessage extends MtlServerGet {
     public YouHaveMessage(int max_pub_id) {
         setBody2("publishId", ""+max_pub_id);
         setUrlSufix("youHaveMessage.do");
@@ -21,10 +20,10 @@ public class YouHaveMessage extends SfsServerGet {
         super.PraseResult(result);
         if (result.result.substring(0,7).equalsIgnoreCase("success"))   {
 
-            result.err_code = SfsErrorCode.Success;
+            result.err_code = MtlErrorCode.Success;
             result.result = result.result.substring(7);
         } else {
-            result.err_code = SfsErrorCode.E_QUERY;
+            result.err_code = MtlErrorCode.E_QUERY;
         }
     }
 }

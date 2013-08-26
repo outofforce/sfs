@@ -7,8 +7,8 @@ import com.asiainfo.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.BroadcastReceiver;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
 
 import java.util.Timer;
@@ -58,9 +58,9 @@ public class CoverActivity extends Activity {
             Log.v(TAG, "===================" + action);
 
             if (action.equals("QueryStartInfo_RES")) {
-                SfsResult res =   intent.getParcelableExtra("UI_RESULT");
+                MtlResult res =   intent.getParcelableExtra("UI_RESULT");
                 if (res != null) {
-                    if (res.err_code == SfsErrorCode.E_DEV_NO_USER) {
+                    if (res.err_code == MtlErrorCode.E_DEV_NO_USER) {
                         // 跳转到登陆界面
                         Intent loginIntent = new Intent();
                         loginIntent.setClass(getApplicationContext(),LoginActivity.class);

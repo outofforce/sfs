@@ -6,12 +6,12 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.PublishData;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
+import com.asiainfo.proto.MtlServerGet;
 import com.asiainfo.proto.ProtoGetPubData;
-import com.asiainfo.proto.SfsServerGet;
 import com.asiainfo.tab.SfsTableHelper;
 import com.asiainfo.tab.TPublishData;
 import org.json.JSONArray;
@@ -30,19 +30,19 @@ import java.util.ArrayList;
 public class QueryPublishData implements ISfsUiEvent {
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
         ArrayList<PublishData> list = new ArrayList<PublishData>();
         if ( user != null) {
             ProtoGetPubData reg = new ProtoGetPubData(user,System.currentTimeMillis());
-            SfsServerGet.ServerResult res =  reg.handle();
+            MtlServerGet.ServerResult res =  reg.handle();
             result.err_msg = res.err_msg;
             result.err_code = res.err_code ;
 
 
-            if (result.err_code == SfsErrorCode.Success) {
+            if (result.err_code == MtlErrorCode.Success) {
                 SfsTableHelper helper  = new SfsTableHelper(cx);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 TPublishData tp = new TPublishData(db);
@@ -85,7 +85,7 @@ public class QueryPublishData implements ISfsUiEvent {
 
 
                 } catch (JSONException e) {
-                    result.err_code = SfsErrorCode.E_JSON_ERROR ;
+                    result.err_code = MtlErrorCode.E_JSON_ERROR ;
                     result.err_msg = "协议解析错误 "+e.getMessage();
                     e.printStackTrace();
                 }
@@ -94,7 +94,7 @@ public class QueryPublishData implements ISfsUiEvent {
 
             }
         } else {
-            result.err_code = SfsErrorCode.E_UI_ARG;
+            result.err_code = MtlErrorCode.E_UI_ARG;
             result.err_msg = "arg User is NULL";
 
         }

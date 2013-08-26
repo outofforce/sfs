@@ -18,8 +18,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import com.asiainfo.lib.DrawerFragment;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
 
 import java.util.HashMap;
@@ -195,8 +195,8 @@ public class MtlFragmentActivity extends FragmentActivity {
         public void onReceive(Context context, Intent intent) {
 
             String action = intent.getAction();
-            SfsResult res = intent.getParcelableExtra("UI_RESULT");
-            if (res.err_code == SfsErrorCode.Success) {
+            MtlResult res = intent.getParcelableExtra("UI_RESULT");
+            if (res.err_code == MtlErrorCode.Success) {
                 if (action.equals("UserLogout_RES")) {
                     stopService(new Intent(MtlFragmentActivity.this,
                            MtlService.class));

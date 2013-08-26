@@ -1,6 +1,6 @@
 package com.asiainfo.proto;
 
-import com.asiainfo.model.SfsErrorCode;
+import com.asiainfo.model.MtlErrorCode;
 import com.asiainfo.model.User;
 
 /**
@@ -10,12 +10,12 @@ import com.asiainfo.model.User;
  * Time: 下午12:36
  * To change this template use File | Settings | File Templates.
  */
-public class Register extends SfsServerGet {
+public class Register extends MtlServerGet {
     public Register(User user) {
-        setBody2("userName",user.user_name);
-        setBody2("passwd",user.passwd);
-        setBody2("nickName",user.nick_name);
-        setBody2("headImg",user.head_img);
+        setBody2("userName", user.user_name);
+        setBody2("passwd", user.passwd);
+        setBody2("nickName", user.nick_name);
+        setBody2("headImg", user.head_img);
         setUrlSufix("register.do");
     }
 
@@ -25,10 +25,10 @@ public class Register extends SfsServerGet {
 
 
         if (result.result.length()>=7 && result.result.substring(0,7).equalsIgnoreCase("success"))   {
-            result.err_code = SfsErrorCode.Success;
+            result.err_code = MtlErrorCode.Success;
             result.result = result.result.substring(7);
         } else {
-            result.err_code = SfsErrorCode.E_REGISTER;
+            result.err_code = MtlErrorCode.E_REGISTER;
             result.err_msg = "注册失败";
         }
     }

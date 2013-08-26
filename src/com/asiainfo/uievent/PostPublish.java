@@ -2,24 +2,13 @@ package com.asiainfo.uievent;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.PublishData;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
+import com.asiainfo.proto.MtlServerGet;
 import com.asiainfo.proto.PostPublishData;
-import com.asiainfo.proto.ProtoGetPubData;
-import com.asiainfo.proto.SfsServerGet;
-import com.asiainfo.tab.SfsTableHelper;
-import com.asiainfo.tab.TPublishData;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,7 +20,7 @@ import java.util.ArrayList;
 public class PostPublish implements ISfsUiEvent {
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
@@ -46,7 +35,7 @@ public class PostPublish implements ISfsUiEvent {
                 Intent imgIntent = new Intent();
 
                 imgIntent.putExtra("AttachmentPath",pub.thumb_img);
-                SfsResult imgres = new SfsResult();
+                MtlResult imgres = new MtlResult();
                 Intent tmpIntent = sender.doUiEvent(imgIntent,cx,imgres);
 
                 String path= tmpIntent.getStringExtra("AttachmentPath");
@@ -71,12 +60,12 @@ public class PostPublish implements ISfsUiEvent {
 
             PostPublishData reg = new PostPublishData(user,pub);
 
-            SfsServerGet.ServerResult res =  reg.handle();
+            MtlServerGet.ServerResult res =  reg.handle();
             result.err_msg = res.err_msg;
             result.err_code = res.err_code ;
             result.result = res.result ;
         } else {
-            result.err_code = SfsErrorCode.E_UI_ARG;
+            result.err_code = MtlErrorCode.E_UI_ARG;
             result.err_msg = "arg User is NULL";
 
         }

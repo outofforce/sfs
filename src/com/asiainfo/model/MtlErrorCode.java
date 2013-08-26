@@ -7,7 +7,7 @@ package com.asiainfo.model;
  * Time: 下午1:11
  * To change this template use File | Settings | File Templates.
  */
-public class SfsErrorCode {
+public class MtlErrorCode {
     public static final int Success =0;
     public static final int E_Url =1000;
     public static final int E_IO = 1001;

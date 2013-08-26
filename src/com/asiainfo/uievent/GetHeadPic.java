@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.tools.NetTools;
 
 /**
@@ -21,7 +21,7 @@ import com.asiainfo.tools.NetTools;
 public class GetHeadPic implements ISfsUiEvent {
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
         String type = intent.getStringExtra("AttachmentType");
@@ -37,7 +37,7 @@ public class GetHeadPic implements ISfsUiEvent {
                 mEditor.putBoolean("IsHeadImgLoad", true);
                 mEditor.putString("LoaclUserHeadImgPath",download_path) ;
                 mEditor.commit();
-                result.err_code = SfsErrorCode.Success;
+                result.err_code = MtlErrorCode.Success;
 
                 return t;
             }

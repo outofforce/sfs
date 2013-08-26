@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
+import com.asiainfo.proto.MtlServerGet;
 import com.asiainfo.proto.Register;
-import com.asiainfo.proto.SfsServerGet;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,7 +20,7 @@ import org.json.JSONObject;
 public class UserRegister implements ISfsUiEvent {
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
@@ -31,11 +29,11 @@ public class UserRegister implements ISfsUiEvent {
 
         if ( user != null) {
             Register reg = new Register(user);
-            SfsServerGet.ServerResult res =  reg.handle();
+            MtlServerGet.ServerResult res =  reg.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
             result.err_code = res.err_code;
-            if (res.err_code == SfsErrorCode.Success) {
+            if (res.err_code == MtlErrorCode.Success) {
                 // 写入
                 SharedPreferences mPerferences = PreferenceManager
                         .getDefaultSharedPreferences(cx);
@@ -53,7 +51,7 @@ public class UserRegister implements ISfsUiEvent {
 
 
         } else {
-            result.err_code = SfsErrorCode.E_UI_ARG;
+            result.err_code = MtlErrorCode.E_UI_ARG;
             result.err_msg = "arg User is NULL";
 
         }

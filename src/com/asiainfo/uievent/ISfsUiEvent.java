@@ -2,7 +2,7 @@ package com.asiainfo.uievent;
 
 import android.content.Context;
 import android.content.Intent;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlResult;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,5 +12,5 @@ import com.asiainfo.model.SfsResult;
  * To change this template use File | Settings | File Templates.
  */
 public interface ISfsUiEvent {
-    Intent doUiEvent(Intent intent, Context cx, SfsResult result);
+    Intent doUiEvent(Intent intent, Context cx, MtlResult result);
 }

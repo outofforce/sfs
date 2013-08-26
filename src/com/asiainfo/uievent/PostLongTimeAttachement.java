@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
-import com.asiainfo.proto.Register;
-import com.asiainfo.proto.SfsServerGet;
 import com.asiainfo.tools.NetTools;
 
 /**
@@ -24,7 +22,7 @@ import com.asiainfo.tools.NetTools;
 public class PostLongTimeAttachement implements ISfsUiEvent {
 
     @Override
-    public Intent doUiEvent(Intent intent, Context cx, SfsResult result) {
+    public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
@@ -48,7 +46,7 @@ public class PostLongTimeAttachement implements ISfsUiEvent {
                      mEditor.putBoolean("IsHeadImgLoad", true);
                      mEditor.putString("LoaclUserHeadImgPath",download_path) ;
                      mEditor.commit();
-                     result.err_code = SfsErrorCode.Success;
+                     result.err_code = MtlErrorCode.Success;
 
                      return t;
                  }
@@ -57,12 +55,12 @@ public class PostLongTimeAttachement implements ISfsUiEvent {
              SharedPreferences.Editor mEditor = mPerferences.edit();
              mEditor.putString("UserHeadImg", "NULL");
              mEditor.commit();
-             result.err_code = SfsErrorCode.E_IO;
+             result.err_code = MtlErrorCode.E_IO;
              result.err_msg = "图片上传下载异常！";
 
 
         } else {
-            result.err_code = SfsErrorCode.E_UI_ARG;
+            result.err_code = MtlErrorCode.E_UI_ARG;
             result.err_msg = "arg User is NULL";
 
         }

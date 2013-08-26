@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.asiainfo.R;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
 
 /**
@@ -75,9 +75,9 @@ public class ActiveActivity extends Activity {
             Log.v(TAG, "===================" + action);
 
             if (action.equals("UserActive_RES")) {
-                SfsResult res =   intent.getParcelableExtra("UI_RESULT");
+                MtlResult res =   intent.getParcelableExtra("UI_RESULT");
                 if (res != null) {
-                    if (res.err_code == SfsErrorCode.Success) {
+                    if (res.err_code == MtlErrorCode.Success) {
                         // 跳转到主界面
                         Intent mainIntent = new Intent();
                         mainIntent.setClass(getApplicationContext(),MtlFragmentActivity.class);

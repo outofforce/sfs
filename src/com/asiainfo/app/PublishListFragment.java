@@ -9,9 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.PublishData;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
 
 import java.util.ArrayList;
 
@@ -108,8 +108,8 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
 
     @Override
     public void onDataCome(Intent intent) {
-        SfsResult res = intent.getParcelableExtra("UI_RESULT");
-        if (res.err_code == SfsErrorCode.Success) {
+        MtlResult res = intent.getParcelableExtra("UI_RESULT");
+        if (res.err_code == MtlErrorCode.Success) {
             if (intent.getAction().equals("GetThumbPic_RES")) {
                 int pos = intent.getIntExtra("ListPos",-1);
                 String path = intent.getStringExtra("AttachmentPath");

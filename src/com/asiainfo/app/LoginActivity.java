@@ -12,8 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.asiainfo.R;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
 
 import java.io.File;
@@ -196,9 +196,9 @@ public class LoginActivity extends Activity {
             Log.v(TAG, "===================" + action);
 
             if (action.equals("UserLogin_RES")) {
-                SfsResult res =   intent.getParcelableExtra("UI_RESULT");
+                MtlResult res =   intent.getParcelableExtra("UI_RESULT");
                 if (res != null) {
-                    if (res.err_code == SfsErrorCode.Success) {
+                    if (res.err_code == MtlErrorCode.Success) {
                         // 跳转到主界面
                         Intent mainIntent = new Intent();
                         mainIntent.setClass(getApplicationContext(),MtlFragmentActivity.class);
@@ -206,7 +206,7 @@ public class LoginActivity extends Activity {
                         mainIntent.putExtra("User",user);
                         startActivity(mainIntent);
                         finish();
-                    } else if (res.err_code == SfsErrorCode.E_USER_INACITVE) {
+                    } else if (res.err_code == MtlErrorCode.E_USER_INACITVE) {
                         Intent activeIntent = new Intent();
                         activeIntent.setClass(getApplicationContext(),ActiveActivity.class);
                         User user = intent.getParcelableExtra("User");
@@ -219,9 +219,9 @@ public class LoginActivity extends Activity {
                     }
                 }
             } else if (action.equals("UserRegister_RES")) {
-                SfsResult res =   intent.getParcelableExtra("UI_RESULT");
+                MtlResult res =   intent.getParcelableExtra("UI_RESULT");
                 if (res != null) {
-                    if (res.err_code == SfsErrorCode.Success) {
+                    if (res.err_code == MtlErrorCode.Success) {
                         // 跳转到主界面
                         Intent activeIntent = new Intent();
                         activeIntent.setClass(getApplicationContext(),ActiveActivity.class);

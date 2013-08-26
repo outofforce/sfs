@@ -3,23 +3,23 @@ package com.asiainfo.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SfsResult implements Parcelable {
+public class MtlResult implements Parcelable {
 
     public String err_msg ="";
     public String result = "";
-    public int err_code = SfsErrorCode.Success;
+    public int err_code = MtlErrorCode.Success;
 
 
-    public SfsResult() {
+    public MtlResult() {
 
     }
-    public SfsResult(String aerr_msg, String aresult, int aerr_code) {
+    public MtlResult(String aerr_msg, String aresult, int aerr_code) {
         err_msg = aerr_msg;
         result = aresult;
         err_code =  aerr_code;
     }
 
-    public SfsResult(Parcel source) {
+    public MtlResult(Parcel source) {
         err_msg = source.readString();
         result = source.readString();
         err_code = source.readInt();
@@ -38,17 +38,17 @@ public class SfsResult implements Parcelable {
         dest.writeInt(err_code);
     }
 
-    public static final Creator<SfsResult> CREATOR = new Creator<SfsResult>() {
+    public static final Creator<MtlResult> CREATOR = new Creator<MtlResult>() {
 
         @Override
-        public SfsResult[] newArray(int size) {
-            return new SfsResult[size];
+        public MtlResult[] newArray(int size) {
+            return new MtlResult[size];
         }
 
 
         @Override
-        public SfsResult createFromParcel(Parcel source) {
-            return new SfsResult(source);
+        public MtlResult createFromParcel(Parcel source) {
+            return new MtlResult(source);
         }
     };
 }

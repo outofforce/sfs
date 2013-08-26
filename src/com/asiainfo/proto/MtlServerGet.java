@@ -3,14 +3,12 @@ package com.asiainfo.proto;
 
 import android.util.Base64;
 import android.util.Log;
-import com.asiainfo.model.SfsErrorCode;
+import com.asiainfo.model.MtlErrorCode;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
@@ -23,13 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SfsServerGet {
+public class MtlServerGet {
     private String urlPre ;
     private String urlSufix;
     private String body;
     private HttpClient client;
     List<NameValuePair> paramList = new ArrayList<NameValuePair>();
-    public SfsServerGet()  {
+    public MtlServerGet()  {
         urlPre = "http://192.168.1.107:8080/";
         client=new DefaultHttpClient();
         client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000);
@@ -48,13 +46,13 @@ public class SfsServerGet {
     }
 
     public class ServerResult {
-        public int err_code = SfsErrorCode.Success;
+        public int err_code = MtlErrorCode.Success;
         public String err_msg;
         public String result;
     }
 
     public void PraseResult(ServerResult result) {
-        result.err_code=SfsErrorCode.Success;
+        result.err_code= MtlErrorCode.Success;
     }
 
     public ServerResult handle() {
@@ -79,19 +77,19 @@ public class SfsServerGet {
         } catch (MalformedURLException e) {
             Log.e("MYDEBUG","==== : "+e.getMessage());
             result.err_msg =  e.getMessage();
-            result.err_code = SfsErrorCode.E_Url;
+            result.err_code = MtlErrorCode.E_Url;
 
             e.printStackTrace();
 
         } catch (IOException e) {
             Log.e("MYDEBUG","==== : "+e.getMessage());
             result.err_msg =  e.getMessage();
-            result.err_code = SfsErrorCode.E_IO;
+            result.err_code = MtlErrorCode.E_IO;
             e.printStackTrace();
         } catch(Exception e) {
             Log.e("MYDEBUG","==== : "+e.getMessage());
             result.err_msg =  e.getMessage();
-            result.err_code = SfsErrorCode.E_UNDEFINE;
+            result.err_code = MtlErrorCode.E_UNDEFINE;
             e.printStackTrace();
         }
 

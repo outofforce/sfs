@@ -15,9 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.asiainfo.R;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.PublishData;
-import com.asiainfo.model.SfsErrorCode;
-import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
 import com.asiainfo.tools.DisplayUtil;
 import com.asiainfo.tools.SfsFileOps;
@@ -143,8 +143,8 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
 
     @Override
     public void onDataCome(Intent intent) {
-        SfsResult res = intent.getParcelableExtra("UI_RESULT");
-        if (res.err_code == SfsErrorCode.Success) {
+        MtlResult res = intent.getParcelableExtra("UI_RESULT");
+        if (res.err_code == MtlErrorCode.Success) {
             if (intent.getAction().equals("PostPublish_RES")) {
                 Toast.makeText(getActivity(),"send sucess !",Toast.LENGTH_SHORT).show();
                 Ed_postContext.setText("");

@@ -1,11 +1,7 @@
 package com.asiainfo.proto;
 
-import com.asiainfo.model.SfsErrorCode;
+import com.asiainfo.model.MtlErrorCode;
 import com.asiainfo.model.User;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +10,7 @@ import java.util.ArrayList;
  * Time: 下午12:36
  * To change this template use File | Settings | File Templates.
  */
-public class Login extends SfsServerGet {
+public class Login extends MtlServerGet {
 
     public Login(User user,int flag) {
         setUrlSufix("login.do");
@@ -28,12 +24,12 @@ public class Login extends SfsServerGet {
     public void PraseResult(ServerResult result) {
         super.PraseResult(result);
         if (result.result.length()>=7 && result.result.substring(0,7).equalsIgnoreCase("success"))   {
-            result.err_code = SfsErrorCode.Success;
+            result.err_code = MtlErrorCode.Success;
             result.result = result.result.substring(7);
         } else if (result.result.length()>=8 && result.result.equalsIgnoreCase("inactive")) {
-            result.err_code = SfsErrorCode.E_USER_INACITVE;
+            result.err_code = MtlErrorCode.E_USER_INACITVE;
         } else {
-            result.err_code = SfsErrorCode.E_LOGIN;
+            result.err_code = MtlErrorCode.E_LOGIN;
             result.err_msg = result.result;
         }
     }
