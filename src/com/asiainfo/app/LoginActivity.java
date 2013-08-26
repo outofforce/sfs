@@ -1,4 +1,4 @@
-package com.asiainfo.testapp;
+package com.asiainfo.app;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -140,14 +140,14 @@ public class LoginActivity extends Activity {
             if (!IsLogin || chg_user) {
                 // 如果是注册需要把头像清除
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, com.asiainfo.testapp.sfsService.class);
+                intent.setClass(LoginActivity.this, sfsService.class);
                 intent.setAction("ClearUserData");
                 startService(intent);
             }
 
             if (boolean_ChgHeadImg) {
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, com.asiainfo.testapp.sfsService.class);
+                intent.setClass(LoginActivity.this, sfsService.class);
                 intent.setAction("PostLongTimeAttachement");
                 intent.putExtra("AttachmentType","jpeg");
                 intent.putExtra("AttachmentPath",user.head_img);
@@ -159,7 +159,7 @@ public class LoginActivity extends Activity {
 
             if (IsLogin) {
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, com.asiainfo.testapp.sfsService.class);
+                intent.setClass(LoginActivity.this, sfsService.class);
                 intent.setAction("UserLogin");
                 user.status = User.NORMAL;
                 intent.putExtra("User",user);
@@ -168,7 +168,7 @@ public class LoginActivity extends Activity {
             } else {
                 user.nick_name = ((EditText)findViewById(R.id.ed_nikename)).getText().toString();
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, com.asiainfo.testapp.sfsService.class);
+                intent.setClass(LoginActivity.this, sfsService.class);
                 intent.setAction("UserRegister");
                 user.status = User.NO_ACTIVE;
                 intent.putExtra("User",user);

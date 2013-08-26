@@ -1,4 +1,4 @@
-package com.asiainfo.testapp;
+package com.asiainfo.app;
 
 /**
  * Created with IntelliJ IDEA.

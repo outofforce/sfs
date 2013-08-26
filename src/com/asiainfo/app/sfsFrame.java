@@ -1,13 +1,11 @@
-package com.asiainfo.testapp;
+package com.asiainfo.app;
 
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.SystemClock;
 import android.widget.*;
 import com.asiainfo.R;
 import android.os.Bundle;
@@ -137,7 +135,7 @@ public class sfsFrame extends FragmentActivity {
 
             if (position == M_EXIT) {
                 Intent intent = new Intent();
-                intent.setClass(sfsFrame.this, com.asiainfo.testapp.sfsService.class);
+                intent.setClass(sfsFrame.this, sfsService.class);
                 intent.setAction("UserLogout");
                 intent.putExtra("User",user);
                 startService(intent);
@@ -201,7 +199,7 @@ public class sfsFrame extends FragmentActivity {
             if (res.err_code == SfsErrorCode.Success) {
                 if (action.equals("UserLogout_RES")) {
                     stopService(new Intent(sfsFrame.this,
-                           com.asiainfo.testapp.sfsService.class));
+                           sfsService.class));
                     finish();
                 } else   {
                     Iterator it = mRecieverMap.entrySet().iterator();

@@ -1,4 +1,4 @@
-package com.asiainfo.testapp;
+package com.asiainfo.app;
 
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -22,11 +22,7 @@ import com.asiainfo.model.User;
 import com.asiainfo.tools.DisplayUtil;
 import com.asiainfo.tools.SfsFileOps;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
-public  class PostFragment extends Fragment implements onSfsDataReceiver  {
+public  class PostFragment extends Fragment implements onSfsDataReceiver {
     int mNum;
 
     public static PostFragment newInstance(int num) {
@@ -114,7 +110,7 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver  {
             if (Ed_postContext.getText().length()>0) {
                 //Bt_send.setEnabled(false);
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), com.asiainfo.testapp.sfsService.class);
+                intent.setClass(getActivity(), sfsService.class);
                 intent.setAction("PostPublish");
                 User user = father.getUser();
                 intent.putExtra("User",user);
@@ -126,7 +122,7 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver  {
                 p.pub_context =Ed_postContext.getText().toString();
                 intent.putExtra("PostPushishData",p);
                 intent.putExtra("HasImg",hasImg);
-                intent.setClass(father, com.asiainfo.testapp.sfsService.class);
+                intent.setClass(father, sfsService.class);
                 father.startService(intent);
 
 

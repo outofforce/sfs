@@ -1,9 +1,8 @@
-package com.asiainfo.testapp;
+package com.asiainfo.app;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
-import android.widget.Toast;
 import com.asiainfo.R;
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,10 +22,10 @@ import java.util.TimerTask;
  * Time: 下午2:53
  * To change this template use File | Settings | File Templates.
  */
-public class Cover extends Activity {
+public class CoverActivity extends Activity {
 
     private DataReceiver dataReceiver;
-    static final String TAG = "Cover";
+    static final String TAG = "CoverActivity";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +43,7 @@ public class Cover extends Activity {
             @Override
             public void run() {
                 Intent intent = new Intent();
-                intent.setClass(Cover.this, com.asiainfo.testapp.sfsService.class);
+                intent.setClass(CoverActivity.this, sfsService.class);
                 intent.setAction("QueryStartInfo");
                 startService(intent);
             }
@@ -102,8 +101,6 @@ public class Cover extends Activity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(dataReceiver);
-        //stopService(new Intent(Cover.this,
-        //       com.asiainfo.testapp.sfsService.class));
         super.onDestroy();
     }
 }

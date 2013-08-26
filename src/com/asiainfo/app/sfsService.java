@@ -1,4 +1,4 @@
-package com.asiainfo.testapp;
+package com.asiainfo.app;
 
 
 import com.asiainfo.R;
@@ -153,7 +153,7 @@ public class sfsService extends Service {
     private void showNotification(String msg,String head) {
 
         Intent t = new Intent();
-        t.setClass(this, Cover.class);
+        t.setClass(this, CoverActivity.class);
         t.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,t, 0);
         notification.tickerText = msg;

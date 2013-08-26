@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import com.asiainfo.R;
-import com.asiainfo.testapp.PostFragment;
-import com.asiainfo.testapp.PublishListFragment;
+import com.asiainfo.app.PostFragment;
+import com.asiainfo.app.PublishListFragment;
 import com.asiainfo.testapp.ResumeFragment;
 
 /**

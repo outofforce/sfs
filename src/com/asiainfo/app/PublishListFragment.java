@@ -1,6 +1,4 @@
-package com.asiainfo.testapp;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+package com.asiainfo.app;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
@@ -11,11 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import com.asiainfo.model.PublishData;
 import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
-import com.asiainfo.model.User;
 
 import java.util.ArrayList;
 
@@ -60,7 +56,7 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
         filter.addAction("QueryPublishData_RES");
         filter.addAction("GetLocalPublishData_RES");
         filter.addAction("GetThumbPic_RES");
-        ((sfsFrame)getActivity()).registerSfsDataReciever(PublishListFragment.class.getName(),this,filter);
+        ((sfsFrame)getActivity()).registerSfsDataReciever(PublishListFragment.class.getName(), this, filter);
         mpubItemListView.setAdapter(mpubItemAdpater);
         mpubItemListView.setonRefreshListener(new SfsListView.OnRefreshListener() {
             public void onRefresh() {
@@ -71,14 +67,14 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
 
 
         Intent intent = new Intent();
-        intent.setClass(getActivity(), com.asiainfo.testapp.sfsService.class);
+        intent.setClass(getActivity(), sfsService.class);
         intent.setAction("QueryPublishData");
 
         intent.putExtra("User", ((sfsFrame) getActivity()).getUser());
         getActivity().startService(intent);
 
 //        Intent intent = new Intent();
-//        intent.setClass(getActivity(), com.asiainfo.testapp.sfsService.class);
+//        intent.setClass(getActivity(), com.asiainfo.app.sfsService.class);
 //        intent.setAction("ClearNotify");
 
         //intent.putExtra("User", ((sfsFrame) getActivity()).getUser());
@@ -150,7 +146,7 @@ public  class PublishListFragment extends Fragment implements onSfsDataReceiver 
 
     private void loadHistory(){
         Intent intent = new Intent();
-        intent.setClass(getActivity(), com.asiainfo.testapp.sfsService.class);
+        intent.setClass(getActivity(), sfsService.class);
         intent.setAction("GetLocalPublishData");
 
         intent.putExtra("User", ((sfsFrame) getActivity()).getUser());

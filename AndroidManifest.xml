@@ -12,10 +12,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.DeviceDefault.Light"
-        android:name=".testapp.sfsApplication">
+        android:theme="@android:style/Theme.Light.NoTitleBar"
+        android:name=".app.sfsApplication">
         <activity
-            android:name="com.asiainfo.testapp.MainActivity"
+            android:name=".app.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +36,7 @@
         </activity>
 
         <activity
-                android:name="com.asiainfo.testapp.sfsFrame"
+                android:name=".app.sfsFrame"
                 android:label="@string/app_name"
                 android:screenOrientation="portrait"
                 android:theme="@style/StyledIndicators"
@@ -52,7 +52,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".testapp.LoginActivity"
+        <activity android:name=".app.LoginActivity"
                   android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -60,7 +60,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".testapp.ActiveActivity"
+        <activity android:name=".app.ActiveActivity"
                   android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".testapp.Cover"
+        <activity android:name=".app.CoverActivity"
                   android:screenOrientation="portrait"
                 >
             <intent-filter>
@@ -76,9 +76,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".testapp.LoginActivity"
+        <activity android:name=".app.LoginActivity"
                   android:screenOrientation="portrait" />
-        <service android:name="com.asiainfo.testapp.sfsService" android:process=":remote" >
+        <service android:name=".app.sfsService" android:process=":remote" >
         </service>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

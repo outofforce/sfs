@@ -1,10 +1,9 @@
-package com.asiainfo.testapp;
+package com.asiainfo.app;
 
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import com.asiainfo.R;
 import android.content.Context;
@@ -14,10 +13,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.asiainfo.model.User;
+import com.asiainfo.app.sfsService;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -110,7 +108,7 @@ public class pubItemAdapter extends BaseAdapter {
 
             if (!t.pubImg.equals("") && t.pubImgLoad==false) {
                 Intent intent = new Intent();
-                intent.setClass(mCx, com.asiainfo.testapp.sfsService.class);
+                intent.setClass(mCx, sfsService.class);
                 intent.putExtra("AttachmentType","image");
                 intent.putExtra("AttachmentPath",t.pubImg);
                 intent.putExtra("ListPos",position);

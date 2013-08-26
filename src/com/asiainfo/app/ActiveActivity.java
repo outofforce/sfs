@@ -1,4 +1,4 @@
-package com.asiainfo.testapp;
+package com.asiainfo.app;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
