@@ -9,6 +9,8 @@ import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
 import com.asiainfo.proto.Register;
 import com.asiainfo.proto.SfsServerGet;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,8 +44,13 @@ public class UserRegister implements ISfsUiEvent {
                 mEditor.putString("Passwd", user.passwd);
                 mEditor.putString("NickName", user.nick_name);
                 mEditor.putInt("Status", User.NO_ACTIVE);
+                user.remote_id =  Integer.valueOf(result.result);
+                mEditor.putInt("RemoteID",user.remote_id);// result  为远端的id
                 mEditor.commit();
+                t.putExtra("User",user);
             }
+
+
 
         } else {
             result.err_code = SfsErrorCode.E_UI_ARG;

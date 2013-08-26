@@ -52,7 +52,7 @@ public class QueryPublishData implements ISfsUiEvent {
                     JSONArray array = new JSONArray(res.result);
                     int max_id = 0;
                     for (int i=0;i<array.length();i++) {
-                        JSONObject s = (JSONObject)array.get(array.length()-i-1);
+                        JSONObject s = (JSONObject)array.get(i);
 
                         Log.e("MYDEBUG",""+s.toString());
                         PublishData d = new PublishData();
@@ -60,25 +60,17 @@ public class QueryPublishData implements ISfsUiEvent {
                         if (d.id >max_id)
                             max_id = d.id;
                         d.user_id = s.getInt("userId");
-                        d.nick_name = s.getString("userName");
-                        d.pub_context = s.getString("context");
+                        d.nick_name = s.getString("nickName");
+                        d.pub_context = s.getString("postContext");
                         d.gis_info = s.getString("gisInfo");
-                        d.context_img = s.getString("contextImg");
-
-                        /*
-                        if (d.context_img != null)  {
-                            String path = NetTools.download("",d.context_img);
-                            Log.e("MYDEBUG","IMGPATH="+path);
-                            if (path != null)
-                                d.context_img = path;
-                        }
-                        */
+                        d.context_img = s.getString("postImg");
                         d.create_time = System.currentTimeMillis();
                         d.chg_time = System.currentTimeMillis();
                         d.status = s.getInt("status");
                         d.context_img_loaded = PublishData.INIT;
+                        d.thumb_img = s.getString("postImg");
                         list.add(d);
-                        tp.newPublicData(d);
+                        //tp.newPublicData(d);
 
 
                     }

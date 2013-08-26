@@ -2,6 +2,10 @@ package com.asiainfo.proto;
 
 import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.User;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,11 +15,14 @@ import com.asiainfo.model.User;
  * To change this template use File | Settings | File Templates.
  */
 public class Login extends SfsServerGet {
-    public Login(User user) {
-        setUrlSufix("login.do?userName=" + user.user_name + "&passwd=" + user.passwd);
-    }
+
     public Login(User user,int flag) {
-        setUrlSufix("login.do?userName=" + user.user_name + "&passwd=" + user.passwd+"&flag="+flag);
+        setUrlSufix("login.do");
+        //setBody("userName=" + user.user_name + "&passwd=" + user.passwd + "&flag=" + flag);
+        setBody2("userName",user.user_name);
+        setBody2("passwd",user.passwd);
+        setBody2("flag",""+flag);
+
     }
     @Override
     public void PraseResult(ServerResult result) {

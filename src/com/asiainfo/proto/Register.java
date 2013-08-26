@@ -12,16 +12,21 @@ import com.asiainfo.model.User;
  */
 public class Register extends SfsServerGet {
     public Register(User user) {
-        setUrlSufix("register.do?userName=" + user.user_name +
-                "&passwd=" + user.passwd+"&nickName="+user.nick_name+
-                "&headImg="+user.head_img);
+        setBody2("userName",user.user_name);
+        setBody2("passwd",user.passwd);
+        setBody2("nickName",user.nick_name);
+        setBody2("headImg",user.head_img);
+        setUrlSufix("register.do");
     }
 
     @Override
     public void PraseResult(ServerResult result) {
         super.PraseResult(result);
-        if (result.result.equalsIgnoreCase("success"))   {
+
+
+        if (result.result.length()>=7 && result.result.substring(0,7).equalsIgnoreCase("success"))   {
             result.err_code = SfsErrorCode.Success;
+            result.result = result.result.substring(7);
         } else {
             result.err_code = SfsErrorCode.E_REGISTER;
             result.err_msg = "注册失败";

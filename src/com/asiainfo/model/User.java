@@ -2,6 +2,7 @@ package com.asiainfo.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.asiainfo.tools.Base64Code;
 
 public class User implements Parcelable { //声明实现接口Parcelable
 
@@ -19,6 +20,13 @@ public class User implements Parcelable { //声明实现接口Parcelable
     public User() {
 
     }
+    public String getNickName64() {
+        return Base64Code.encode(nick_name) ;
+    }
+    public void setNickName64(String nickname64) {
+        nick_name = Base64Code.decode(nickname64);
+    }
+
     public User(String auser_name, String apasswd,int astatus,String anike_name,String aheadimg,int aremote_id) {
         user_name = auser_name;
         passwd = apasswd;

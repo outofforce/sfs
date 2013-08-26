@@ -120,22 +120,21 @@ public class LoginActivity extends Activity {
         public void onClick(View v) {
             boolean chg_user = false;
 
-            if (!user.user_name.equals(((EditText)findViewById(R.id.ed_email)).getText().toString())) {
-                // 用户换了ID 登录，或者注册新ID
-                user.user_name =  ((EditText)findViewById(R.id.ed_email)).getText().toString();
-                user.passwd = ((EditText)findViewById(R.id.ed_passwd)).getText().toString();
-                user.nick_name = ""; // 去服务器上获取
-                Log.e("MYDEBUG","-------------");
+            if (!IsLogin || !user.user_name.equals(((EditText)findViewById(R.id.ed_email)).getText().toString())) {
                 chg_user = true;
-            } else {
-                // 仅仅登录
-                user.passwd = ((EditText)findViewById(R.id.ed_passwd)).getText().toString();
             }
+
+            user.user_name =  ((EditText)findViewById(R.id.ed_email)).getText().toString();
+            user.passwd = ((EditText)findViewById(R.id.ed_passwd)).getText().toString();
+
+
             if (user.user_name.indexOf("@") == -1) {
                 Toast.makeText(getApplicationContext(),"UserName must be email",Toast.LENGTH_LONG).show();
+                return ;
             }
             if (user.passwd.length() == 0) {
                 Toast.makeText(getApplicationContext(),"Please input Passwd ! ",Toast.LENGTH_LONG).show();
+                return ;
             }
 
             if (!IsLogin || chg_user) {
@@ -167,14 +166,16 @@ public class LoginActivity extends Activity {
                 intent.putExtra("IsLoginChgUser",chg_user);
                 startService(intent);
             } else {
+                user.nick_name = ((EditText)findViewById(R.id.ed_nikename)).getText().toString();
                 Intent intent = new Intent();
                 intent.setClass(LoginActivity.this, com.asiainfo.testapp.sfsService.class);
                 intent.setAction("UserRegister");
                 user.status = User.NO_ACTIVE;
                 intent.putExtra("User",user);
                 startService(intent);
-                if (user.nick_name.length() > 0) {
+                if (user.nick_name.length() == 0) {
                     Toast.makeText(getApplicationContext(),"Please input a nike_name ! ",Toast.LENGTH_LONG).show();
+                    return ;
                 }
             }
 
@@ -193,11 +194,7 @@ public class LoginActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             Log.v(TAG, "===================" + action);
-            User user = new User(
-                    ((EditText)findViewById(R.id.ed_email)).getText().toString(),
-                    ((EditText)findViewById(R.id.ed_passwd)).getText().toString(),
-                    User.NORMAL,"","",0
-            );
+
             if (action.equals("UserLogin_RES")) {
                 SfsResult res =   intent.getParcelableExtra("UI_RESULT");
                 if (res != null) {
@@ -205,12 +202,14 @@ public class LoginActivity extends Activity {
                         // 跳转到主界面
                         Intent mainIntent = new Intent();
                         mainIntent.setClass(getApplicationContext(),sfsFrame.class);
+                        User user = intent.getParcelableExtra("User");
                         mainIntent.putExtra("User",user);
                         startActivity(mainIntent);
                         finish();
                     } else if (res.err_code == SfsErrorCode.E_USER_INACITVE) {
                         Intent activeIntent = new Intent();
                         activeIntent.setClass(getApplicationContext(),ActiveActivity.class);
+                        User user = intent.getParcelableExtra("User");
                         user.status = User.NO_ACTIVE;
                         activeIntent.putExtra("User",user);
                         startActivity(activeIntent);
@@ -226,7 +225,9 @@ public class LoginActivity extends Activity {
                         // 跳转到主界面
                         Intent activeIntent = new Intent();
                         activeIntent.setClass(getApplicationContext(),ActiveActivity.class);
+                        User user = intent.getParcelableExtra("User");
                         user.status = User.NO_ACTIVE;
+
                         activeIntent.putExtra("User",user);
                         startActivity(activeIntent);
                         finish();

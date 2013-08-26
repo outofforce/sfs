@@ -12,7 +12,8 @@ import com.asiainfo.model.User;
  */
 public class YouHaveMessage extends SfsServerGet {
     public YouHaveMessage(int max_pub_id) {
-        setUrlSufix("youHaveMessage.do?publishId=" + max_pub_id);
+        setBody2("publishId", ""+max_pub_id);
+        setUrlSufix("youHaveMessage.do");
     }
 
     @Override

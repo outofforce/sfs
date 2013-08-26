@@ -12,7 +12,8 @@ import com.asiainfo.model.User;
  */
 public class QueryActive extends SfsServerGet {
     public QueryActive(User user) {
-        setUrlSufix("queryActive?userName=" + user.user_name);
+        setBody2("userName",user.user_name);
+        setUrlSufix("queryActive.do");
     }
 
     @Override

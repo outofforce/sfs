@@ -18,7 +18,7 @@ public class SfsTableHelper extends SQLiteOpenHelper
 {
 
     private final static String DATABASE_NAME = "ServiceForStudent";
-    private final static int DATABASE_VERSION = 1;
+    private final static int DATABASE_VERSION = 2;
 
 
     public SfsTableHelper(Context context)

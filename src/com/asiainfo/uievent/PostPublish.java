@@ -10,6 +10,7 @@ import com.asiainfo.model.PublishData;
 import com.asiainfo.model.SfsErrorCode;
 import com.asiainfo.model.SfsResult;
 import com.asiainfo.model.User;
+import com.asiainfo.proto.PostPublishData;
 import com.asiainfo.proto.ProtoGetPubData;
 import com.asiainfo.proto.SfsServerGet;
 import com.asiainfo.tab.SfsTableHelper;
@@ -34,73 +35,46 @@ public class PostPublish implements ISfsUiEvent {
 
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
-        ArrayList<PublishData> list = new ArrayList<PublishData>();
+        PublishData pub = intent.getParcelableExtra("PostPushishData");
+        boolean hasImg = intent.getBooleanExtra("HasImg",false);
+
+
         if ( user != null) {
-            ProtoGetPubData reg = new ProtoGetPubData(user,System.currentTimeMillis());
+
+            if (hasImg) {
+                UpThumbPic sender = new UpThumbPic();
+                Intent imgIntent = new Intent();
+
+                imgIntent.putExtra("AttachmentPath",pub.thumb_img);
+                SfsResult imgres = new SfsResult();
+                Intent tmpIntent = sender.doUiEvent(imgIntent,cx,imgres);
+
+                String path= tmpIntent.getStringExtra("AttachmentPath");
+                Log.e("MYDEBUG","000="+path+"-00-"+pub.thumb_img);
+                if (path != null) {
+                    pub.thumb_img = path;
+                } else {
+                    pub.thumb_img = "";
+                }
+                imgIntent.putExtra("AttachmentPath",pub.context_img);
+                tmpIntent = sender.doUiEvent(imgIntent,cx,imgres);
+
+                path= tmpIntent.getStringExtra("AttachmentPath");
+                if (path != null) {
+                    pub.context_img = path;
+                } else {
+                    pub.context_img = "";
+                }
+            }
+
+
+
+            PostPublishData reg = new PostPublishData(user,pub);
+
             SfsServerGet.ServerResult res =  reg.handle();
             result.err_msg = res.err_msg;
             result.err_code = res.err_code ;
-
-
-            if (result.err_code == SfsErrorCode.Success) {
-                SfsTableHelper helper  = new SfsTableHelper(cx);
-                SQLiteDatabase db = helper.getWritableDatabase();
-                TPublishData tp = new TPublishData(db);
-                try {
-
-
-                    JSONArray array = new JSONArray(res.result);
-                    int max_id = 0;
-                    for (int i=0;i<array.length();i++) {
-                        JSONObject s = (JSONObject)array.get(array.length()-i-1);
-
-                        Log.e("MYDEBUG",""+s.toString());
-                        PublishData d = new PublishData();
-                        d.id = s.getInt("id");
-                        if (d.id >max_id)
-                            max_id = d.id;
-                        d.user_id = s.getInt("userId");
-                        d.nick_name = s.getString("userName");
-                        d.pub_context = s.getString("context");
-                        d.gis_info = s.getString("gisInfo");
-                        d.context_img = s.getString("contextImg");
-
-                        /*
-                        if (d.context_img != null)  {
-                            String path = NetTools.download("",d.context_img);
-                            Log.e("MYDEBUG","IMGPATH="+path);
-                            if (path != null)
-                                d.context_img = path;
-                        }
-                        */
-                        d.create_time = System.currentTimeMillis();
-                        d.chg_time = System.currentTimeMillis();
-                        d.status = s.getInt("status");
-                        d.context_img_loaded = PublishData.INIT;
-                        list.add(d);
-                        tp.newPublicData(d);
-
-
-                    }
-                    t.putParcelableArrayListExtra("PublicDatas",list);
-                    int  last_max_id = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getInt("PublshMaxId",0);
-                    if (max_id > last_max_id) {
-                        SharedPreferences mPerferences = PreferenceManager.getDefaultSharedPreferences(cx);
-                        SharedPreferences.Editor mEditor = mPerferences.edit();
-                        mEditor.putInt("PublshMaxId", max_id);
-                        mEditor.commit();
-                    }
-
-
-                } catch (JSONException e) {
-                    result.err_code = SfsErrorCode.E_JSON_ERROR ;
-                    result.err_msg = "协议解析错误 "+e.getMessage();
-                    e.printStackTrace();
-                }
-                if (db.isOpen())
-                    db.close();
-
-            }
+            result.result = res.result ;
         } else {
             result.err_code = SfsErrorCode.E_UI_ARG;
             result.err_msg = "arg User is NULL";

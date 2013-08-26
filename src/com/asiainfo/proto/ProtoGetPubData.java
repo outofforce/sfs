@@ -14,7 +14,10 @@ import com.asiainfo.model.User;
  */
 public class ProtoGetPubData extends SfsServerGet {
     public ProtoGetPubData(User user,Long timeMills) {
-        setUrlSufix("queryPubdata.do?userName="+user.user_name+"&timeMills=" + timeMills+"&maxCount=20");
+        setBody2("userName",user.user_name);
+        setBody2("timeMills",""+timeMills);
+        setBody2("maxCount",""+20);
+        setUrlSufix("queryPubdata.do");
     }
 
     @Override

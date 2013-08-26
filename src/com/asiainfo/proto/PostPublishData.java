@@ -13,12 +13,13 @@ import com.asiainfo.model.User;
  */
 public class PostPublishData extends SfsServerGet {
     public PostPublishData(User user, PublishData data) {
-        setUrlSufix("postPubData.do?userName="+user.user_name+
-                "&postImg="+data.context_img+
-                "&postContext="+data.pub_context +
-                "&simpleImg="+data+
-                "&gisInfo="+data.gis_info+
-                "&ttl_type="+1);
+        setUrlSufix("postPubData.do");
+        setBody2("userId",""+user.remote_id);
+        setBody2("postImg",data.context_img);
+        setBody2("postContext",data.pub_context);
+        setBody2("simpleImg",data.thumb_img);
+        setBody2("gisInfo",data.gis_info);
+        setBody2("ttl_type",""+1);
     }
 
     @Override
@@ -27,8 +28,7 @@ public class PostPublishData extends SfsServerGet {
         //Log.e("MYDEBUG", result.result.substring(0, 7));
 
 
-        if (result.result.substring(0,7).equalsIgnoreCase("success"))   {
-
+        if (result.result.length()>=7 && result.result.substring(0,7).equalsIgnoreCase("success"))   {
             result.err_code = SfsErrorCode.Success;
             result.result = result.result.substring(7);
         } else {

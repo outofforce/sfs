@@ -61,7 +61,7 @@ public class pubItemAdapter extends BaseAdapter {
             return mPubItems.size();
         }
         public int add(pubItem item) {
-            this.mPubItems.add(0,item);
+            this.mPubItems.add(item);
             super.notifyDataSetChanged();
             return mPubItems.size();
         }
@@ -101,22 +101,10 @@ public class pubItemAdapter extends BaseAdapter {
             }
 
             pubItem t = mPubItems.get(position);
-//            if (t.pubName.length() == 0) {
-//            if (position%2==1)
-//                holder.pubName.setText("  IBM中国有限公司");
-//            else
-//                holder.pubName.setText("  微软中国有限公司");
-//
-//            }
             holder.clear();
 
-
-
-            holder.pubName.setText(""+position);
-            if (position%2==1)
-                holder.pubHead.setImageResource(R.drawable.google);
-            else
-                holder.pubHead.setImageResource(R.drawable.ibm);
+            holder.pubName.setText(t.pubName+" "+position);
+            holder.pubHead.setImageResource(R.drawable.google);
 
             holder.pubContent.setText(t.pubContext);
 

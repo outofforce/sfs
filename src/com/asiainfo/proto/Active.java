@@ -12,7 +12,9 @@ import com.asiainfo.model.User;
  */
 public class Active extends SfsServerGet {
     public Active(User user, String code) {
-        setUrlSufix("active.do?userName=" + user.user_name + "&value=" + code);
+        setUrlSufix("active.do");
+        setBody2("userId",""+user.remote_id);
+        setBody2("value",code);
     }
 
     @Override

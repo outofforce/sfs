@@ -2,6 +2,7 @@ package com.asiainfo.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.asiainfo.tools.Base64Code;
 
 public class PublishData implements Parcelable { //声明实现接口Parcelable
     public int id=0;
@@ -10,8 +11,8 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
     public String pub_context="";
     public String gis_info="";
     public String context_img="";
-    public Long create_time;
-    public Long chg_time;
+    public long create_time = 0;
+    public long chg_time = 0;
     public int status=0;
     public int context_img_loaded = 0;
     public long local_id=0;
@@ -24,6 +25,19 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
     public static final int NOLOAD= 2;
     public static final int BREAK = 3;
 
+    public String getNickName64() {
+        return Base64Code.encode(nick_name) ;
+    }
+    public void setNickName64(String nickname64) {
+        nick_name = Base64Code.decode(nickname64);
+    }
+    public String getPubContext64() {
+        return Base64Code.encode(pub_context) ;
+    }
+    public void setPubContext64(String pubcontext64) {
+        pub_context = Base64Code.decode(pubcontext64);
+    }
+
     public PublishData() {}
 
     public PublishData(
@@ -33,8 +47,8 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
              String _pub_context,
              String _gis_info,
              String _context_img,
-             Long _create_time,
-             Long _chg_time,
+             long _create_time,
+             long _chg_time,
              int _status,
              int _context_img_loaded,
              long _local_id,

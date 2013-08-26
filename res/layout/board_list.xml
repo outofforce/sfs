@@ -14,7 +14,7 @@
             android:id="@+id/pubboard"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:stackFromBottom="true"
+
             android:dividerHeight="10dip"
             android:divider="@null"
             android:clickable="true"

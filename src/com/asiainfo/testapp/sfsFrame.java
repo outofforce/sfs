@@ -48,6 +48,7 @@ public class sfsFrame extends FragmentActivity {
 
     DataReceiver dataReceiver;
 
+
     private PendingIntent mAlarmSender;
     User user;
     @Override
@@ -60,19 +61,19 @@ public class sfsFrame extends FragmentActivity {
         if (user == null) {
             throw new NullPointerException("No User Data!");
         }
-        Intent  alarmIntent = new Intent();
-        long firstTime = SystemClock.elapsedRealtime();
-        alarmIntent.setClass(sfsFrame.this, sfsService.class);
-        alarmIntent.setAction("CheckNewMessage");
-        mAlarmSender = PendingIntent.getService(sfsFrame.this,
-                0, alarmIntent, 0);
+        //Intent  alarmIntent = new Intent();
+        //long firstTime = SystemClock.elapsedRealtime();
+        //alarmIntent.setClass(sfsFrame.this, sfsService.class);
+        //alarmIntent.setAction("CheckNewMessage");
+        // mAlarmSender = PendingIntent.getService(sfsFrame.this,
+        //        0, alarmIntent, 0);
 
 
 
-        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                firstTime, 60*1000, mAlarmSender);
-        //intent.setClass(sfsFrame.this, com.asiainfo.sfsService.class);
+        //AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        //am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+        //        firstTime, 60*1000, mAlarmSender);
+
 
     }
 
@@ -91,15 +92,23 @@ public class sfsFrame extends FragmentActivity {
         initFragments();
 
     }
-    HashMap<String,onSfsDataReceiver> mRecieverMap = new HashMap<String,onSfsDataReceiver>();
+
+    public class sfsReceiver {
+        public onSfsDataReceiver mOnSfsDataRecieiver;
+        public IntentFilter mIntentFilter;
+        public  sfsReceiver(onSfsDataReceiver r,IntentFilter f) {
+            mOnSfsDataRecieiver = r;
+            mIntentFilter = f;
+        }
+    }
+
+    HashMap<String,sfsReceiver> mRecieverMap = new HashMap<String,sfsReceiver>();
     //onSfsDataReceiver mSfsDataReciver;
-    public void registerSfsDataReciever (String key,onSfsDataReceiver receiver) {
-        mRecieverMap.put(key,receiver);
-        //mSfsDataReciver = receiver;
+    public void registerSfsDataReciever (String key,onSfsDataReceiver receiver,IntentFilter filter) {
+        mRecieverMap.put(key,new sfsReceiver(receiver,filter));
     }
     public void  unregisterSfsDataReciever (String key)  {
         mRecieverMap.remove(key);
-       // mSfsDataReciver = null;
     }
 
     // 添加碎片
@@ -160,6 +169,9 @@ public class sfsFrame extends FragmentActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+
+
+
     @Override
     protected void onResume() {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
@@ -169,7 +181,9 @@ public class sfsFrame extends FragmentActivity {
         filter.addAction("GetLocalPublishData_RES");
         filter.addAction("GetThumbPic_RES");
         filter.addAction("PostPublish_RES");
+
         registerReceiver(dataReceiver, filter);
+
     }
 
     @Override
@@ -189,16 +203,14 @@ public class sfsFrame extends FragmentActivity {
                     stopService(new Intent(sfsFrame.this,
                            com.asiainfo.testapp.sfsService.class));
                     finish();
-                } else if (action.equals("QueryPublishData_RES")
-                        || action.equals("GetLocalPublishData_RES")
-                        || action.equals("GetThumbPic_RES")
-                        || action.equals("PostPublish_RES"))  {
-
+                } else   {
                     Iterator it = mRecieverMap.entrySet().iterator();
+
                     while(it.hasNext()) {
                         Map.Entry entry = (Map.Entry) it.next();
-                        onSfsDataReceiver tReceiver = (onSfsDataReceiver)entry.getValue();
-                        tReceiver.onDataCome(intent);
+                        sfsReceiver tReceiver = (sfsReceiver)entry.getValue();
+                        if (tReceiver.mIntentFilter.hasAction(action))
+                                tReceiver.mOnSfsDataRecieiver.onDataCome(intent);
                     }
                 }
             } else {

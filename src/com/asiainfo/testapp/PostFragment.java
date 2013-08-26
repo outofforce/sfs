@@ -1,6 +1,7 @@
 package com.asiainfo.testapp;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -44,7 +45,9 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver  {
     ImageView Iv_postImg;
     public static final int  id_select_img = 100;
     String send_img_path ="";
+    String view_img_path ="";
     boolean hasImg = false;
+    sfsFrame father;
 
 //    private ListView mpubItemListView;
 //    private pubItemAdapter mpubItemAdpater;
@@ -66,8 +69,11 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver  {
         Bt_send = (Button)v.findViewById(R.id.bt_send);
         Ed_postContext = (EditText)v.findViewById(R.id.ed_postContext);
         Iv_postImg = (ImageView)v.findViewById(R.id.iv_postImg);
-        ((sfsFrame)getActivity()).registerSfsDataReciever(PublishListFragment.class.getName(),this);
 
+        father = (sfsFrame)getActivity();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("PostPublish_RES");
+        father.registerSfsDataReciever(PostFragment.class.getName(),this,filter);
         Bt_send.setOnClickListener(cl_post);
         Iv_postImg.setOnClickListener(cl_selectImg);
 
@@ -85,7 +91,7 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver  {
 
     @Override
     public void onDestroyView() {
-        ((sfsFrame)getActivity()).unregisterSfsDataReciever(PublishListFragment.class.getName());
+        father.unregisterSfsDataReciever(PublishListFragment.class.getName());
         super.onDestroyView();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
@@ -101,21 +107,28 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver  {
         }
     } ;
 
-    Button.OnClickListener cl_post = new Button.OnClickListener() {
+    View.OnClickListener cl_post = new Button.OnClickListener() {
 
         @Override
         public void onClick(View v) {
             if (Ed_postContext.getText().length()>0) {
+                //Bt_send.setEnabled(false);
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), com.asiainfo.testapp.sfsService.class);
                 intent.setAction("PostPublish");
-                User user = ((sfsFrame) getActivity()).getUser();
+                User user = father.getUser();
                 intent.putExtra("User",user);
                 PublishData p = new PublishData();
+                if (hasImg) {
+                     p.thumb_img = send_img_path;
+                     p.context_img = view_img_path;
+                }
                 p.pub_context =Ed_postContext.getText().toString();
                 intent.putExtra("PostPushishData",p);
-                getActivity().startService(intent);
-                Bt_send.setEnabled(false);
+                intent.putExtra("HasImg",hasImg);
+                intent.setClass(father, com.asiainfo.testapp.sfsService.class);
+                father.startService(intent);
+
 
             } else {
                 Toast.makeText(getActivity(),"no data need be send!",Toast.LENGTH_SHORT).show();
@@ -139,7 +152,7 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver  {
             if (intent.getAction().equals("PostPublish_RES")) {
                 Toast.makeText(getActivity(),"send sucess !",Toast.LENGTH_SHORT).show();
                 Ed_postContext.setText("");
-                Bt_send.setEnabled(true);
+                //Bt_send.setEnabled(true);
             }
         }
 
@@ -154,6 +167,9 @@ public  class PostFragment extends Fragment implements onSfsDataReceiver  {
             send_img_path = SfsFileOps.genThumbnail(getActivity(),path,
                     DisplayUtil.dip2px(getActivity(),150),
                     DisplayUtil.dip2px(getActivity(),150));
+            view_img_path = SfsFileOps.genThumbnail(getActivity(),path,
+                    DisplayUtil.dip2px(getActivity(),720),
+                    DisplayUtil.dip2px(getActivity(),720));
             Bitmap bitmap = BitmapFactory.decodeFile(send_img_path);
             Iv_postImg.setImageBitmap(bitmap);
             hasImg = true;

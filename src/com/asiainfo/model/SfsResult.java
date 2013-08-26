@@ -10,7 +10,9 @@ public class SfsResult implements Parcelable {
     public int err_code = SfsErrorCode.Success;
 
 
+    public SfsResult() {
 
+    }
     public SfsResult(String aerr_msg, String aresult, int aerr_code) {
         err_msg = aerr_msg;
         result = aresult;

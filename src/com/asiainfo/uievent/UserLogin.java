@@ -31,13 +31,21 @@ public class UserLogin implements ISfsUiEvent {
         Boolean chg_user = intent.getBooleanExtra("IsLoginChgUser",false);
         int flag = chg_user?1:0;
         if ( user != null) {
-            if (chg_user)
             Log.e("MYDEBUG",user.user_name+ " login....");
             Login req = new Login(user,flag);
             SfsServerGet.ServerResult res =  req.handle();
             result.err_msg = res.err_msg;
             result.result = res.result;
             result.err_code = res.err_code;
+            if (chg_user) {
+                SharedPreferences mPerferences = PreferenceManager
+                    .getDefaultSharedPreferences(cx);
+                SharedPreferences.Editor mEditor = mPerferences.edit();
+                mEditor.putString("UserName", user.user_name);
+                mEditor.putString("Passwd", user.passwd);
+                mEditor.commit();
+            }
+
             if (res.err_code == SfsErrorCode.Success ||
                     res.err_code == SfsErrorCode.E_USER_INACITVE
                     ) {
@@ -49,19 +57,18 @@ public class UserLogin implements ISfsUiEvent {
                     mEditor.putInt("Status", User.NO_ACTIVE);
                 else
                     mEditor.putInt("Status", User.NORMAL);
-
                 if (chg_user) {
-
-                    mEditor.putString("UserName", user.user_name);
-                    mEditor.putString("Passwd", user.passwd);
-
                     JSONObject s = null;
                     try {
                         s = new JSONObject(res.result);
-                        mEditor.putString("NickName", s.getString("nick_name"));
-                        mEditor.putString("UserHeadImg",s.getString("head_img"));
-                        mEditor.putInt("RemoteID",s.getInt("user_id"));
+                        user.remote_id =  s.getInt("user_id");;
+                        user.nick_name= s.getString("nick_name");
+                        user.head_img = s.getString("head_img");
+                        mEditor.putString("NickName", user.nick_name);
+                        mEditor.putString("UserHeadImg",user.head_img);
+                        mEditor.putInt("RemoteID",user.remote_id);
                         if (!s.getString("head_img").equals("")) {
+
                             Intent dlintent = new Intent();
                             dlintent.setClass(cx, com.asiainfo.testapp.sfsService.class);
                             dlintent.setAction("GetHeadPic");
@@ -69,11 +76,15 @@ public class UserLogin implements ISfsUiEvent {
                             cx.startService(dlintent);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        result.err_code = SfsErrorCode.E_JSON_ERROR;
+                        result.err_msg = e.getMessage();
+                        e.printStackTrace();
                     }
 
                 }
+                t.putExtra("User",user);
                 mEditor.commit();
+
             }
 
         } else {
