@@ -12,10 +12,14 @@ public class User implements Parcelable { //声明实现接口Parcelable
     public String nick_name="";
     public String head_img="";
     public int remote_id=0;
+    public int head_img_load=0;
 
     public static final int NORMAL = 1;
     public static final int NO_ACTIVE = 0;
     public static final int LOGOUT = 2;
+
+    public static final int IMG_LOADED=1;
+    public static final int IMG_NO_LOADED=0;
 
     public User() {
 
@@ -34,6 +38,7 @@ public class User implements Parcelable { //声明实现接口Parcelable
         nick_name = anike_name;
         head_img = aheadimg;
         remote_id =  aremote_id;
+        head_img_load = 0;
     }
 
     public User(Parcel source) {
@@ -43,6 +48,7 @@ public class User implements Parcelable { //声明实现接口Parcelable
         nick_name = source.readString();
         head_img = source.readString();
         remote_id = source.readInt();
+        head_img_load = source.readInt();
     }
 
     @Override
@@ -59,6 +65,7 @@ public class User implements Parcelable { //声明实现接口Parcelable
         dest.writeString(nick_name);
         dest.writeString(head_img);
         dest.writeInt(remote_id);
+        dest.writeInt(head_img_load);
     }
 
     public static final Parcelable.Creator<User> CREATOR = new Creator<User>() {

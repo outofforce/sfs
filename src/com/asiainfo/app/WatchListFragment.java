@@ -1,26 +1,28 @@
 package com.asiainfo.app;
+
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Toast;
-import com.asiainfo.R;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import com.asiainfo.R;
 import com.asiainfo.model.MtlErrorCode;
 import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.PublishData;
+import com.asiainfo.model.User;
 import com.asiainfo.tools.TimeTrans;
 
 import java.util.ArrayList;
 
-public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver {
+public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
     int mNum;
-    public static final String TAG="PublishListFragment";
-    public static PublishListFragment newInstance(int num) {
-        PublishListFragment f = new PublishListFragment();
+    public static final String TAG="WatchListFragment";
+    public static WatchListFragment newInstance(int num) {
+        WatchListFragment f = new WatchListFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
@@ -31,8 +33,8 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
     }
 
 
-    private MtlListView mpubItemListView;
-    private PublishItemAdapter mpubItemAdpater;
+    private MtlListView mWatchItemListView;
+    private WatchItemAdapter mWatchItemAdpater;
     private boolean mIsLoading = false;
 
     @Override
@@ -51,15 +53,13 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
                              Bundle savedInstanceState) {
         Log.e("MYDEBUG", "CreateView " + mNum);
         View v = inflater.inflate(R.layout.board_list, container, false);
-        mpubItemListView = (MtlListView) v.findViewById(R.id.pubboard);
-        mpubItemAdpater = new PublishItemAdapter(inflater,getActivity());
+        mWatchItemListView = (MtlListView) v.findViewById(R.id.pubboard);
+        mWatchItemAdpater = new WatchItemAdapter(inflater,getActivity());
         IntentFilter filter = new IntentFilter();
-        filter.addAction("QueryPublishData_RES");
-        filter.addAction("GetLocalPublishData_RES");
-        filter.addAction("GetThumbPic_RES");
-        ((MtlFragmentActivity)getActivity()).registerSfsDataReciever(PublishListFragment.class.getName(), this, filter);
-        mpubItemListView.setAdapter(mpubItemAdpater);
-        mpubItemListView.setonRefreshListener(new MtlListView.OnRefreshListener() {
+        filter.addAction("QueryUser_RES");
+        ((MtlFragmentActivity)getActivity()).registerSfsDataReciever(WatchListFragment.class.getName(), this, filter);
+        mWatchItemListView.setAdapter(mWatchItemAdpater);
+        mWatchItemListView.setonRefreshListener(new MtlListView.OnRefreshListener() {
             public void onRefresh() {
                 loadHistory();
             }
@@ -69,33 +69,19 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
 
         Intent intent = new Intent();
         intent.setClass(getActivity(), MtlService.class);
-        intent.setAction("QueryPublishData");
+        intent.setAction("QueryUser");
 
         intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);
 
-//        Intent intent = new Intent();
-//        intent.setClass(getActivity(), com.asiainfo.app.MtlService.class);
-//        intent.setAction("ClearNotify");
 
-        //intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
-//        getActivity().startService(intent);
-
-//        text.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                System.out.println("点击成功！");
-//            }
-//        });
         return v;
     }
 
 
     @Override
     public void onDestroyView() {
-        ((MtlFragmentActivity)getActivity()).unregisterSfsDataReciever(PublishListFragment.class.getName());
+        ((MtlFragmentActivity)getActivity()).unregisterSfsDataReciever(WatchListFragment.class.getName());
         super.onDestroyView();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
@@ -115,28 +101,21 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
                 int pos = intent.getIntExtra("ListPos",-1);
                 String path = intent.getStringExtra("AttachmentPath");
                 if (path != null) {
-                    ((PublishItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImgLoad = true ;
-                    ((PublishItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImg = path ;
-                    mpubItemAdpater.notifyDataSetChanged();
+                    ((PublishItemAdapter.pubItem) mWatchItemAdpater.getItem(pos)).pubImgLoad = true ;
+                    ((PublishItemAdapter.pubItem) mWatchItemAdpater.getItem(pos)).pubImg = path ;
+                    mWatchItemAdpater.notifyDataSetChanged();
                 }
-            }  else if (intent.getAction().equals("QueryPublishData_RES")
-                    || intent.getAction().equals("GetLocalPublishData_RES")
-                     ) {
-                ArrayList<PublishData> pblist  = intent.getParcelableArrayListExtra("PublicDatas");
+            }  else if (intent.getAction().equals("QueryUser_RES")) {
+                ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
                 if (pblist != null) {
                     for (int i=0;i<pblist.size();i++) {
-                        PublishData d =  pblist.get(i);
-                        PublishItemAdapter.pubItem item = new PublishItemAdapter.pubItem();
-                        item.pubName = d.nick_name ;
-                        item.pubContext = d.pub_context;
-                        item.pubImg = d.context_img;
-                        item.pubTime =  TimeTrans.LongToBusiString(d.create_time);
-                        mpubItemAdpater.add(item);
+                        User item =  pblist.get(i);
+                        mWatchItemAdpater.add(item);
                     }
-                    mpubItemListView.requestFocusFromTouch();
-                    mpubItemListView.setSelection(0);
+                    mWatchItemListView.requestFocusFromTouch();
+                    mWatchItemListView.setSelection(0);
                     mIsLoading = false;
-                    Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mpubItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mWatchItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
                 }
             }
         }

@@ -1,18 +1,19 @@
 package com.asiainfo.app;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import com.asiainfo.R;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.asiainfo.R;
+import com.asiainfo.model.User;
 
 import java.util.ArrayList;
 
@@ -24,53 +25,44 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 
-public class PublishItemAdapter extends BaseAdapter {
-    
-        public static class pubItem {
-            public String pubTime = "";
-            public String pubImg = "";
-            public String pubContext = "";
-            public String pubName = "";
-            public String pubHead = "";
-            public Boolean pubImgLoad = false;
-            public Bitmap drawable;
+public class WatchItemAdapter extends BaseAdapter {
 
-        }
-    
-        private ArrayList<pubItem> mPubItems = new ArrayList<pubItem>();
+
+
+        private ArrayList<User> mWathUser = new ArrayList<User>();
 
         private LayoutInflater mInflater;
         private Context mCx;
 
-        public PublishItemAdapter(LayoutInflater inflater, Context cx) {
+        public WatchItemAdapter(LayoutInflater inflater, Context cx) {
             mInflater = inflater;
             mCx = cx;
 
         }
 
         public void clear() {
-            mPubItems.clear();
+            mWathUser.clear();
         }
 
 
-        public int add_withoutNotify(pubItem item) {
-            this.mPubItems.add(item);
-            return mPubItems.size();
+        public int add_withoutNotify(User item) {
+            this.mWathUser.add(item);
+            return mWathUser.size();
         }
-        public int add(pubItem item) {
-            this.mPubItems.add(item);
+        public int add(User item) {
+            this.mWathUser.add(item);
             super.notifyDataSetChanged();
-            return mPubItems.size();
+            return mWathUser.size();
         }
 
         public int getCount() {
 
-            return mPubItems.size();
+            return mWathUser.size();
         }
 
 
         public Object getItem(int position) {
-            return mPubItems.get(position);
+            return mWathUser.get(position);
         }
 
 
@@ -88,66 +80,53 @@ public class PublishItemAdapter extends BaseAdapter {
 
                 holder.pubName = (TextView) convertView.findViewById(R.id.pubName);
                 holder.pubHead = (ImageView) convertView.findViewById(R.id.pubHead);
-                holder.pubImg = (ImageView) convertView.findViewById(R.id.pubImg);
-                holder.pubContent = (TextView) convertView.findViewById(R.id.pubContent);
-                holder.pubTime = (TextView) convertView.findViewById(R.id.pubTime);
 
                 convertView.setTag(holder);
             } else {
                 holder = (SViewHolder) convertView.getTag();
             }
 
-            pubItem t = mPubItems.get(position);
+            User t = mWathUser.get(position);
             holder.clear();
 
-            holder.pubName.setText(t.pubName);
-            holder.pubHead.setImageResource(R.drawable.google);
-
-            holder.pubContent.setText(t.pubContext);
-            holder.pubTime.setText(t.pubTime);
+            holder.pubName.setText(t.nick_name);
+            //holder.pubHead.setImageResource(R.drawable.google);
 
 
-            if (!t.pubImg.equals("") && t.pubImgLoad==false) {
+            if (!t.head_img.equals("") && t.head_img_load == User.IMG_NO_LOADED) {
                 Intent intent = new Intent();
                 intent.setClass(mCx, MtlService.class);
                 intent.putExtra("AttachmentType","image");
-                intent.putExtra("AttachmentPath",t.pubImg);
+                intent.putExtra("AttachmentPath",t.head_img);
                 intent.putExtra("ListPos",position);
                 intent.setAction("GetThumbPic");
                 mCx.startService(intent);
 
-            } else if (t.pubImgLoad == true ) {
-                Log.e("MYDEBUG", "ImgPath=" + t.pubImg) ;
-
-                    if (t.drawable == null) {
+            } else if (t.head_img_load == User.IMG_LOADED ) {
                     final BitmapFactory.Options options = new BitmapFactory.Options();
-                    //options.inJustDecodeBounds = true;
                     options.inPreferredConfig = Bitmap.Config.ARGB_8888;
                     options.inPurgeable = true;
                     options.inInputShareable = true;
-                    Bitmap bitmapImage = BitmapFactory.decodeFile(t.pubImg,options);
-                    t.drawable = bitmapImage ;
-                    holder.pubImg.setImageBitmap(bitmapImage);
-                } else {
-                    holder.pubImg.setImageBitmap(t.drawable);
-                }
-
+                    Bitmap bitmapImage = BitmapFactory.decodeFile(t.head_img,options);
+                    holder.pubHead.setImageBitmap(bitmapImage);
             }
 
             return convertView;
 
+
+
         }
     
         static class SViewHolder {
-            public TextView pubTime;
-            public ImageView pubImg;
-            public TextView pubContent;
+//            public TextView pubTime;
+//            public ImageView pubImg;
+//            public TextView pubContent;
             public TextView pubName;
             public ImageView pubHead;
             public void clear() {
-                pubTime.setText(null);
-                pubImg.setImageBitmap(null);
-                pubContent.setText(null);
+//                pubTime.setText(null);
+//                pubImg.setImageBitmap(null);
+//                pubContent.setText(null);
                 pubName.setText(null);
                 pubHead.setImageBitmap(null);
             }

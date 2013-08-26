@@ -178,6 +178,7 @@ public class MtlFragmentActivity extends FragmentActivity {
         filter.addAction("QueryPublishData_RES");
         filter.addAction("GetLocalPublishData_RES");
         filter.addAction("GetThumbPic_RES");
+        filter.addAction("QueryUser_RES");
         filter.addAction("PostPublish_RES");
 
         registerReceiver(dataReceiver, filter);
