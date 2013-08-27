@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.asiainfo.R;
 import com.asiainfo.app.PostFragment;
 import com.asiainfo.app.PublishListFragment;
+import com.asiainfo.app.WatchListFragment;
 import com.asiainfo.testapp.ResumeFragment;
 
 /**
@@ -77,7 +78,7 @@ public class DrawerFragment extends Fragment implements OnClickListener {
             } else if (position % CONTENT.length == 0) {
                 return PostFragment.newInstance(position % CONTENT.length);
             } else {
-                return ResumeFragment.newInstance(position % CONTENT.length);
+                return WatchListFragment.newInstance(position % CONTENT.length);
             }
         }
 

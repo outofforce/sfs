@@ -14,7 +14,7 @@ public class GetWatchData extends MtlServerGet {
     public GetWatchData(User user) {
 //        setBody2("userId", ""+user.remote_id);
 //        setBody2("timeMills", "" + timeMills);
-//        setBody2("maxCount",""+20);
+        setBody2("num",""+0);
         setUrlSufix("queryUser.do");
     }
 

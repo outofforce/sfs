@@ -56,7 +56,8 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
         mWatchItemListView = (MtlListView) v.findViewById(R.id.pubboard);
         mWatchItemAdpater = new WatchItemAdapter(inflater,getActivity());
         IntentFilter filter = new IntentFilter();
-        filter.addAction("QueryUser_RES");
+        filter.addAction("QueryWatchData_RES");
+        filter.addAction("GetWatcherPic_RES");
         ((MtlFragmentActivity)getActivity()).registerSfsDataReciever(WatchListFragment.class.getName(), this, filter);
         mWatchItemListView.setAdapter(mWatchItemAdpater);
         mWatchItemListView.setonRefreshListener(new MtlListView.OnRefreshListener() {
@@ -69,7 +70,7 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
 
         Intent intent = new Intent();
         intent.setClass(getActivity(), MtlService.class);
-        intent.setAction("QueryUser");
+        intent.setAction("QueryWatchData");
 
         intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);
@@ -97,16 +98,17 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
     public void onDataCome(Intent intent) {
         MtlResult res = intent.getParcelableExtra("UI_RESULT");
         if (res.err_code == MtlErrorCode.Success) {
-            if (intent.getAction().equals("GetThumbPic_RES")) {
+            if (intent.getAction().equals("GetWatcherPic_RES")) {
                 int pos = intent.getIntExtra("ListPos",-1);
                 String path = intent.getStringExtra("AttachmentPath");
                 if (path != null) {
-                    ((PublishItemAdapter.pubItem) mWatchItemAdpater.getItem(pos)).pubImgLoad = true ;
-                    ((PublishItemAdapter.pubItem) mWatchItemAdpater.getItem(pos)).pubImg = path ;
+                    ((User) mWatchItemAdpater.getItem(pos)).head_img_load = User.IMG_LOADED ;
+                    ((User) mWatchItemAdpater.getItem(pos)).head_img = path ;
                     mWatchItemAdpater.notifyDataSetChanged();
                 }
-            }  else if (intent.getAction().equals("QueryUser_RES")) {
+            }  else if (intent.getAction().equals("QueryWatchData_RES")) {
                 ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
+
                 if (pblist != null) {
                     for (int i=0;i<pblist.size();i++) {
                         User item =  pblist.get(i);
@@ -124,9 +126,10 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
     }
 
     private void loadHistory(){
+
         Intent intent = new Intent();
         intent.setClass(getActivity(), MtlService.class);
-        intent.setAction("GetLocalPublishData");
+        intent.setAction("QueryWatchData");
 
         intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);

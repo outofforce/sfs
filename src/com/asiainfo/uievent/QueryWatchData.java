@@ -49,14 +49,15 @@ public class QueryWatchData implements ISfsUiEvent {
                     for (int i=0;i<array.length();i++) {
                         JSONObject s = (JSONObject)array.get(i);
                         User d = new User();
-                        d.remote_id = s.getInt("userId");
+                        d.remote_id = s.getInt("id");
                         d.nick_name = s.getString("nickName");
                         d.head_img = s.getString("headImg");
+                        d.user_name = s.getString("userName");
                         d.head_img_load = User.IMG_NO_LOADED;
-                        d.user_name = d.nick_name;
+                        //d.user_name = d.nick_name;
                         list.add(d);
                     }
-                    t.putParcelableArrayListExtra("UserDatas",list);
+                    t.putParcelableArrayListExtra("WatchDatas",list);
 
 
                 } catch (JSONException e) {

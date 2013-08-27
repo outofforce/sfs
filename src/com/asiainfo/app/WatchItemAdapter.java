@@ -75,7 +75,7 @@ public class WatchItemAdapter extends BaseAdapter {
             // TODO Auto-generated method stub
             SViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.board_item, null);
+                convertView = mInflater.inflate(R.layout.watch_item, null);
                 holder = new SViewHolder();
 
                 holder.pubName = (TextView) convertView.findViewById(R.id.pubName);
@@ -99,7 +99,7 @@ public class WatchItemAdapter extends BaseAdapter {
                 intent.putExtra("AttachmentType","image");
                 intent.putExtra("AttachmentPath",t.head_img);
                 intent.putExtra("ListPos",position);
-                intent.setAction("GetThumbPic");
+                intent.setAction("GetWatcherPic");
                 mCx.startService(intent);
 
             } else if (t.head_img_load == User.IMG_LOADED ) {
