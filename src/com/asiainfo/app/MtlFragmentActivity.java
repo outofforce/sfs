@@ -188,6 +188,7 @@ public class MtlFragmentActivity extends FragmentActivity {
         filter.addAction("GetLocalPublishData_RES");
         filter.addAction("GetThumbPic_RES");
         filter.addAction("QueryMyWatchData_RES");
+        filter.addAction("GetLocalMyWatchData_RES");
         filter.addAction("GetWatcherPic_RES");
         filter.addAction("PostPublish_RES");
 

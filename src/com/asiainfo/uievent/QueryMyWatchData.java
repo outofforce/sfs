@@ -55,9 +55,7 @@ public class QueryMyWatchData implements ISfsUiEvent {
                         d.is_my_watcher = User.IS_WATCHER;
                         d.head_img_load = User.IMG_NO_LOADED;
                         list.add(d);
-                        User x = tuser.getUser(d);
-                        if (x == null)
-                           tuser.newUser(d);
+                        tuser.newUser(d);
                     }
                     t.putParcelableArrayListExtra("WatchDatas",list);
 

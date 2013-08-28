@@ -57,6 +57,7 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
         mWatchItemAdpater = new WatchItemAdapter(inflater,getActivity(),((MtlFragmentActivity) getActivity()).getUser());
         IntentFilter filter = new IntentFilter();
         filter.addAction("QueryMyWatchData_RES");
+        filter.addAction("GetLocalMyWatchData_RES");
         filter.addAction("GetWatcherPic_RES");
         ((MtlFragmentActivity)getActivity()).registerSfsDataReciever(WatchListFragment.class.getName(), this, filter);
         mWatchItemListView.setAdapter(mWatchItemAdpater);
@@ -68,17 +69,23 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
 
 
 
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), MtlService.class);
-        intent.setAction("QueryMyWatchData");
-
-        intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
-        getActivity().startService(intent);
 
 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("MYDEBUG","WatchList onResume");
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), MtlService.class);
+        intent.setAction("GetLocalMyWatchData");
+
+        //intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
+        getActivity().startService(intent);
+
+    }
 
     @Override
     public void onDestroyView() {
@@ -106,6 +113,18 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
                     ((User) mWatchItemAdpater.getItem(pos)).head_img = path ;
                     mWatchItemAdpater.notifyDataSetChanged();
                 }
+            }  else if (intent.getAction().equals("GetLocalMyWatchData_RES")) {
+                ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
+                mWatchItemAdpater.clear();
+                if (pblist != null) {
+                    for (int i=0;i<pblist.size();i++) {
+                        User item =  pblist.get(i);
+                        mWatchItemAdpater.add(item);
+                    }
+                    mWatchItemListView.requestFocusFromTouch();
+                    mWatchItemListView.setSelection(0);
+                    mIsLoading = false;
+                }
             }  else if (intent.getAction().equals("QueryMyWatchData_RES")) {
                 ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
                 mWatchItemAdpater.clear();
@@ -117,7 +136,6 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
                     mWatchItemListView.requestFocusFromTouch();
                     mWatchItemListView.setSelection(0);
                     mIsLoading = false;
-                    //Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mWatchItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
                 }
             }
         }

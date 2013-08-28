@@ -18,7 +18,7 @@ public class MtlTableHelper extends SQLiteOpenHelper
 {
 
     private final static String DATABASE_NAME = "ServiceForStudent";
-    private final static int DATABASE_VERSION = 3;
+    private final static int DATABASE_VERSION = 4;
 
 
     public MtlTableHelper(Context context)
@@ -36,7 +36,7 @@ public class MtlTableHelper extends SQLiteOpenHelper
                 "  GIS_INFO VARCHAR(256), CONTEXT_IMG VARCHAR(256) ,CREATE_TIME INTEGER ," +
                 "  CHG_TIME INTEGER, STATUS INTEGER ,CONTEXT_IMG_LOADED INTEGER)";
         db.execSQL(sql);
-        sql="CREATE TABLE TUSER (_ID INTEGER PRIMARY KEY AUTOINCREMENT, REMOTE_ID INTEGER , NICK_NAME VARCHAR(256), USER_NAME VARCHAR(256))";
+        sql="CREATE TABLE TUSER (_ID INTEGER PRIMARY KEY AUTOINCREMENT, REMOTE_ID INTEGER , NICK_NAME VARCHAR(256), USER_NAME VARCHAR(256),HEAD_IMG VARCHAR(256))";
         db.execSQL(sql);
 
     }
