@@ -10,23 +10,16 @@ import com.asiainfo.model.User;
  * Time: 下午12:36
  * To change this template use File | Settings | File Templates.
  */
-public class GetWatchData extends MtlServerGet {
-    public GetWatchData(User user) {
-        setBody2("userId", ""+user.remote_id);
-        //setBody2("timeMills", "" + timeMills);
-        //setBody2("num",""+0);
-        setUrlSufix("myWatcher.do");
-        //setBody2("userId",""+user.remote_id);
+public class ChgWatcherStatus extends MtlServerGet {
 
-    }
+    public ChgWatcherStatus(User user, User beWatcher) {
 
-    public GetWatchData(User user,User queryUser) {
-//        setBody2("userId", ""+user.remote_id);
-//        setBody2("timeMills", "" + timeMills);
-        setBody2("num",""+0);
-        setUrlSufix("queryUser.do");
-        setBody2("nickName",queryUser.nick_name);
-        //setBody2("userId",""+user.remote_id);
+        if (beWatcher.is_my_watcher == User.IS_NOT_WATCHER)
+            setUrlSufix("makeWatch.do");
+        else
+            setUrlSufix("cleanWatch.do");
+        setBody2("userId",""+user.remote_id);
+        setBody2("beWatcher",""+beWatcher.remote_id);
     }
 
     @Override

@@ -13,6 +13,7 @@ public class User implements Parcelable { //声明实现接口Parcelable
     public String head_img="";
     public int remote_id=0;
     public int head_img_load=0;
+    public int is_my_watcher=IS_NOT_WATCHER;
 
     public static final int NORMAL = 1;
     public static final int NO_ACTIVE = 0;
@@ -20,6 +21,10 @@ public class User implements Parcelable { //声明实现接口Parcelable
 
     public static final int IMG_LOADED=1;
     public static final int IMG_NO_LOADED=0;
+
+    public static final int IS_WATCHER=1;
+    public static final int IS_NOT_WATCHER=0;
+
 
     public User() {
 
@@ -38,7 +43,8 @@ public class User implements Parcelable { //声明实现接口Parcelable
         nick_name = anike_name;
         head_img = aheadimg;
         remote_id =  aremote_id;
-        head_img_load = 0;
+        head_img_load = IMG_NO_LOADED;
+        is_my_watcher=IS_NOT_WATCHER;
     }
 
     public User(Parcel source) {
@@ -49,6 +55,7 @@ public class User implements Parcelable { //声明实现接口Parcelable
         head_img = source.readString();
         remote_id = source.readInt();
         head_img_load = source.readInt();
+        is_my_watcher = source.readInt();
     }
 
     @Override
@@ -66,6 +73,7 @@ public class User implements Parcelable { //声明实现接口Parcelable
         dest.writeString(head_img);
         dest.writeInt(remote_id);
         dest.writeInt(head_img_load);
+        dest.writeInt(is_my_watcher);
     }
 
     public static final Parcelable.Creator<User> CREATOR = new Creator<User>() {

@@ -18,7 +18,7 @@ public class MtlTableHelper extends SQLiteOpenHelper
 {
 
     private final static String DATABASE_NAME = "ServiceForStudent";
-    private final static int DATABASE_VERSION = 2;
+    private final static int DATABASE_VERSION = 3;
 
 
     public MtlTableHelper(Context context)
@@ -36,6 +36,8 @@ public class MtlTableHelper extends SQLiteOpenHelper
                 "  GIS_INFO VARCHAR(256), CONTEXT_IMG VARCHAR(256) ,CREATE_TIME INTEGER ," +
                 "  CHG_TIME INTEGER, STATUS INTEGER ,CONTEXT_IMG_LOADED INTEGER)";
         db.execSQL(sql);
+        sql="CREATE TABLE TUSER (_ID INTEGER PRIMARY KEY AUTOINCREMENT, REMOTE_ID INTEGER , NICK_NAME VARCHAR(256), USER_NAME VARCHAR(256))";
+        db.execSQL(sql);
 
     }
 
@@ -46,31 +48,13 @@ public class MtlTableHelper extends SQLiteOpenHelper
         String sql = "DROP TABLE IF EXISTS EVENT_LOG " ;
         db.execSQL(sql);
         sql = "DROP TABLE IF EXISTS TPUBLISHDATA " ;
+        db.execSQL(sql);
+        sql = "DROP TABLE IF EXISTS TUSER " ;
+        db.execSQL(sql);
         onCreate(db);
     }
 
- /*
-    public Cursor select(SQLiteDatabase db,String tableName)
-    {
-        return db.query(tableName, null, null, null, null, null, "_ID DESC");
-    }
 
-    public Cursor select_raw(SQLiteDatabase db,String sql)
-    {
-        return  db.rawQuery(sql, null);
-    }
 
-    public Cursor select(SQLiteDatabase db,String tableName,String selection,String[] selectionArgs){
-        return db.query(tableName, null, selection, selectionArgs, null, null, "_ID DESC");
-    }
-
-    public Cursor select_asc (SQLiteDatabase db,String tableName,String selection,String[] selectionArgs){
-        return db.query(tableName, null, selection, selectionArgs, null, null, "_ID ");
-    }
-
-    public Cursor query(SQLiteDatabase db,String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit) {
-        return db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
-    }
-    */
 
 }

@@ -22,12 +22,8 @@ public class UpThumbPic implements ISfsUiEvent {
     public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
-        //User user = intent.getParcelableExtra("User");
-        //String type = intent.getStringExtra("AttachmentType");
         String path = intent.getStringExtra("AttachmentPath");
-        //int pos =  intent.getIntExtra("ListPos",0);
 
-        Log.e("MYDEBUG", "upload_path= " + path);
         if (path != null)
         {
               String upload_path= NetTools.upload("", path);

@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:gravity="top" android:paddingTop="20dip">
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:paddingRight="30dip"
+            android:paddingTop="10dip" android:gravity="left" android:paddingLeft="20dip">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent" android:gravity="center_vertical">
+            <Button
+                    android:layout_width="100dip"
+                    android:layout_height="wrap_content"
+                    android:text="查找"
+                    android:id="@+id/bt_search" android:layout_gravity="center"
+                    android:paddingLeft="20dip" android:paddingRight="20dip"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                    />
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="nick_name"
+                    android:id="@+id/ed_searchContext" android:singleLine="true"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical" >
+
+
+        <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+            <com.asiainfo.app.MtlListView
+                    android:id="@+id/Lv_Search"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+
+                    android:dividerHeight="10dip"
+                    android:divider="@null"
+                    android:clickable="true"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="3dip"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</LinearLayout>

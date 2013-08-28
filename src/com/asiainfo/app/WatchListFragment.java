@@ -54,9 +54,9 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
         Log.e("MYDEBUG", "CreateView " + mNum);
         View v = inflater.inflate(R.layout.board_list, container, false);
         mWatchItemListView = (MtlListView) v.findViewById(R.id.pubboard);
-        mWatchItemAdpater = new WatchItemAdapter(inflater,getActivity());
+        mWatchItemAdpater = new WatchItemAdapter(inflater,getActivity(),((MtlFragmentActivity) getActivity()).getUser());
         IntentFilter filter = new IntentFilter();
-        filter.addAction("QueryWatchData_RES");
+        filter.addAction("QueryMyWatchData_RES");
         filter.addAction("GetWatcherPic_RES");
         ((MtlFragmentActivity)getActivity()).registerSfsDataReciever(WatchListFragment.class.getName(), this, filter);
         mWatchItemListView.setAdapter(mWatchItemAdpater);
@@ -70,7 +70,7 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
 
         Intent intent = new Intent();
         intent.setClass(getActivity(), MtlService.class);
-        intent.setAction("QueryWatchData");
+        intent.setAction("QueryMyWatchData");
 
         intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);
@@ -106,9 +106,9 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
                     ((User) mWatchItemAdpater.getItem(pos)).head_img = path ;
                     mWatchItemAdpater.notifyDataSetChanged();
                 }
-            }  else if (intent.getAction().equals("QueryWatchData_RES")) {
+            }  else if (intent.getAction().equals("QueryMyWatchData_RES")) {
                 ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
-
+                mWatchItemAdpater.clear();
                 if (pblist != null) {
                     for (int i=0;i<pblist.size();i++) {
                         User item =  pblist.get(i);
@@ -117,7 +117,7 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
                     mWatchItemListView.requestFocusFromTouch();
                     mWatchItemListView.setSelection(0);
                     mIsLoading = false;
-                    Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mWatchItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mWatchItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -129,7 +129,7 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
 
         Intent intent = new Intent();
         intent.setClass(getActivity(), MtlService.class);
-        intent.setAction("QueryWatchData");
+        intent.setAction("QueryMyWatchData");
 
         intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);

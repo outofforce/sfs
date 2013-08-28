@@ -2,19 +2,14 @@ package com.asiainfo.uievent;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import com.asiainfo.model.*;
-import com.asiainfo.proto.GetPublishData;
+import com.asiainfo.model.MtlErrorCode;
+import com.asiainfo.model.MtlResult;
+import com.asiainfo.model.User;
 import com.asiainfo.proto.GetWatchData;
 import com.asiainfo.proto.MtlServerGet;
 import com.asiainfo.tab.MtlTableHelper;
-import com.asiainfo.tab.TEventLog;
-import com.asiainfo.tab.TPublishData;
 import com.asiainfo.tab.TUser;
-import com.asiainfo.tools.TimeTrans;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,22 +23,18 @@ import java.util.ArrayList;
  * Time: 下午3:32
  * To change this template use File | Settings | File Templates.
  */
-public class QueryWatchData implements ISfsUiEvent {
+public class QueryMyWatchData implements ISfsUiEvent {
 
     @Override
     public Intent doUiEvent(Intent intent, Context cx, MtlResult result) {
 
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
-        User queryUser = intent.getParcelableExtra("QueryUser");
+
         ArrayList<User> list = new ArrayList<User>();
         if ( user != null) {
             GetWatchData reg ;
-            if (queryUser != null)
-                reg= new GetWatchData(user,queryUser);
-            else
-                reg= new GetWatchData(user);
-
+            reg= new GetWatchData(user);
             MtlServerGet.ServerResult res =  reg.handle();
             result.err_msg = res.err_msg;
             result.err_code = res.err_code ;
@@ -52,7 +43,7 @@ public class QueryWatchData implements ISfsUiEvent {
                 SQLiteDatabase db = helper.getWritableDatabase();
                 try {
                     TUser tuser = new TUser(db);
-
+                    tuser.clear();
                     JSONArray array = new JSONArray(res.result);
                     for (int i=0;i<array.length();i++) {
                         JSONObject s = (JSONObject)array.get(i);
@@ -61,15 +52,12 @@ public class QueryWatchData implements ISfsUiEvent {
                         d.nick_name = s.getString("nickName");
                         d.head_img = s.getString("headImg");
                         d.user_name = s.getString("userName");
-
-                        User mywatherUser = tuser.getUser(d);
-                        if (mywatherUser == null)
-                            d.is_my_watcher = User.IS_NOT_WATCHER;
-                        else
-                            d.is_my_watcher = User.IS_WATCHER;
-
+                        d.is_my_watcher = User.IS_WATCHER;
                         d.head_img_load = User.IMG_NO_LOADED;
                         list.add(d);
+                        User x = tuser.getUser(d);
+                        if (x == null)
+                           tuser.newUser(d);
                     }
                     t.putParcelableArrayListExtra("WatchDatas",list);
 

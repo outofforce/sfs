@@ -24,7 +24,7 @@ import com.asiainfo.testapp.ResumeFragment;
  * 
  */
 public class DrawerFragment extends Fragment implements OnClickListener {
-    private static final String[] CONTENT = new String[] { "发布", "碎片", "关注"};
+    private static final String[] CONTENT = new String[] { "发布", "冰块", "我的关注"};
 	public DrawerLayout layout;
 	public View view;
 

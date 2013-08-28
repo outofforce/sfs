@@ -7,11 +7,6 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:paddingLeft="20dip">
-        <ImageView android:layout_width="100dip" android:layout_height="100dip" android:id="@+id/iv_postImg"
-                   android:layout_gravity="center" android:src="@android:drawable/ic_dialog_dialer"
-                   android:minHeight="100dip" android:minWidth="100dip"
-                   android:background="@android:drawable/toast_frame" android:maxHeight="100dip"
-                   android:maxWidth="100dip" android:padding="10dip"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="horizontal"
@@ -30,15 +25,27 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:gravity="right" android:paddingRight="30dip"
-            android:paddingTop="10dip">
-        <Button
+            android:layout_height="wrap_content" android:paddingRight="30dip"
+            android:paddingTop="10dip" android:gravity="left" android:paddingLeft="20dip">
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="send"
-                android:id="@+id/bt_send" android:layout_gravity="center"
-                android:paddingLeft="20dip" android:paddingRight="20dip"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-                />
+                android:layout_height="fill_parent">
+            <ImageView android:layout_width="50dip" android:layout_height="50dip" android:id="@+id/iv_postImg"
+                       android:layout_gravity="center" android:src="@android:drawable/ic_input_add"
+                       android:background="@android:drawable/bottom_bar"
+                       android:padding="2dip"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                      android:layout_height="fill_parent" android:id="@+id/linearLayout" android:gravity="right">
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="send"
+                    android:id="@+id/bt_send" android:layout_gravity="center"
+                    android:paddingLeft="20dip" android:paddingRight="20dip"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                    />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

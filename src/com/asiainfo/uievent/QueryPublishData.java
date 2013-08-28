@@ -90,8 +90,7 @@ public class QueryPublishData implements ISfsUiEvent {
                     result.err_msg = "协议解析错误 "+e.getMessage();
                     e.printStackTrace();
                 }
-                if (db.isOpen())
-                    db.close();
+
 
             }
         } else {

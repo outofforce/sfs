@@ -21,6 +21,7 @@ import com.asiainfo.lib.DrawerFragment;
 import com.asiainfo.model.MtlErrorCode;
 import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
+import com.asiainfo.testapp.FindWatcherActivity;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,6 +44,10 @@ public class MtlFragmentActivity extends FragmentActivity {
     public static final int M_EXIT=0;
     public static final int M_SETUP=1;
     public static final int M_TODO=2;
+    public static final int M_FIND=3;
+    public static final int M_IVITE=4;
+
+
 
     DataReceiver dataReceiver;
 
@@ -84,7 +89,7 @@ public class MtlFragmentActivity extends FragmentActivity {
         items = getResources().getStringArray(R.array.left_array);
         leftList = (ListView) findViewById(R.id.left_drawer);
 
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.listitem, new String[] {" 退 出 "," 设 置 "," Todo "});
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.listitem, new String[] {" 退 出 "," 设 置 "," Todo "," 添加关注"," 邀请"});
         leftList.setAdapter(arrayAdapter);
         leftList.setOnItemClickListener(itemListener);
         initFragments();
@@ -127,11 +132,9 @@ public class MtlFragmentActivity extends FragmentActivity {
                                 long arg3) {
             // TODO Auto-generated method stub
             // 设置Activity的标题，这里只是用来做一个测试，你可以在这里用来处理单击侧边栏的选项事件
-            setTitle(items[position]+" "+position);
+            // setTitle(items[position]+" "+position);
             // 关闭侧边栏
             drawerLayout.closeDrawer(leftList);
-            Log.i("onItemSelected",
-                    "open?:" + drawerLayout.isDrawerOpen(leftList) + ' '+ position);
 
             if (position == M_EXIT) {
                 Intent intent = new Intent();
@@ -139,6 +142,12 @@ public class MtlFragmentActivity extends FragmentActivity {
                 intent.setAction("UserLogout");
                 intent.putExtra("User",user);
                 startService(intent);
+            } else if (position == M_FIND) {
+                Intent intent = new Intent();
+                intent.setClass(MtlFragmentActivity.this, FindWatcherActivity.class);
+                //intent.setAction("UserLogout");
+                intent.putExtra("User",user);
+                startActivity(intent);
             }
 
 
@@ -178,7 +187,7 @@ public class MtlFragmentActivity extends FragmentActivity {
         filter.addAction("QueryPublishData_RES");
         filter.addAction("GetLocalPublishData_RES");
         filter.addAction("GetThumbPic_RES");
-        filter.addAction("QueryWatchData_RES");
+        filter.addAction("QueryMyWatchData_RES");
         filter.addAction("GetWatcherPic_RES");
         filter.addAction("PostPublish_RES");
 

@@ -28,6 +28,7 @@ public class MtlErrorCode {
     public static final int E_USER_INACITVE = 11001;
     public static final int E_GET_PUBLIST = 11002;
     public static final int E_JSON_ERROR = 11003;
+    public static final int E_CACHE_IMG = 11004;
 
 
 

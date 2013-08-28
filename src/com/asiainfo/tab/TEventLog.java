@@ -11,12 +11,13 @@ package com.asiainfo.tab;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import com.asiainfo.model.EventLog;
 
 
 public  class TEventLog  {
 
-    public static final String TABLE_NAME = "TEventLog";
+    public static final String TABLE_NAME = "EVENT_LOG";
 
 
     SQLiteDatabase  db;
@@ -40,25 +41,34 @@ public  class TEventLog  {
         return db.update(TABLE_NAME,cv,"_ID=?",new String[] {Long.toString(id)});
     }
     public EventLog getEventLog(String eventKey) {
-
-        Cursor c =db.query(TABLE_NAME, null, "EVENT_KEY=?",
-                new String[] { eventKey }, null, null, null , null);
-        c.moveToFirst();
-
         EventLog e = null;
-        if (c.getCount()>0) {
+        Cursor c = null;
+        try {
 
-            e = new EventLog();
-            e.event_key =  c.getString(c.getColumnIndex("EVENT_KEY"));
-            e.event_value =  c.getString(c.getColumnIndex("EVENT_VALUE"));
-            e.event_type =  c.getInt(c.getColumnIndex("EVENT_TYPE"));
-            e.event_status =  c.getInt(c.getColumnIndex("EVENT_STATUS"));
-            e.id =  c.getLong(c.getColumnIndex("_ID"));
+             c =db.query(TABLE_NAME, null, "EVENT_KEY=?",
+                    new String[] { eventKey }, null, null, null , null);
+            c.moveToFirst();
+
+            if (c.getCount()>0) {
+
+                e = new EventLog();
+                e.event_key =  c.getString(c.getColumnIndex("EVENT_KEY"));
+                e.event_value =  c.getString(c.getColumnIndex("EVENT_VALUE"));
+                e.event_type =  c.getInt(c.getColumnIndex("EVENT_TYPE"));
+                e.event_status =  c.getInt(c.getColumnIndex("EVENT_STATUS"));
+                e.id =  c.getLong(c.getColumnIndex("_ID"));
 
 
+            }
+            c.close();
+        } catch (Exception exception) {
+          exception.printStackTrace();
+        }  finally {
+            if (c != null)
+                c.close();
         }
 
-        c.close();
+
         return e;
     }
 
