@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
@@ -21,7 +20,6 @@ import com.asiainfo.lib.DrawerFragment;
 import com.asiainfo.model.MtlErrorCode;
 import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
-import com.asiainfo.testapp.FindWatcherActivity;
 
 import java.util.HashMap;
 import java.util.Iterator;

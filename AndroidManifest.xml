@@ -80,7 +80,7 @@
                   android:screenOrientation="portrait" />
         <service android:name=".app.MtlService" android:process=":remote" >
         </service>
-        <activity android:name=".testapp.FindWatcherActivity"
+        <activity android:name=".app.FindWatcherActivity"
                   android:screenOrientation="portrait" />
 
     </application>
