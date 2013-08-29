@@ -116,7 +116,7 @@ public class FindWatcherActivity extends Activity {
                     String path = intent.getStringExtra("AttachmentPath");
                     if (path != null) {
                         ((User) mWatchItemAdpater.getItem(pos)).head_img_load = User.IMG_LOADED ;
-                        ((User) mWatchItemAdpater.getItem(pos)).head_img = path ;
+                        ((User) mWatchItemAdpater.getItem(pos)).head_img_remote_addr = path ;
                         mWatchItemAdpater.notifyDataSetChanged();
                     }
                 }  else if (action.equals("ChangeWatcherStatus_RES")) {
@@ -145,7 +145,7 @@ public class FindWatcherActivity extends Activity {
         }
     }
 
-    //	Runnable runnable = new Runnable(){
+//	Runnable runnable = new Runnable(){
 //		@Override
 //		public void run() {
 //            Timer timer=new Timer();

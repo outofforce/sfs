@@ -17,7 +17,8 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
     public int context_img_loaded = 0;
     public long local_id=0;
     public String thumb_img = "";
-
+    public String context_img_remote_addr ="";
+    public String thumb_img_remote_addr = "";
 
     public static final int INIT = 0;
 
@@ -66,6 +67,8 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         context_img_loaded = _context_img_loaded;
         local_id = _local_id;
         thumb_img = _thumb_img;
+        thumb_img_remote_addr ="";
+        context_img_remote_addr = "";
     }
 
     public PublishData(Parcel s) {
@@ -81,6 +84,8 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         context_img_loaded = s.readInt();
         local_id = s.readLong();
         thumb_img = s.readString();
+        context_img_remote_addr = s.readString();
+        thumb_img_remote_addr = s.readString();
     }
 
     @Override
@@ -102,6 +107,8 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         dest.writeInt(context_img_loaded);
         dest.writeLong(local_id);
         dest.writeString(thumb_img);
+        dest.writeString(context_img_remote_addr);
+        dest.writeString(thumb_img_remote_addr);
     }
 
     public static final Creator<PublishData> CREATOR = new Creator<PublishData>() {

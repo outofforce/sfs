@@ -54,9 +54,9 @@ public  class TUser {
 
             c =db.query(TABLE_NAME, null, null,
                     null, null, null, null , null);
-            c.moveToFirst();
+            //c.moveToFirst();
             User e = null;
-            if (c.getCount()>0) {
+            while (c.moveToNext()) {
 
                 e = new User();
                 e.user_name =  c.getString(c.getColumnIndex("USER_NAME"));

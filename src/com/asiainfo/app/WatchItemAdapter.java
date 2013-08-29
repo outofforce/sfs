@@ -68,7 +68,11 @@ public class WatchItemAdapter extends BaseAdapter {
         public Object getItem(int position) {
             return mWathUser.get(position);
         }
-
+        public int removeByPosition(int position) {
+            mWathUser.remove(position);
+            super.notifyDataSetChanged();
+            return mWathUser.size();
+        }
 
         public long getItemId(int position) {
             return position;
@@ -130,7 +134,7 @@ public class WatchItemAdapter extends BaseAdapter {
                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
                 options.inPurgeable = true;
                 options.inInputShareable = true;
-                Bitmap bitmapImage = BitmapFactory.decodeFile(t.head_img,options);
+                Bitmap bitmapImage = BitmapFactory.decodeFile(t.head_img_remote_addr,options);
                 holder.userHead.setImageBitmap(bitmapImage);
             }
 

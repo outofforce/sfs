@@ -58,6 +58,7 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
         IntentFilter filter = new IntentFilter();
         filter.addAction("QueryMyWatchData_RES");
         filter.addAction("GetLocalMyWatchData_RES");
+        filter.addAction("ChangeWatcherStatus_RES");
         filter.addAction("GetWatcherPic_RES");
         ((MtlFragmentActivity)getActivity()).registerSfsDataReciever(WatchListFragment.class.getName(), this, filter);
         mWatchItemListView.setAdapter(mWatchItemAdpater);
@@ -110,9 +111,18 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
                 String path = intent.getStringExtra("AttachmentPath");
                 if (path != null) {
                     ((User) mWatchItemAdpater.getItem(pos)).head_img_load = User.IMG_LOADED ;
-                    ((User) mWatchItemAdpater.getItem(pos)).head_img = path ;
+                    ((User) mWatchItemAdpater.getItem(pos)).head_img_remote_addr = path ;
                     mWatchItemAdpater.notifyDataSetChanged();
                 }
+            }  else if (intent.getAction().equals("ChangeWatcherStatus_RES")) {
+                int pos = intent.getIntExtra("ListPos",-1);
+                if (pos == -1) return ;
+
+                //User user = intent.getParcelableExtra("WatcherUser");
+                //((User) mWatchItemAdpater.getItem(pos)).is_my_watcher = user.is_my_watcher ;
+                mWatchItemAdpater.removeByPosition(pos);
+                //mWatchItemAdpater.notifyDataSetChanged();
+
             }  else if (intent.getAction().equals("GetLocalMyWatchData_RES")) {
                 ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
                 mWatchItemAdpater.clear();

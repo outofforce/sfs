@@ -33,7 +33,6 @@ public class ChangeWatcherStatus implements ISfsUiEvent {
         User user = intent.getParcelableExtra("User");
         User watcherUser = intent.getParcelableExtra("BeWatcher");
         int pos  = intent.getIntExtra("ListPos", 0);
-        ArrayList<User> list = new ArrayList<User>();
         if ( user != null) {
             ChgWatcherStatus reg ;
             reg= new ChgWatcherStatus(user,watcherUser);
