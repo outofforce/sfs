@@ -37,7 +37,8 @@ public class QueryPublishData implements ISfsUiEvent {
         User user = intent.getParcelableExtra("User");
         ArrayList<PublishData> list = new ArrayList<PublishData>();
         if ( user != null) {
-            GetPublishData reg = new GetPublishData(user,System.currentTimeMillis());
+            long  last_max_id = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getLong("PublshMaxId",0);
+            GetPublishData reg = new GetPublishData(user,last_max_id);
             MtlServerGet.ServerResult res =  reg.handle();
             result.err_msg = res.err_msg;
             result.err_code = res.err_code ;
@@ -46,18 +47,18 @@ public class QueryPublishData implements ISfsUiEvent {
             if (result.err_code == MtlErrorCode.Success) {
                 MtlTableHelper helper  = new MtlTableHelper(cx);
                 SQLiteDatabase db = helper.getWritableDatabase();
-                TPublishData tp = new TPublishData(db);
-                try {
 
+                try {
+                    TPublishData tp = new TPublishData(db);
 
                     JSONArray array = new JSONArray(res.result);
-                    int max_id = 0;
+                    long max_id = 0;
                     for (int i=0;i<array.length();i++) {
-                        JSONObject s = (JSONObject)array.get(i);
+                        JSONObject s = (JSONObject)array.get(array.length()-i-1);
 
                         Log.e("MYDEBUG",""+s.toString());
                         PublishData d = new PublishData();
-                        d.id = s.getInt("id");
+                        d.id = s.getInt("publishId");
                         if (d.id >max_id)
                             max_id = d.id;
                         d.user_id = s.getInt("userId");
@@ -65,30 +66,31 @@ public class QueryPublishData implements ISfsUiEvent {
                         d.pub_context = s.getString("postContext");
                         d.gis_info = s.getString("gisInfo");
                         d.context_img = s.getString("postImg");
-                        d.create_time = TimeTrans.StringToLong(s.getString("create_time"));
-                        d.chg_time = TimeTrans.StringToLong(s.getString("create_time"));
+                        d.create_time = TimeTrans.StringToLong(s.getString("createTime"));
+                        d.chg_time = TimeTrans.StringToLong(s.getString("createTime"));
                         d.status = s.getInt("status");
                         d.context_img_loaded = PublishData.INIT;
-                        d.thumb_img = s.getString("postImg");
+                        d.thumb_img = s.getString("simpleImg");
                         list.add(d);
-                        //tp.newPublicData(d);
+                        tp.newPublicData(d);
 
 
                     }
                     t.putParcelableArrayListExtra("PublicDatas",list);
-                    int  last_max_id = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getInt("PublshMaxId",0);
                     if (max_id > last_max_id) {
                         SharedPreferences mPerferences = PreferenceManager.getDefaultSharedPreferences(cx);
                         SharedPreferences.Editor mEditor = mPerferences.edit();
-                        mEditor.putInt("PublshMaxId", max_id);
+                        mEditor.putLong("PublshMaxId", max_id);
                         mEditor.commit();
                     }
-
 
                 } catch (JSONException e) {
                     result.err_code = MtlErrorCode.E_JSON_ERROR ;
                     result.err_msg = "协议解析错误 "+e.getMessage();
                     e.printStackTrace();
+                } finally {
+                    if (db.isOpen())
+                        db.close();
                 }
 
 

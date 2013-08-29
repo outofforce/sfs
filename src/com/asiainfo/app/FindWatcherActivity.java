@@ -132,10 +132,12 @@ public class FindWatcherActivity extends Activity {
                             User item =  pblist.get(i);
                             mWatchItemAdpater.add(item);
                         }
-                        mWatchItemListView.requestFocusFromTouch();
-                        mWatchItemListView.setSelection(0);
-                        mIsLoading = false;
-                        Toast.makeText(FindWatcherActivity.this,"收到"+pblist.size()+"条记录，一共"+ mWatchItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
+                        if (pblist.size()>0) {
+                            mWatchItemListView.requestFocusFromTouch();
+                            mWatchItemListView.setSelection(0);
+                            mIsLoading = false;
+                        }
+                        //Toast.makeText(FindWatcherActivity.this,"收到"+pblist.size()+"条记录，一共"+ mWatchItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {

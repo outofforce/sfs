@@ -15,6 +15,8 @@ import com.asiainfo.model.PublishData;
 import com.asiainfo.tools.TimeTrans;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver {
     int mNum;
@@ -61,34 +63,27 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
         mpubItemListView.setAdapter(mpubItemAdpater);
         mpubItemListView.setonRefreshListener(new MtlListView.OnRefreshListener() {
             public void onRefresh() {
-                loadHistory();
+                if (!mIsLoading )
+                    loadHistory();
+
+                Timer timer=new Timer();
+                timer.schedule(new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        mIsLoading = false;
+                    }
+
+                }, 1000);
             }
         });
 
-
-
         Intent intent = new Intent();
         intent.setClass(getActivity(), MtlService.class);
-        intent.setAction("QueryPublishData");
-
+        intent.setAction("GetLocalPublishData");
         intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);
 
-//        Intent intent = new Intent();
-//        intent.setClass(getActivity(), com.asiainfo.app.MtlService.class);
-//        intent.setAction("ClearNotify");
-
-        //intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
-//        getActivity().startService(intent);
-
-//        text.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                System.out.println("点击成功！");
-//            }
-//        });
         return v;
     }
 
@@ -113,10 +108,11 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
         if (res.err_code == MtlErrorCode.Success) {
             if (intent.getAction().equals("GetThumbPic_RES")) {
                 int pos = intent.getIntExtra("ListPos",-1);
+                if (pos == -1) return ;
                 String path = intent.getStringExtra("AttachmentPath");
                 if (path != null) {
-                    ((PublishItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImgLoad = true ;
-                    ((PublishItemAdapter.pubItem)mpubItemAdpater.getItem(pos)).pubImg = path ;
+                    ((PublishData)mpubItemAdpater.getItem(pos)).thumb_img_loaded = PublishData.LOADED ;
+                    ((PublishData)mpubItemAdpater.getItem(pos)).thumb_img_remote_addr = path ;
                     mpubItemAdpater.notifyDataSetChanged();
                 }
             }  else if (intent.getAction().equals("QueryPublishData_RES")
@@ -126,15 +122,13 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
                 if (pblist != null) {
                     for (int i=0;i<pblist.size();i++) {
                         PublishData d =  pblist.get(i);
-                        PublishItemAdapter.pubItem item = new PublishItemAdapter.pubItem();
-                        item.pubName = d.nick_name ;
-                        item.pubContext = d.pub_context;
-                        item.pubImg = d.context_img;
-                        item.pubTime =  TimeTrans.LongToBusiString(d.create_time);
-                        mpubItemAdpater.add(item);
+                        mpubItemAdpater.add(d);
                     }
-                    mpubItemListView.requestFocusFromTouch();
-                    mpubItemListView.setSelection(0);
+                    if (pblist.size()>0) {
+                        mpubItemListView.requestFocusFromTouch();
+                        mpubItemListView.setSelection(0);
+
+                    }
                     mIsLoading = false;
                     Toast.makeText(getActivity(),"收到"+pblist.size()+"条记录，一共"+ mpubItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
                 }
@@ -147,7 +141,7 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
     private void loadHistory(){
         Intent intent = new Intent();
         intent.setClass(getActivity(), MtlService.class);
-        intent.setAction("GetLocalPublishData");
+        intent.setAction("QueryPublishData");
 
         intent.putExtra("User", ((MtlFragmentActivity) getActivity()).getUser());
         getActivity().startService(intent);

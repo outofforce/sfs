@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import com.asiainfo.tools.Base64Code;
 
 public class PublishData implements Parcelable { //声明实现接口Parcelable
-    public int id=0;
+    public long id=0;
     public int user_id=0;
     public String nick_name="";
     public String pub_context="";
@@ -19,6 +19,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
     public String thumb_img = "";
     public String context_img_remote_addr ="";
     public String thumb_img_remote_addr = "";
+    public int thumb_img_loaded = 0;
 
     public static final int INIT = 0;
 
@@ -42,7 +43,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
     public PublishData() {}
 
     public PublishData(
-             int _id,
+            long _id,
              int _user_id,
              String _nick_name,
              String _pub_context,
@@ -69,10 +70,11 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         thumb_img = _thumb_img;
         thumb_img_remote_addr ="";
         context_img_remote_addr = "";
+        thumb_img_loaded=INIT;
     }
 
     public PublishData(Parcel s) {
-        id = s.readInt();
+        id = s.readLong();
         user_id = s.readInt();
         nick_name = s.readString();
         pub_context = s.readString();
@@ -86,6 +88,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         thumb_img = s.readString();
         context_img_remote_addr = s.readString();
         thumb_img_remote_addr = s.readString();
+        thumb_img_loaded = s.readInt();
     }
 
     @Override
@@ -95,7 +98,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeLong(id);
         dest.writeInt(user_id);
         dest.writeString(nick_name);
         dest.writeString(pub_context);
@@ -109,6 +112,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         dest.writeString(thumb_img);
         dest.writeString(context_img_remote_addr);
         dest.writeString(thumb_img_remote_addr);
+        dest.writeInt(thumb_img_loaded);
     }
 
     public static final Creator<PublishData> CREATOR = new Creator<PublishData>() {

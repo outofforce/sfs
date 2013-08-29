@@ -22,6 +22,9 @@ import com.asiainfo.model.User;
 import com.asiainfo.tools.DisplayUtil;
 import com.asiainfo.tools.SfsFileOps;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
     int mNum;
 
@@ -44,6 +47,7 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
     String view_img_path ="";
     boolean hasImg = false;
     MtlFragmentActivity father;
+    boolean isSending = false;
 
 //    private ListView mpubItemListView;
 
@@ -54,8 +58,6 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
         mNum = getArguments() != null ? getArguments().getInt("num") : 1;
     }
 
-    boolean boolean_ChgImg = false;
-    //这里是初始化页面内容的函数，我们的监听就是在这儿
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,15 +75,6 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
         Bt_send.setOnClickListener(cl_post);
         Iv_postImg.setOnClickListener(cl_selectImg);
 
-
-//        text.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                System.out.println("点击成功！");
-//            }
-//        });
         return v;
     }
 
@@ -108,28 +101,40 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
         @Override
         public void onClick(View v) {
             if (Ed_postContext.getText().length()>0) {
-                //Bt_send.setEnabled(false);
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), MtlService.class);
-                intent.setAction("PostPublish");
-                User user = father.getUser();
-                intent.putExtra("User",user);
-                PublishData p = new PublishData();
-                if (hasImg) {
-                     p.thumb_img = send_img_path;
-                     p.context_img = view_img_path;
+                if (!isSending) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), MtlService.class);
+                    intent.setAction("PostPublish");
+                    User user = father.getUser();
+                    intent.putExtra("User",user);
+                    PublishData p = new PublishData();
+                    if (hasImg) {
+                         p.thumb_img = send_img_path;
+                         p.context_img = view_img_path;
+                    }
+                    p.pub_context =Ed_postContext.getText().toString();
+                    intent.putExtra("PostPushishData",p);
+                    intent.putExtra("HasImg",hasImg);
+                    intent.setClass(father, MtlService.class);
+                    father.startService(intent);
+                    isSending = true;
+
+                    Timer timer=new Timer();
+                    timer.schedule(new TimerTask(){
+
+                        @Override
+                        public void run() {
+                            isSending = false;
+                        }
+
+                    }, 1000);
                 }
-                p.pub_context =Ed_postContext.getText().toString();
-                intent.putExtra("PostPushishData",p);
-                intent.putExtra("HasImg",hasImg);
-                intent.setClass(father, MtlService.class);
-                father.startService(intent);
 
 
             } else {
                 Toast.makeText(getActivity(),"no data need be send!",Toast.LENGTH_SHORT).show();
             }
-            //To change body of implemented methods use File | Settings | File Templates.
+
         }
     } ;
 
@@ -137,8 +142,6 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //setListAdapter(new ArrayAdapter<String>(getActivity(),
-         //       android.R.layout.simple_list_item_1, sCheeseStrings));
     }
 
     @Override
@@ -148,6 +151,8 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
             if (intent.getAction().equals("PostPublish_RES")) {
                 Toast.makeText(getActivity(),"send sucess !",Toast.LENGTH_SHORT).show();
                 Ed_postContext.setText("");
+                Iv_postImg.setImageResource(android.R.drawable.ic_input_add);
+                isSending = false;
                 //Bt_send.setEnabled(true);
             }
         }

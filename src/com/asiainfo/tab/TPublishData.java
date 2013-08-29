@@ -37,8 +37,9 @@ public  class TPublishData {
         cv.put("CONTEXT_IMG", data.context_img);
         cv.put("CREATE_TIME", data.create_time);
         cv.put("CHG_TIME", data.chg_time);
+        cv.put("THUMB_IMG", data.thumb_img);
         cv.put("STATUS", data.status);
-        cv.put("CONTEXT_IMG_LOADED", data.context_img_loaded);
+        //cv.put("CONTEXT_IMG_LOADED", data.context_img_loaded);
         return  db.insert(TABLE_NAME, null, cv);
     }
 
@@ -53,7 +54,8 @@ public  class TPublishData {
         cv.put("CREATE_TIME", data.create_time);
         cv.put("CHG_TIME", data.chg_time);
         cv.put("STATUS", data.status);
-        cv.put("CONTEXT_IMG_LOADED", data.context_img_loaded);
+        cv.put("THUMB_IMG", data.thumb_img);
+        //cv.put("CONTEXT_IMG_LOADED", data.context_img_loaded);
         return db.update(TABLE_NAME,cv,"_ID=?",new String[] {Long.toString(data.local_id)});
     }
 
@@ -61,24 +63,23 @@ public  class TPublishData {
         ArrayList<PublishData> list = new ArrayList();
         Cursor c =db.query(TABLE_NAME, null, null,
                 null, null, null, "_ID DESC", ""+begin+","+count);
-        c.moveToLast();
-        if (c.getCount()>0) {
+        if (c.getCount() > 0) {
+            c.moveToLast();
             do {
                 PublishData d = new PublishData();
-                d.id = c.getInt(c.getColumnIndex("REMOTE_ID"));
+                d.id = c.getLong(c.getColumnIndex("REMOTE_ID"));
                 d.user_id = c.getInt(c.getColumnIndex("USER_ID"));
                 d.nick_name = c.getString(c.getColumnIndex("NICK_NAME"));
                 d.pub_context = c.getString(c.getColumnIndex("PUB_CONTEXT"));
                 d.gis_info = c.getString(c.getColumnIndex("GIS_INFO"));
                 d.context_img = c.getString(c.getColumnIndex("CONTEXT_IMG"));
-                d.create_time = System.currentTimeMillis();
-                d.chg_time = System.currentTimeMillis();
+                d.create_time = c.getLong(c.getColumnIndex("CREATE_TIME"));
+                d.chg_time = c.getLong(c.getColumnIndex("CHG_TIME"));
                 d.status = c.getInt(c.getColumnIndex("STATUS"));
-                d.local_id = c.getInt(c.getColumnIndex("_ID"));
-                d.context_img_loaded = PublishData.INIT;
+                d.local_id = c.getLong(c.getColumnIndex("_ID"));
+                d.thumb_img = c.getString(c.getColumnIndex("THUMB_IMG"));
                 list.add(d);
-            }
-            while(c.moveToPrevious());
+            } while (c.moveToPrevious());
         }
         c.close();
         return list;

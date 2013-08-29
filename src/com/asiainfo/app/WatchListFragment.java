@@ -17,6 +17,8 @@ import com.asiainfo.model.User;
 import com.asiainfo.tools.TimeTrans;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
     int mNum;
@@ -64,7 +66,18 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
         mWatchItemListView.setAdapter(mWatchItemAdpater);
         mWatchItemListView.setonRefreshListener(new MtlListView.OnRefreshListener() {
             public void onRefresh() {
-                loadHistory();
+                if (!mIsLoading )
+                    loadHistory();
+
+                Timer timer=new Timer();
+                timer.schedule(new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        mIsLoading = false;
+                    }
+
+                }, 1000);
             }
         });
 
@@ -108,6 +121,7 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
         if (res.err_code == MtlErrorCode.Success) {
             if (intent.getAction().equals("GetWatcherPic_RES")) {
                 int pos = intent.getIntExtra("ListPos",-1);
+                if (pos == -1) return ;
                 String path = intent.getStringExtra("AttachmentPath");
                 if (path != null) {
                     ((User) mWatchItemAdpater.getItem(pos)).head_img_load = User.IMG_LOADED ;
@@ -117,13 +131,10 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
             }  else if (intent.getAction().equals("ChangeWatcherStatus_RES")) {
                 int pos = intent.getIntExtra("ListPos",-1);
                 if (pos == -1) return ;
-
-                //User user = intent.getParcelableExtra("WatcherUser");
-                //((User) mWatchItemAdpater.getItem(pos)).is_my_watcher = user.is_my_watcher ;
                 mWatchItemAdpater.removeByPosition(pos);
-                //mWatchItemAdpater.notifyDataSetChanged();
 
-            }  else if (intent.getAction().equals("GetLocalMyWatchData_RES")) {
+            }  else if (intent.getAction().equals("GetLocalMyWatchData_RES") ||
+                    intent.getAction().equals("QueryMyWatchData_RES")) {
                 ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
                 mWatchItemAdpater.clear();
                 if (pblist != null) {
@@ -131,20 +142,11 @@ public  class WatchListFragment extends Fragment implements IOnSfsDataReceiver {
                         User item =  pblist.get(i);
                         mWatchItemAdpater.add(item);
                     }
-                    mWatchItemListView.requestFocusFromTouch();
-                    mWatchItemListView.setSelection(0);
-                    mIsLoading = false;
-                }
-            }  else if (intent.getAction().equals("QueryMyWatchData_RES")) {
-                ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
-                mWatchItemAdpater.clear();
-                if (pblist != null) {
-                    for (int i=0;i<pblist.size();i++) {
-                        User item =  pblist.get(i);
-                        mWatchItemAdpater.add(item);
+                    if (pblist.size()>0) {
+                        mWatchItemListView.requestFocusFromTouch();
+                        mWatchItemListView.setSelection(0);
+
                     }
-                    mWatchItemListView.requestFocusFromTouch();
-                    mWatchItemListView.setSelection(0);
                     mIsLoading = false;
                 }
             }

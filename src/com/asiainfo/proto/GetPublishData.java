@@ -11,10 +11,9 @@ import com.asiainfo.model.User;
  * To change this template use File | Settings | File Templates.
  */
 public class GetPublishData extends MtlServerGet {
-    public GetPublishData(User user, Long timeMills) {
-        setBody2("userName", user.user_name);
-        setBody2("timeMills", "" + timeMills);
-        setBody2("maxCount",""+20);
+    public GetPublishData(User user, Long pubMaxId) {
+        setBody2("userId",""+user.remote_id);
+        setBody2("publishId", "" + pubMaxId);
         setUrlSufix("queryPubdata.do");
     }
 

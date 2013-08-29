@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.asiainfo.model.PublishData;
+import com.asiainfo.tools.TimeTrans;
 
 import java.util.ArrayList;
 
@@ -26,18 +28,19 @@ import java.util.ArrayList;
 
 public class PublishItemAdapter extends BaseAdapter {
     
-        public static class pubItem {
-            public String pubTime = "";
-            public String pubImg = "";
-            public String pubContext = "";
-            public String pubName = "";
-            public String pubHead = "";
-            public Boolean pubImgLoad = false;
-            public Bitmap drawable;
-
-        }
+//        public static class pubItem {
+//            public String pubTime = "";
+//            public String pubImg = "";
+//            public String pubContext = "";
+//            public String pubName = "";
+//            public String pubHead = "";
+//            public Boolean pubImgLoad = false;
+//
+//            //public Bitmap drawable;
+//
+//        }
     
-        private ArrayList<pubItem> mPubItems = new ArrayList<pubItem>();
+        private ArrayList<PublishData> mPubItems = new ArrayList<PublishData>();
 
         private LayoutInflater mInflater;
         private Context mCx;
@@ -53,12 +56,12 @@ public class PublishItemAdapter extends BaseAdapter {
         }
 
 
-        public int add_withoutNotify(pubItem item) {
+        public int add_withoutNotify(PublishData item) {
             this.mPubItems.add(item);
             return mPubItems.size();
         }
-        public int add(pubItem item) {
-            this.mPubItems.add(item);
+        public int add(PublishData item) {
+            this.mPubItems.add(0,item);
             super.notifyDataSetChanged();
             return mPubItems.size();
         }
@@ -97,40 +100,35 @@ public class PublishItemAdapter extends BaseAdapter {
                 holder = (SViewHolder) convertView.getTag();
             }
 
-            pubItem t = mPubItems.get(position);
+            PublishData t = mPubItems.get(position);
             holder.clear();
 
-            holder.pubName.setText(t.pubName);
+            holder.pubName.setText(t.nick_name);
             holder.pubHead.setImageResource(R.drawable.google);
 
-            holder.pubContent.setText(t.pubContext);
-            holder.pubTime.setText(t.pubTime);
+            holder.pubContent.setText(t.pub_context);
+            holder.pubTime.setText(TimeTrans.LongToBusiString(t.create_time));
 
 
-            if (!t.pubImg.equals("") && t.pubImgLoad==false) {
+            if (!t.thumb_img.equals("") && t.thumb_img_loaded==PublishData.INIT) {
                 Intent intent = new Intent();
                 intent.setClass(mCx, MtlService.class);
                 intent.putExtra("AttachmentType","image");
-                intent.putExtra("AttachmentPath",t.pubImg);
+                intent.putExtra("AttachmentPath",t.thumb_img);
                 intent.putExtra("ListPos",position);
                 intent.setAction("GetThumbPic");
                 mCx.startService(intent);
 
-            } else if (t.pubImgLoad == true ) {
-                Log.e("MYDEBUG", "ImgPath=" + t.pubImg) ;
+            } else if (t.thumb_img_loaded == PublishData.LOADED ) {
+                //Log.e("MYDEBUG", "ImgPath=" + t.thumb_img_remote_addr) ;
 
-                    if (t.drawable == null) {
-                    final BitmapFactory.Options options = new BitmapFactory.Options();
-                    //options.inJustDecodeBounds = true;
-                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                    options.inPurgeable = true;
-                    options.inInputShareable = true;
-                    Bitmap bitmapImage = BitmapFactory.decodeFile(t.pubImg,options);
-                    t.drawable = bitmapImage ;
-                    holder.pubImg.setImageBitmap(bitmapImage);
-                } else {
-                    holder.pubImg.setImageBitmap(t.drawable);
-                }
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                options.inPurgeable = true;
+                options.inInputShareable = true;
+                Bitmap bitmapImage = BitmapFactory.decodeFile(t.thumb_img_remote_addr,options);
+                holder.pubImg.setImageBitmap(bitmapImage);
+
 
             }
 
