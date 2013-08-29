@@ -1,0 +1,41 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" android:gravity="center"
+    android:background="@android:drawable/picture_frame">
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"  >
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:gravity="center_vertical" android:padding="3dip"
+                android:layout_weight="1">
+            <ImageView
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:id="@+id/pubHead" android:src="@drawable/ic_launcher" android:layout_margin="0dip"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="user_name"
+                    android:id="@+id/pubName"
+                    android:paddingLeft="5dip"
+                    android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="100dip"
+                android:layout_height="fill_parent" android:gravity="center_vertical|right"
+                android:paddingRight="20dip">
+            <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/Cb_userSelected"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -71,8 +71,9 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
         father = (MtlFragmentActivity)getActivity();
         IntentFilter filter = new IntentFilter();
         filter.addAction("PostPublish_RES");
-        father.registerSfsDataReciever(PostFragment.class.getName(),this,filter);
+        father.registerSfsDataReciever(PostFragment.class.getName(), this, filter);
         Bt_send.setOnClickListener(cl_post);
+        Bt_send.setOnLongClickListener(cl_long_post);
         Iv_postImg.setOnClickListener(cl_selectImg);
 
         return v;
@@ -95,8 +96,20 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
             startActivityForResult(intent, id_select_img);
         }
     } ;
+    Button.OnLongClickListener cl_long_post = new Button.OnLongClickListener() {
 
-    View.OnClickListener cl_post = new Button.OnClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), SelectSenderActivity.class);
+            intent.setAction("UserLogin");
+            intent.putExtra("User",((MtlFragmentActivity)getActivity()).getUser());
+            startActivity(intent);
+            return false;
+        }
+    };
+
+    Button.OnClickListener cl_post = new Button.OnClickListener() {
 
         @Override
         public void onClick(View v) {

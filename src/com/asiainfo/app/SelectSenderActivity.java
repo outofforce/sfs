@@ -15,7 +15,9 @@ import com.asiainfo.model.MtlErrorCode;
 import com.asiainfo.model.MtlResult;
 import com.asiainfo.model.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,11 +26,11 @@ import java.util.*;
  * Time: 下午4:59
  * To change this template use File | Settings | File Templates.
  */
-public class FindWatcherActivity extends Activity {
+public class SelectSenderActivity extends Activity {
     EditText Et_Context;
-    Button Bt_SearchWatcher;
+    Button Bt_Sender;
     private MtlListView mWatchItemListView;
-    private WatchItemAdapter mWatchItemAdpater;
+    private SelectSenderAdapter mSelectSenderAdapter;
     private boolean mIsLoading = false;
     DataReceiver dataReceiver;
     User user;
@@ -39,34 +41,22 @@ public class FindWatcherActivity extends Activity {
         if (user == null) {
             throw new NullPointerException("No User Data!");
         }
-		setContentView(R.layout.search_watcher);
+		setContentView(R.layout.select_user_to_send);
 
-        Bt_SearchWatcher=(Button)findViewById(R.id.bt_search);
+        Bt_Sender=(Button)findViewById(R.id.bt_search);
         Et_Context=(EditText)findViewById(R.id.ed_searchContext);
 
-        Bt_SearchWatcher.setOnClickListener(new View.OnClickListener() {
+        Bt_Sender.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-                if (!mIsLoading )
-                    loadHistory();
-
-                Timer timer=new Timer();
-                timer.schedule(new TimerTask(){
-
-                    @Override
-                    public void run() {
-                        mIsLoading = false;
-                    }
-
-                }, 1000);
 			}
 		});
         dataReceiver = new DataReceiver();
 
         mWatchItemListView = (MtlListView) findViewById(R.id.Lv_Search);
-        mWatchItemAdpater = new WatchItemAdapter(getLayoutInflater(),this,user);
+        mSelectSenderAdapter = new SelectSenderAdapter(getLayoutInflater(),this,user);
 
-        mWatchItemListView.setAdapter(mWatchItemAdpater);
+        mWatchItemListView.setAdapter(mSelectSenderAdapter);
         mWatchItemListView.setonRefreshListener(new MtlListView.OnRefreshListener() {
             public void onRefresh() {
             }
@@ -91,10 +81,14 @@ public class FindWatcherActivity extends Activity {
     protected void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("QueryWatchData_RES");
         filter.addAction("GetWatcherPic_RES");
-        filter.addAction("ChangeWatcherStatus_RES");
+        filter.addAction("GetLocalMyWatchData_RES");
         registerReceiver(dataReceiver, filter);
+
+        Intent intent = new Intent();
+        intent.setClass(this, MtlService.class);
+        intent.setAction("GetLocalMyWatchData");
+        startService(intent);
     }
 
     @Override
@@ -115,22 +109,18 @@ public class FindWatcherActivity extends Activity {
                     int pos = intent.getIntExtra("ListPos",-1);
                     String path = intent.getStringExtra("AttachmentPath");
                     if (path != null) {
-                        ((User) mWatchItemAdpater.getItem(pos)).head_img_load = User.IMG_LOADED ;
-                        ((User) mWatchItemAdpater.getItem(pos)).head_img_remote_addr = path ;
-                        mWatchItemAdpater.notifyDataSetChanged();
+                        ((User) mSelectSenderAdapter.getItem(pos)).head_img_load = User.IMG_LOADED ;
+                        ((User) mSelectSenderAdapter.getItem(pos)).head_img_remote_addr = path ;
+                        mSelectSenderAdapter.notifyDataSetChanged();
                     }
-                }  else if (action.equals("ChangeWatcherStatus_RES")) {
-                    int pos = intent.getIntExtra("ListPos",0);
-                    User user = intent.getParcelableExtra("WatcherUser");
-                    ((User) mWatchItemAdpater.getItem(pos)).is_my_watcher = user.is_my_watcher ;
-                    mWatchItemAdpater.notifyDataSetChanged();
-                }  else if (action.equals("QueryWatchData_RES")) {
+
+                }  else if (action.equals("GetLocalMyWatchData_RES")) {
                     ArrayList<User> pblist  = intent.getParcelableArrayListExtra("WatchDatas");
-                    mWatchItemAdpater.clear();
+                    mSelectSenderAdapter.clear();
                     if (pblist != null) {
                         for (int i=0;i<pblist.size();i++) {
                             User item =  pblist.get(i);
-                            mWatchItemAdpater.add(item);
+                            mSelectSenderAdapter.add(item);
                         }
                         if (pblist.size()>0) {
                             mWatchItemListView.requestFocusFromTouch();
@@ -138,7 +128,7 @@ public class FindWatcherActivity extends Activity {
 
                         }
                         mIsLoading = false;
-                        //Toast.makeText(FindWatcherActivity.this,"收到"+pblist.size()+"条记录，一共"+ mWatchItemAdpater.getCount(),Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FindWatcherActivity.this,"收到"+pblist.size()+"条记录，一共"+ mSelectSenderAdapter.getCount(),Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
