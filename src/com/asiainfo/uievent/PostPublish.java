@@ -10,6 +10,8 @@ import com.asiainfo.model.User;
 import com.asiainfo.proto.MtlServerGet;
 import com.asiainfo.proto.PostPublishData;
 
+import java.util.ArrayList;
+
 /**
  * Created with IntelliJ IDEA.
  * User: outofforce
@@ -25,6 +27,7 @@ public class PostPublish implements ISfsUiEvent {
         Intent t = new Intent();
         User user = intent.getParcelableExtra("User");
         PublishData pub = intent.getParcelableExtra("PostPushishData");
+        ArrayList<User> selectedUser = intent.getParcelableArrayListExtra("Post_To");
         boolean hasImg = intent.getBooleanExtra("HasImg",false);
 
 

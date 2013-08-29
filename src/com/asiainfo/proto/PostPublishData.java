@@ -20,7 +20,12 @@ public class PostPublishData extends MtlServerGet {
         setBody2("simpleImg", data.thumb_img);
         setBody2("gisInfo", data.gis_info);
         setBody2("ttl_type",""+24);
+        if (data.to_group.length()>0) {
+            setBody2("toGroup",data.to_group);
+        }
     }
+
+
 
     @Override
     public void PraseResult(ServerResult result) {

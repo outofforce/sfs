@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.asiainfo.tools.Base64Code;
 
+import java.util.ArrayList;
+
 public class PublishData implements Parcelable { //声明实现接口Parcelable
     public long id=0;
     public int user_id=0;
@@ -20,24 +22,23 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
     public String context_img_remote_addr ="";
     public String thumb_img_remote_addr = "";
     public int thumb_img_loaded = 0;
+    public String to_group="";
 
     public static final int INIT = 0;
 
     public static final int LOADED = 1;
-    public static final int NOLOAD= 2;
     public static final int BREAK = 3;
 
-    public String getNickName64() {
-        return Base64Code.encode(nick_name) ;
-    }
-    public void setNickName64(String nickname64) {
-        nick_name = Base64Code.decode(nickname64);
-    }
-    public String getPubContext64() {
-        return Base64Code.encode(pub_context) ;
-    }
-    public void setPubContext64(String pubcontext64) {
-        pub_context = Base64Code.decode(pubcontext64);
+    public void getToGroupData(ArrayList<User> list) {
+        if (list.size()>0) {
+            String tmp="";
+            for (int i=0;i<list.size();i++) {
+                tmp = "{"+list.get(i).remote_id+ ((i==list.size()-1)?"}":",");
+            }
+            to_group=tmp;
+        }
+
+
     }
 
     public PublishData() {}
@@ -71,6 +72,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         thumb_img_remote_addr ="";
         context_img_remote_addr = "";
         thumb_img_loaded=INIT;
+        to_group ="";
     }
 
     public PublishData(Parcel s) {
@@ -89,6 +91,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         context_img_remote_addr = s.readString();
         thumb_img_remote_addr = s.readString();
         thumb_img_loaded = s.readInt();
+        to_group = s.readString();
     }
 
     @Override
@@ -113,6 +116,7 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         dest.writeString(context_img_remote_addr);
         dest.writeString(thumb_img_remote_addr);
         dest.writeInt(thumb_img_loaded);
+        dest.writeString(to_group);
     }
 
     public static final Creator<PublishData> CREATOR = new Creator<PublishData>() {

@@ -22,6 +22,7 @@ import com.asiainfo.model.User;
 import com.asiainfo.tools.DisplayUtil;
 import com.asiainfo.tools.SfsFileOps;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,12 +44,13 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
     EditText Ed_postContext;
     ImageView Iv_postImg;
     public static final int  id_select_img = 100;
+    public static final int  id_post_to = 101;
     String send_img_path ="";
     String view_img_path ="";
     boolean hasImg = false;
     MtlFragmentActivity father;
     boolean isSending = false;
-
+    ArrayList<User> selectedUsers;
 //    private ListView mpubItemListView;
 
 
@@ -104,7 +106,7 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
             intent.setClass(getActivity(), SelectSenderActivity.class);
             intent.setAction("UserLogin");
             intent.putExtra("User",((MtlFragmentActivity)getActivity()).getUser());
-            startActivity(intent);
+            startActivityForResult(intent, id_post_to);
             return false;
         }
     };
@@ -126,6 +128,10 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
                          p.context_img = view_img_path;
                     }
                     p.pub_context =Ed_postContext.getText().toString();
+                    if (selectedUsers != null && selectedUsers.size() > 0) {
+                        intent.putExtra("Post_To",selectedUsers);
+                    }
+
                     intent.putExtra("PostPushishData",p);
                     intent.putExtra("HasImg",hasImg);
                     intent.setClass(father, MtlService.class);
@@ -187,6 +193,10 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
             Bitmap bitmap = BitmapFactory.decodeFile(send_img_path);
             Iv_postImg.setImageBitmap(bitmap);
             hasImg = true;
+        } else if (requestCode == id_post_to) {
+            // 获取 data 中得 Post_To 的对象
+            selectedUsers = data.getParcelableArrayListExtra("Post_To");
+            Bt_send.callOnClick();
         }
     }
 

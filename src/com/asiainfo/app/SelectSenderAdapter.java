@@ -14,6 +14,9 @@ import com.asiainfo.R;
 import com.asiainfo.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +31,7 @@ public class SelectSenderAdapter extends BaseAdapter {
 
 
         private ArrayList<User> mWathUser = new ArrayList<User>();
-
+        private Map<Integer,Integer> mSelected = new HashMap<Integer,Integer>();
         private LayoutInflater mInflater;
         private Context mCx;
         private User mUser;
@@ -43,7 +46,16 @@ public class SelectSenderAdapter extends BaseAdapter {
         public void clear() {
             mWathUser.clear();
         }
-
+        public ArrayList<User> getSelectItems() {
+            ArrayList<User> list = new ArrayList<User>();
+            Iterator it = mSelected.entrySet().iterator();
+            while(it.hasNext()) {
+                Map.Entry entry = (Map.Entry) it.next();
+                Integer pos = (Integer)entry.getValue();
+                list.add(mWathUser.get(pos)) ;
+            }
+            return   list;
+        }
 
         public int add_withoutNotify(User item) {
             this.mWathUser.add(item);
@@ -95,24 +107,19 @@ public class SelectSenderAdapter extends BaseAdapter {
 
             holder.userName.setText(t.nick_name);
 
-//            if (t.is_my_watcher == User.IS_WATCHER) {
-//                holder.Cb_selected.setText("取消关注");
-//            } else {
-//                holder.Cb_selected.setText("关注");
-//            }
-
+            if (mSelected.get(position) != null) {
+                holder.Cb_selected.setSelected(true);
+            }
 
             holder.Cb_selected.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.e("MYDEBUG", "click " + position);
-//                    Intent intent = new Intent();
-//                    intent.setClass(mCx, MtlService.class);
-//                    intent.setAction("ChangeWatcherStatus");
-//                    intent.putExtra("User", mUser);
-//                    intent.putExtra("ListPos",position) ;
-//                    intent.putExtra("BeWatcher",t);
-//                    mCx.startService(intent);
+                    if (mSelected.get(position) == null) {
+                        mSelected.put(position,position);
+                    } else {
+                        mSelected.remove(position);
+                    }
                 }
             });
 

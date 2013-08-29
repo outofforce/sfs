@@ -49,6 +49,12 @@ public class SelectSenderActivity extends Activity {
         Bt_Sender.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+                // 获取  mSelectSenderAdapter 里面 被选中的用户 列表 ，发送
+                Intent data = new Intent();
+                ArrayList<User> list =  mSelectSenderAdapter.getSelectItems();
+                data.putExtra("Post_To",list);
+                setResult(Activity.RESULT_OK,data);
+                finish();
 			}
 		});
         dataReceiver = new DataReceiver();
