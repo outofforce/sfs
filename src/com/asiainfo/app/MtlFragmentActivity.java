@@ -128,10 +128,7 @@ public class MtlFragmentActivity extends FragmentActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, View view, int position,
                                 long arg3) {
-            // TODO Auto-generated method stub
-            // 设置Activity的标题，这里只是用来做一个测试，你可以在这里用来处理单击侧边栏的选项事件
-            // setTitle(items[position]+" "+position);
-            // 关闭侧边栏
+
             drawerLayout.closeDrawer(leftList);
 
             if (position == M_EXIT) {
@@ -140,6 +137,14 @@ public class MtlFragmentActivity extends FragmentActivity {
                 intent.setAction("UserLogout");
                 intent.putExtra("User",user);
                 startService(intent);
+            } else if (position == M_IVITE) {
+                Intent intent = new Intent();
+
+                intent.setClass(MtlFragmentActivity.this,MtlContract.class);
+                //intent.setAction("UserLogout");
+                intent.putExtra("User",user);
+                startActivity(intent);
+
             } else if (position == M_FIND) {
                 Intent intent = new Intent();
                 intent.setClass(MtlFragmentActivity.this, FindWatcherActivity.class);

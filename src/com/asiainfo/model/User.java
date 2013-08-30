@@ -20,6 +20,7 @@ public class User implements Parcelable { //声明实现接口Parcelable
     public static final int NORMAL = 1;
     public static final int NO_ACTIVE = 0;
     public static final int LOGOUT = 2;
+    public static final int BEIVITED = 3;
 
     public static final int IMG_LOADED=1;
     public static final int IMG_NO_LOADED=0;

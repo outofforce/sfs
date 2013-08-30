@@ -85,8 +85,18 @@
         </service>
         <activity android:name=".app.FindWatcherActivity"
                   android:screenOrientation="portrait" />
+        <activity android:name=".app.MtlContract"
+                  android:screenOrientation="portrait" />
+        <activity android:name=".app.MtlSelectNumber"
+                  android:label="请选号码"
+                  android:theme="@android:style/Theme.Dialog"
+                  android:screenOrientation="portrait" />
+
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
+    <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+
 </manifest>

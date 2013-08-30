@@ -196,6 +196,7 @@ public  class PostFragment extends Fragment implements IOnSfsDataReceiver {
         } else if (requestCode == id_post_to) {
             // 获取 data 中得 Post_To 的对象
             selectedUsers = data.getParcelableArrayListExtra("Post_To");
+            Log.e("MYDEBUG","selectedUsers = "+selectedUsers.size());
             Bt_send.callOnClick();
         }
     }

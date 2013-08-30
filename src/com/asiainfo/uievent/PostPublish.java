@@ -48,6 +48,10 @@ public class PostPublish implements ISfsUiEvent {
                 } else {
                     pub.thumb_img = "";
                 }
+
+                if (selectedUser != null)
+                    pub.getToGroupData(selectedUser);
+
                 imgIntent.putExtra("AttachmentPath",pub.context_img);
                 tmpIntent = sender.doUiEvent(imgIntent,cx,imgres);
 

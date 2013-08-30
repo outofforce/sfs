@@ -69,19 +69,7 @@ public class SelectSenderActivity extends Activity {
         });
 	}
 
-    private void loadHistory(){
 
-        Intent intent = new Intent();
-        intent.setClass(this, MtlService.class);
-        intent.setAction("QueryWatchData");
-        User queryUser = new User();
-        queryUser.nick_name = Et_Context.getText().toString().trim();
-        intent.putExtra("QueryUser",queryUser);
-        intent.putExtra("User", user);
-        startService(intent);
-        mIsLoading = true;
-
-    }
 
     @Override
     protected void onResume() {

@@ -31,9 +31,9 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
 
     public void getToGroupData(ArrayList<User> list) {
         if (list.size()>0) {
-            String tmp="";
+            String tmp="{";
             for (int i=0;i<list.size();i++) {
-                tmp = "{"+list.get(i).remote_id+ ((i==list.size()-1)?"}":",");
+                tmp = tmp +list.get(i).remote_id+ ((i==list.size()-1)?"}":",");
             }
             to_group=tmp;
         }

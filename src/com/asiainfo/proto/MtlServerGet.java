@@ -28,7 +28,7 @@ public class MtlServerGet {
     private HttpClient client;
     List<NameValuePair> paramList = new ArrayList<NameValuePair>();
     public MtlServerGet()  {
-        urlPre = "http://192.168.1.107:8080/";
+        urlPre = "http://192.168.1.104:8080/m/";
         client=new DefaultHttpClient();
         client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000);
     }

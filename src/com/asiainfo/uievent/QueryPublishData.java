@@ -38,6 +38,7 @@ public class QueryPublishData implements ISfsUiEvent {
         ArrayList<PublishData> list = new ArrayList<PublishData>();
         if ( user != null) {
             long  last_max_id = PreferenceManager.getDefaultSharedPreferences(cx.getApplicationContext()).getLong("PublshMaxId",0);
+            //Log.e("MYDEBUG",""+last_max_id);
             GetPublishData reg = new GetPublishData(user,last_max_id);
             MtlServerGet.ServerResult res =  reg.handle();
             result.err_msg = res.err_msg;
@@ -52,6 +53,7 @@ public class QueryPublishData implements ISfsUiEvent {
                     TPublishData tp = new TPublishData(db);
 
                     JSONArray array = new JSONArray(res.result);
+                    //Log.e("MYDEBUG",""+1);
                     long max_id = 0;
                     for (int i=0;i<array.length();i++) {
                         JSONObject s = (JSONObject)array.get(array.length()-i-1);
