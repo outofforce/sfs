@@ -100,11 +100,32 @@ public class PublishItemAdapter extends BaseAdapter {
                 holder = (SViewHolder) convertView.getTag();
             }
 
-            PublishData t = mPubItems.get(position);
+            final PublishData t = mPubItems.get(position);
             holder.clear();
 
             holder.pubName.setText(t.nick_name);
-            holder.pubHead.setImageResource(R.drawable.google);
+
+            if (!t.head_img.equals("") && t.head_img_loaded==PublishData.INIT) {
+                Intent intent = new Intent();
+                intent.setClass(mCx, MtlService.class);
+                intent.putExtra("AttachmentType","image");
+                intent.putExtra("AttachmentPath",t.head_img);
+                intent.putExtra("ListPos",position);
+                intent.setAction("GetUserHeadPic");
+                mCx.startService(intent);
+                holder.pubHead.setImageResource(R.drawable.google);
+
+            } else if (t.head_img_loaded == PublishData.LOADED ) {
+
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                options.inPurgeable = true;
+                options.inInputShareable = true;
+                Bitmap bitmapImage = BitmapFactory.decodeFile(t.head_img_remote_addr,options);
+                holder.pubHead.setImageBitmap(bitmapImage);
+            }
+
+
 
             holder.pubContent.setText(t.pub_context);
             holder.pubTime.setText(TimeTrans.LongToBusiString(t.create_time));
@@ -129,8 +150,18 @@ public class PublishItemAdapter extends BaseAdapter {
                 Bitmap bitmapImage = BitmapFactory.decodeFile(t.thumb_img_remote_addr,options);
                 holder.pubImg.setImageBitmap(bitmapImage);
 
-
             }
+            holder.pubImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(mCx, ShowBigImgActivity.class);
+                    intent.putExtra("AttachmentType","image");
+                    intent.putExtra("AttachmentPath",t.context_img);
+                    mCx.startActivity(intent);
+                }
+            });
+
 
             return convertView;
 

@@ -75,15 +75,16 @@ public class LoginActivity extends Activity {
             if (user.head_img != null) {
 
 
-                Log.e("MYDEBUG","user.head_file ="+user.head_img);
-                bitmapImage = BitmapFactory.decodeFile(user.head_img, options);
-                Iv_headImg.setImageBitmap(bitmapImage);
+                //Log.e("MYDEBUG","user.head_file ="+user.head_img);
+                //bitmapImage = BitmapFactory.decodeFile(user.head_img, options);
+                //Iv_headImg.setImageBitmap(bitmapImage);
             }
 
         } else {
             user = new User();
-        }
 
+        }
+        Iv_headImg.setVisibility(View.GONE);
         Ed_nikeName.setVisibility(View.GONE);
         Tv_nikeName.setVisibility(View.GONE);
 
@@ -101,14 +102,17 @@ public class LoginActivity extends Activity {
                  IsLogin = false;
                  Ed_nikeName.setVisibility(View.VISIBLE);
                  Tv_nikeName.setVisibility(View.VISIBLE);
-                 Iv_headImg.setImageBitmap(null);
+                 Iv_headImg.setImageResource(android.R.drawable.ic_input_add);
+                 Iv_headImg.setVisibility(View.VISIBLE);
+                 boolean_ChgHeadImg = false;
              } else {
                  Tv_Select.setText("Register ?");
                  Bt_loginOrReg.setText("login");
                  IsLogin = true;
                  Ed_nikeName.setVisibility(View.GONE);
                  Tv_nikeName.setVisibility(View.GONE);
-                 Iv_headImg.setImageBitmap(bitmapImage);
+                 Iv_headImg.setVisibility(View.GONE);
+                 boolean_ChgHeadImg = false;
              }
 
         }
@@ -274,7 +278,8 @@ public class LoginActivity extends Activity {
                     FileOutputStream out;
                     String picNameStr = groupPicName.getAbsolutePath();
                     out = new FileOutputStream(picNameStr);
-                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    bmp.compress(Bitmap.CompressFormat.JPEG,100, out);
+                    out.close();
                     user.head_img = picNameStr;
                     boolean_ChgHeadImg = true;
 

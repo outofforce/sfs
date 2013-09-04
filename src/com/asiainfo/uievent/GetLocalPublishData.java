@@ -30,11 +30,19 @@ public class GetLocalPublishData implements ISfsUiEvent {
         if ( user != null) {
             MtlTableHelper helper  = new MtlTableHelper(cx);
             SQLiteDatabase db = helper.getReadableDatabase();
+            try {
             TPublishData tpd = new TPublishData(db);
             list = tpd.getLastPublishData(0,20);
             t.putParcelableArrayListExtra("PublicDatas",list);
             result.err_code = MtlErrorCode.Success;
             result.err_msg = "Get "+ list.size() + " Publishs ";
+            } catch (Exception e) {
+                result.err_code = MtlErrorCode.E_IO;
+                result.err_msg = e.getMessage();
+            } finally {
+                if (db.isOpen())
+                    db.close();
+            }
         } else {
             result.err_code = MtlErrorCode.E_UI_ARG;
             result.err_msg = "arg User is NULL";

@@ -58,6 +58,7 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
         IntentFilter filter = new IntentFilter();
         filter.addAction("QueryPublishData_RES");
         filter.addAction("GetLocalPublishData_RES");
+        filter.addAction("GetUserHeadPic_RES");
         filter.addAction("GetThumbPic_RES");
         ((MtlFragmentActivity)getActivity()).registerSfsDataReciever(PublishListFragment.class.getName(), this, filter);
         mpubItemListView.setAdapter(mpubItemAdpater);
@@ -113,6 +114,15 @@ public  class PublishListFragment extends Fragment implements IOnSfsDataReceiver
                 if (path != null) {
                     ((PublishData)mpubItemAdpater.getItem(pos)).thumb_img_loaded = PublishData.LOADED ;
                     ((PublishData)mpubItemAdpater.getItem(pos)).thumb_img_remote_addr = path ;
+                    mpubItemAdpater.notifyDataSetChanged();
+                }
+            }  else if (intent.getAction().equals("GetUserHeadPic_RES")) {
+                int pos = intent.getIntExtra("ListPos",-1);
+                if (pos == -1) return ;
+                String path = intent.getStringExtra("AttachmentPath");
+                if (path != null) {
+                    ((PublishData)mpubItemAdpater.getItem(pos)).head_img_loaded = PublishData.LOADED ;
+                    ((PublishData)mpubItemAdpater.getItem(pos)).head_img_remote_addr = path ;
                     mpubItemAdpater.notifyDataSetChanged();
                 }
             }  else if (intent.getAction().equals("QueryPublishData_RES")

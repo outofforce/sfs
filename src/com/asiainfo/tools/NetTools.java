@@ -19,7 +19,8 @@ import android.util.Log;
 public class NetTools {
     static public String download(String addr,String file) {
         try {
-            URL getUrl=new URL("http://192.168.1.104/getfile-"+file);
+            //URL getUrl=new URL("http://192.168.1.104/getfile-"+file);
+            URL getUrl=new URL("http://ec2-54-249-93-187.ap-northeast-1.compute.amazonaws.com:8000/getfile-"+file);
             URLConnection conn=getUrl.openConnection();
             conn.connect();
             conn.setReadTimeout(5000);
@@ -71,7 +72,8 @@ public class NetTools {
     static public String upload(String addr_faile,String file) {
         try
         {
-            URL url=new URL("http://192.168.1.104/postfile");
+            //URL url=new URL("http://192.168.1.104/postfile");
+            URL url=new URL("http://ec2-54-249-93-187.ap-northeast-1.compute.amazonaws.com:8000/postfile");
             HttpURLConnection con=(HttpURLConnection)url.openConnection();
             FileInputStream fStream = new FileInputStream(file);
             Integer lon=fStream.available();

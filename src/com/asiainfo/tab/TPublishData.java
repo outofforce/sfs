@@ -38,6 +38,7 @@ public  class TPublishData {
         cv.put("CREATE_TIME", data.create_time);
         cv.put("CHG_TIME", data.chg_time);
         cv.put("THUMB_IMG", data.thumb_img);
+        cv.put("HEAD_IMG", data.head_img);
         cv.put("STATUS", data.status);
         //cv.put("CONTEXT_IMG_LOADED", data.context_img_loaded);
         return  db.insert(TABLE_NAME, null, cv);
@@ -55,6 +56,7 @@ public  class TPublishData {
         cv.put("CHG_TIME", data.chg_time);
         cv.put("STATUS", data.status);
         cv.put("THUMB_IMG", data.thumb_img);
+        cv.put("HEAD_IMG", data.head_img);
         //cv.put("CONTEXT_IMG_LOADED", data.context_img_loaded);
         return db.update(TABLE_NAME,cv,"_ID=?",new String[] {Long.toString(data.local_id)});
     }
@@ -78,6 +80,7 @@ public  class TPublishData {
                 d.status = c.getInt(c.getColumnIndex("STATUS"));
                 d.local_id = c.getLong(c.getColumnIndex("_ID"));
                 d.thumb_img = c.getString(c.getColumnIndex("THUMB_IMG"));
+                d.head_img =  c.getString(c.getColumnIndex("HEAD_IMG"));
                 list.add(d);
             } while (c.moveToPrevious());
         }

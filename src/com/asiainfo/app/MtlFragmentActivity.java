@@ -195,6 +195,7 @@ public class MtlFragmentActivity extends FragmentActivity {
         filter.addAction("ChangeWatcherStatus_RES");
         filter.addAction("GetWatcherPic_RES");
         filter.addAction("PostPublish_RES");
+        filter.addAction("GetUserHeadPic_RES");
 
         registerReceiver(dataReceiver, filter);
 

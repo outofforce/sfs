@@ -73,6 +73,7 @@ public class QueryPublishData implements ISfsUiEvent {
                         d.status = s.getInt("status");
                         d.context_img_loaded = PublishData.INIT;
                         d.thumb_img = s.getString("simpleImg");
+                        d.head_img = s.getString("headImg");
                         list.add(d);
                         tp.newPublicData(d);
 

@@ -85,6 +85,8 @@
         </service>
         <activity android:name=".app.FindWatcherActivity"
                   android:screenOrientation="portrait" />
+        <activity android:name=".app.ShowBigImgActivity"
+                  android:screenOrientation="portrait" />
         <activity android:name=".app.MtlContract"
                   android:screenOrientation="portrait" />
         <activity android:name=".app.MtlSelectNumber"

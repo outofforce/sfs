@@ -42,7 +42,7 @@ public class PostPublish implements ISfsUiEvent {
                 Intent tmpIntent = sender.doUiEvent(imgIntent,cx,imgres);
 
                 String path= tmpIntent.getStringExtra("AttachmentPath");
-                Log.e("MYDEBUG","000="+path+"-00-"+pub.thumb_img);
+                //Log.e("MYDEBUG","000="+path+"-00-"+pub.thumb_img);
                 if (path != null) {
                     pub.thumb_img = path;
                 } else {

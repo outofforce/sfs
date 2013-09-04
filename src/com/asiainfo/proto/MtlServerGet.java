@@ -28,7 +28,8 @@ public class MtlServerGet {
     private HttpClient client;
     List<NameValuePair> paramList = new ArrayList<NameValuePair>();
     public MtlServerGet()  {
-        urlPre = "http://192.168.1.104:8080/m/";
+        //urlPre = "http://192.168.1.104:8080/m/";
+        urlPre = "http://ec2-54-249-93-187.ap-northeast-1.compute.amazonaws.com:8080/m/";
         client=new DefaultHttpClient();
         client.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000);
     }

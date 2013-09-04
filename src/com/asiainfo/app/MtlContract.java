@@ -147,6 +147,7 @@ public class MtlContract extends Activity {
 	            } else {
                     User user = data.getParcelableExtra("SelectUser") ;
                     int pos = data.getIntExtra("POS",0);
+                    Log.e("MYDEBUG","Sending Sms");
                     smsManager.sendTextMessage(user.user_name,null,"我已加入蝴蝶，邀请你来尝试下！http://10.1.251.155:9090/butterfly/download.do",null,null);
                     ConstractListView.requestFocusFromTouch();
                     ConstractListView.setSelection(pos);

@@ -23,6 +23,9 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
     public String thumb_img_remote_addr = "";
     public int thumb_img_loaded = 0;
     public String to_group="";
+    public String head_img="" ;
+    public String head_img_remote_addr ="";
+    public int head_img_loaded = 0;
 
     public static final int INIT = 0;
 
@@ -73,6 +76,9 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         context_img_remote_addr = "";
         thumb_img_loaded=INIT;
         to_group ="";
+        String head_img="" ;
+        String head_img_remote_addr ="";
+        int head_img_loaded = INIT;
     }
 
     public PublishData(Parcel s) {
@@ -92,6 +98,9 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         thumb_img_remote_addr = s.readString();
         thumb_img_loaded = s.readInt();
         to_group = s.readString();
+        head_img = s.readString();
+        head_img_remote_addr = s.readString();
+        head_img_loaded = s.readInt();
     }
 
     @Override
@@ -117,6 +126,9 @@ public class PublishData implements Parcelable { //声明实现接口Parcelable
         dest.writeString(thumb_img_remote_addr);
         dest.writeInt(thumb_img_loaded);
         dest.writeString(to_group);
+        dest.writeString(head_img);
+        dest.writeString(head_img_remote_addr);
+        dest.writeInt(head_img_loaded);
     }
 
     public static final Creator<PublishData> CREATOR = new Creator<PublishData>() {
